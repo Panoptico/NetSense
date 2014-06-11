@@ -9,7 +9,7 @@ var port = process.env.PORT || 8080;
 
 //middleware
 app.use(cors());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/client/www'));
 
 
 //routes
