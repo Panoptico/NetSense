@@ -6,6 +6,6 @@ module.exports = exports = function(router) {
 
   router.route('/emberTest')
   .get(function(req, res){
-    res.send(200, ':-)');
+    res.redirect('/emberTest.html');
   });
 };
