@@ -18,7 +18,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/emberTest', function(req, res){
-  res.send(200, ':-)');
+  res.redirect('/emberTest.html');
 });
 
 
