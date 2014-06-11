@@ -8,7 +8,12 @@ var app = require('../server/app.js');
 describe('Server', function(){
 
   beforeEach(function(){
-    console.log('\n\n\n\n\n');
-  })
+    console.log('\n');
+  });
 
+  it('should return 200 for get "/"  requests',function(done){
+    supertest(app)
+      .get('/')
+      .expect(200, done);
+  });
 });
