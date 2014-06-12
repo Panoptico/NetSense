@@ -13,7 +13,7 @@ var TweetSchema = new mongoose.Schema({
   latitude: Number,
   longitude: Number,
   retweetCount: Number 
-})
+});
 
 var Tweets = mongoose.model('Tweets', TweetSchema);
 

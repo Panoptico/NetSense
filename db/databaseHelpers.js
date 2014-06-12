@@ -1,28 +1,41 @@
 var Q = require('q');
+var Tweets = require('./tweet.js');
+var Users = require('./user.js');
 
-module.exports = {
-  getFromDB: function(model, next, options) {
-    options = options || {};
-    var $promise = Q.nbind(model.find, model);
-
-    $promise(options)
-    .then(function(databaseData) {
-      next(databaseData);
-    })
-    .fail(function(reason) {
-      next(reason);
+module.exports = exports = {
+  saveTweet: function(tweet, next) {
+    //save to DB
+    Tweets.create(tweet, function(err, data) {
+      if (err) {
+        next(err);
+        return err;
+      } else {
+        next(data);
+        return data;
+      }
     });
   },
-
-  postToDB: function(model, next, data) {
-    var $promise = Q.nbind(model.create, model);
-    
-    $promise(data)
-    .then(function(postedData) {
-      next(postedData);
-    })
-    .fail(function(reason) {
-      next(reason);
+  findTweetById: function(tweetId, next) {
+    Tweets.find({TweetId: tweetId}, 
+    function(err, data) {
+      if (err) {
+          next(err);
+          return err;
+        } else {
+          next(data);
+          return data;
+        }
     });
+  },
+  saveNewUser: function(user, next) {
+    Users.create(user, function(err, data) {
+      if(err) {
+        next(err);
+        return err;
+      } else {
+        next(data);
+        return data;
+      }
+    }); 
   }
 };
