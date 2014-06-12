@@ -1,6 +1,9 @@
-var bodyParser = require('body-parser'),
+var mongoose   = require('mongoose'),
+    bodyParser = require('body-parser'),
     middle     = require('./middleware'),
     cors       = require('cors');
+
+mongoose.connect(process.env.DB_URL);
 
 module.exports = exports = function(app, express, routers) {
   app.set('port', process.env.PORT || 8080);
