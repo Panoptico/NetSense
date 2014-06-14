@@ -1,0 +1,63 @@
+.navigator {
+  height: 5vh;
+  width: 100%;
+  background-color: currentColor;
+}
+
+.settings {
+  float: right;
+  padding-right: 2vw;
+  height: 5vh;
+  color: white;
+  font-size: 2.75vh;
+}
+
+.tracks {
+  height: 27.5vh;
+  width: 100%;
+  font-size: 2.75vh;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.public {
+  height: 20vh;
+  background-color: burlywood;
+}
+
+.private {
+  height: 20vh;
+  background-color: crimson;
+}
+
+.favorites {
+  background-color: deepskyblue;
+  width: 100%;
+  padding-left: 20%;
+}
+
+.recent {
+  background-color: thistle;
+  width: 100%;
+  padding-left: 20%;
+}
+
+.dashboard {
+  height: 95vh;
+  width: 100%;
+  background-color: darkblue;
+  color: white;
+  font-size: 2.75vh;
+}
+
+.col-md-3 {
+  padding-right: 0;
+  height: 95vh;
+}
+
+.col-md-9 {
+  padding-left: 0;
+  height: 95vh;
+}
