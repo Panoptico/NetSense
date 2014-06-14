@@ -40,7 +40,7 @@ ul {
   width: 100%;
 }
 
-.dashboard {
+.dashboardView, .settingsView {
   height: 95vh;
   width: 100%;
   background-color: darkblue;
