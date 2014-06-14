@@ -12,16 +12,4 @@ module.exports = exports = function(router) {
         res.send(data);      
       });
     });
-
-  router.route('/middle')
-    .get(
-      function(req, res, next) {
-        dbMethods.saveTweet({tweetId: 'tweet'}, next);
-      }, 
-      function(data, next) {
-        dbMethods.findTweetById(data.tweetId, next);
-      },
-      function(data) {
-        console.log(data);
-    });
 };
