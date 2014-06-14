@@ -15,7 +15,11 @@
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
         <div class="settings">User settings</div>
-        <div class="settings">Dashboard</div>
+        <div class="settings">
+          {{#link-to "NetSense.dashboard"}}
+            Dashboard
+          {{/link-to}}
+        </div>
       </div>
       {{outlet}}
       <footer></footer>
