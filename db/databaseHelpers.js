@@ -1,4 +1,3 @@
-var Q = require('q');
 var Tweets = require('./tweet.js');
 var Users = require('./user.js');
 
@@ -7,7 +6,7 @@ module.exports = exports = {
     //save to DB
     Tweets.create(tweet, function(err, data) {
       if (err) {
-        next(err);
+        next(err, 'error');
         return err;
       } else {
         next(data);
@@ -16,10 +15,10 @@ module.exports = exports = {
     });
   },
   findTweetById: function(tweetId, next) {
-    Tweets.find({TweetId: tweetId}, 
+    Tweets.find({tweetId: tweetId}, 
     function(err, data) {
       if (err) {
-          next(err);
+          next(err, 'error');
           return err;
         } else {
           next(data);
@@ -30,7 +29,7 @@ module.exports = exports = {
   saveNewUser: function(user, next) {
     Users.create(user, function(err, data) {
       if(err) {
-        next(err);
+        next(err, 'error');
         return err;
       } else {
         next(data);
