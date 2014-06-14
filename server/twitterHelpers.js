@@ -17,8 +17,8 @@ var stream = T.stream('statuses/filter', {locations: sanFrancisco});
 var processTweet = function(tweet) {
   // rename properties to our tweet schema and save the properties we want
   if (tweet.geo) {
-    latitude = tweet.geo.coordinates[0];
-    longitude = tweet.geo.coordinates[1];
+    var latitude = tweet.geo.coordinates[0];
+    var longitude = tweet.geo.coordinates[1];
   }
 
   var mentionedIds = _.pluck(tweet.entities.user_mentions, 'id_str');

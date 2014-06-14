@@ -1,22 +1,37 @@
-var Users = require('../../db/user.js');
-var Tweets = require('../../db/tweet.js');
-var dbMethods = require('../../db/databaseHelpers.js');
+var databaseHelpers = require('../../db/databaseHelpers.js');
+var authHelpers = require('../authHelpers.js');
 
-module.exports = exports = function(router) {
+module.exports = function(router) {
   router.route('/emberTest')
   .get(function(req, res){
     res.redirect('/emberTest.html');
   });
 
-  router.route('/middle')
-  .get(
-    function(req, res, next) {
-      dbMethods.saveTweet({tweetId: 'tweet'}, next);
-    }, 
-    function(data, next) {
-      dbMethods.findTweetById(data.tweetId, next);
-    },
-    function(data) {
-      console.log(data);
-    });
+  router.route('/signup')
+  .post(function(req, res, next){
+    var data = req.body.data;
+    var newUser = authHelpers.processSignup(data);
+    databaseHelpers.saveNewUser(newUser, next);
+  }, function(err, data, res) {
+    if (!err) {
+      authHelpers.loginUser(newUser);
+      res.redirect('index.html');
+    } else {
+      res.send(err);
+    }
+  });
+
+  router.route('/login')
+  .post(function(req, res, next){
+    var data = req.body.data;
+    var user = authHelpers.processLogin(data);
+    databaseHelpers.findUserById(user.twitterUserId, next);
+  }, function(err, data, res) {
+    if (!err) {
+      authHelpers.loginUser(newUser);
+      res.redirect('index.html');
+    } else {
+      res.send(err);
+    }
+  });
 };
