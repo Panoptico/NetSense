@@ -27,7 +27,7 @@ module.exports = exports = {
 
   findTweetsContainingUserId: function(userId, next) {
     var tweets = Tweets.find().or([
-      {userId: userId}, 
+      {twitterUserId: userId}, 
       {inReplyToUserIdStr: userId},
       {mentionedUserIds: userId}
     ]).exec();
