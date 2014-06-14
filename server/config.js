@@ -12,6 +12,7 @@ module.exports = exports = function(app, express, routers) {
   app.use(cors());
   app.use(express.static(__dirname.substr(0, __dirname.length-7) + '/client/www'));
   app.use('/static/v1', routers.staticAssetsRouter);
+  app.use('/tweetdata/v1', routers.tweetDataRouter);
   app.use(middle.logError);
   app.use(middle.handleError);
 };
