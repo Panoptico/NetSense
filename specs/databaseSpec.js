@@ -13,7 +13,7 @@ var dbMethods = require('../db/databaseHelpers.js');
 mongoose.createConnection('mongodb://localhost/netsense_test');  
 
 
-xdescribe('saveNewUser database method', function() {  
+describe('saveNewUser database method', function() {  
   var testUser = {twitterUserId: 'testUser'};
 
   afterEach(function(done) {    
@@ -38,7 +38,7 @@ xdescribe('saveNewUser database method', function() {
     });
   });
 
-  xit('Should not save if user already exists', function(done) {
+  it('Should not save if user already exists', function(done) {
     var numberOfUsers;
     dbMethods.saveNewUser(testUser, function(err, data) {
       Users.find(testUser, function(err, data) {
@@ -55,7 +55,7 @@ xdescribe('saveNewUser database method', function() {
 });
 
 
-xdescribe('findUserById', function() {
+describe('findUserById', function() {
   var testUser1 = {twitterUserId: 'user1'};
   var testUser2 = {twitterUserId: 'user2'};
 
@@ -120,7 +120,7 @@ describe('updateUserInfo', function() {
     done();
   });
 
-  xit('Should update an existing user', function(done) {
+  it('Should update an existing user', function(done) {
     dbMethods.updateUserInfo(updatedUser, function(err, data) {
       Users.find(updatedUser, function(err, data) {
         expect(data[0].name).to.equal('joe');
@@ -140,7 +140,7 @@ describe('updateUserInfo', function() {
   });
 });
 
-xdescribe('deleteUserById', function() {
+describe('deleteUserById', function() {
   var testUser1 = {twitterUserId: 'testUser1'};
   var testUser2 = {twitterUserId: 'testUser2'};
 
@@ -162,7 +162,7 @@ xdescribe('deleteUserById', function() {
   });
 
   it('Should delete an existing user', function(done) {
-    dbMethods.deleteUserById(testUser1, function(err, data) {
+    dbMethods.deleteUserById(testUser1.twitterUserId, function(err, data) {
       Users.find(testUser1, function(err, data) {
         expect(data.length).to.equal(0);
         done();
@@ -171,7 +171,7 @@ xdescribe('deleteUserById', function() {
   });
 
   it('Should only delete the specified user', function(done) {
-    dbMethods.deleteUserById(testUser1, function(err, data) {
+    dbMethods.deleteUserById(testUser1.twitterUserId, function(err, data) {
       Users.find({}, function(err, data) {
         expect(data.length).to.equal(1);
         done();
@@ -181,8 +181,9 @@ xdescribe('deleteUserById', function() {
 });
 
 
-xdescribe('saveTweet database method', function() {
-  var testTweet = {tweetId: 'testTweet'};
+describe('saveTweet database method', function() {
+  var testTweet = {tweetId: 'testTweet', text: '1'};
+  var testTweet2 = {tweetId: 'testTweet', text: '2'};
 
   afterEach(function(done) {
     Tweets.remove({}, function(err) {
@@ -204,11 +205,12 @@ xdescribe('saveTweet database method', function() {
     });
   });
 
-  xit('Should not save if tweet already exists', function(done) {
+  it('Should not save if tweet already exists', function(done) {
     dbMethods.saveTweet(testTweet, function(err, data) {
-      dbMethods.saveTweet(testTweet, function(err, data) {
+      dbMethods.saveTweet(testTweet2, function(err, data) {
         Tweets.find(testTweet, function(err, data) {
           expect(data.length).to.equal(1);
+          expect(data[0].text).to.equal('1');
           done();
         });
       });
@@ -217,7 +219,7 @@ xdescribe('saveTweet database method', function() {
 });
 
 
-xdescribe('findTweetById database method', function() {
+describe('findTweetById database method', function() {
   var testTweet1 = {tweetId: 'test111'};
   var testTweet2 = {tweetId: 'test222'};
 
@@ -240,14 +242,14 @@ xdescribe('findTweetById database method', function() {
 
   it ('Should find an existing tweet', function(done) {
     dbMethods.findTweetById('test111', function(err, data) {
-      expect(tweetData[0].tweetId).to.equal('test111');
+      expect(data[0].tweetId).to.equal('test111');
       done();
     });
   });
 
   it ('Should not find non-existing tweets', function(done) {
     dbMethods.findTweetById('fakeTweet', function(err, data) {
-      expect(tweetData.length).to.equal(0);
+      expect(data.length).to.equal(0);
       done();
     });
   });
@@ -257,7 +259,6 @@ xdescribe('findTweetById database method', function() {
 xdescribe('findTweetsContainingUserId', function() {
 
 });
-
 
 xdescribe('deleteTweet', function() {
   var testTweet1 = {tweetId: 'testTweet1'};
