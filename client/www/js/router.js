@@ -6,9 +6,21 @@ NetSense.Router.map(function(){
   });
 });
 
+NetSense.NetSenseRoute = Ember.Route.extend({
+  renderTemplate: function(controller){
+    this._super(this, arguments);
+    this.render('NetSense/dashboard', {
+      outlet: 'ContentView',
+      into: 'NetSense'
+    });
+  }
+});
+
 NetSense.NetSenseDashboardRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
+      outlet: 'ContentView',
+      into: 'NetSense',
       controller: controller
     });
   }
@@ -17,6 +29,8 @@ NetSense.NetSenseDashboardRoute = Ember.Route.extend({
 NetSense.NetSenseSettingsRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/settings', {
+      outlet: 'ContentView',
+      into: 'NetSense',
       controller: controller
     });
   }
@@ -25,6 +39,8 @@ NetSense.NetSenseSettingsRoute = Ember.Route.extend({
 NetSense.NetSenseLoginRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/login', {
+      outlet: 'ContentView',
+      into: 'NetSense',
       controller: controller
     });
   }
