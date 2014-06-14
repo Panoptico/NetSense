@@ -14,7 +14,11 @@
   <body>
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
-        <div class="settings">User settings</div>
+        <div class="settings">
+          {{#link-to "NetSense.settings"}}
+            User settings
+          {{/link-to}}
+        </div>
         <div class="settings">
           {{#link-to "NetSense.dashboard"}}
             Dashboard
@@ -25,7 +29,7 @@
       <footer></footer>
     </script>
 
-
+    <!--  Dashboard Template  -->
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard">
       <div class="row">
         <div class="col-md-3">
@@ -33,26 +37,45 @@
             <ul>
               <li>@APIRXR</li>
               <li>@HackReactor</li>
+            </ul>
           </div>
           <div class="public tracks"><u>Public Tracks</u>
             <ul>
               <li>#JavaScript</li>
               <li>#RyanStellarFanClub</li>
               <li>#SuchIsThePower</li>
+            </ul>
           </div>
           <div class="favorites tracks"><u>Favorites</u>
             <ul>
               <li>#RyanStellarFanClub</li>
               <li>#HonestyHour</li>
+            </ul>
           </div>
           <div class="recent tracks"><u>Recent</u>
             <ul>
               <li>#JavaScript</li>
               <li>#HorseJS</li>
+            </ul>
           </div>
         </div>
         <div class="col-md-9">
           <div class="dashboard">Dashboard</div>
+        </div>
+      </div>
+    </script>
+
+    <!--  Settings Template -->
+    <script type="text/x-handlebars" data-template-name="NetSense/settings">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="private tracks"><u>User Settings</u></div>
+          <div class="public tracks"><u>Linked Accounts</u></div>
+          <div class="favorites tracks"><u>Automation Settings</u></div>
+          <div class="recent tracks"><u>More Settings!</u></div>
+        </div>
+        <div class="col-md-9">
+          <div class="settings">Settings</div>
         </div>
       </div>
     </script>

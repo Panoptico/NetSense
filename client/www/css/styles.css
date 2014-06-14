@@ -13,7 +13,7 @@
 }
 
 .tracks {
-  height: 27.5vh;
+  height: 23.75vh;
   width: 100%;
   font-size: 2.75vh;
 }
@@ -23,25 +23,21 @@ ul {
 }
 
 .public {
-  height: 20vh;
   background-color: burlywood;
 }
 
 .private {
-  height: 20vh;
   background-color: crimson;
 }
 
 .favorites {
   background-color: deepskyblue;
   width: 100%;
-  padding-left: 20%;
 }
 
 .recent {
   background-color: thistle;
   width: 100%;
-  padding-left: 20%;
 }
 
 .dashboard {
