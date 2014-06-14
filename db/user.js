@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
 
 var UserSchema = new mongoose.Schema({
-  twitterId: {
+  twitterUserId: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   name: String,
   email: String,
@@ -15,3 +16,4 @@ var UserSchema = new mongoose.Schema({
 var Users = mongoose.model('Users', UserSchema);
 
 module.exports = exports = Users;
+
