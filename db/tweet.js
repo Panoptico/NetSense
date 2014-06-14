@@ -15,7 +15,8 @@ var TweetSchema = new mongoose.Schema({
   longitude: Number,
   retweetCount: Number,
   inReplyToUserIdStr: String,
-  mentionedUserIds: [String]
+  mentionedUserIds: [String],
+  sentimentScore: Number
 });
 
 var Tweets = mongoose.model('Tweets', TweetSchema);
