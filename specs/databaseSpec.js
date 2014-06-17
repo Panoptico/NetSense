@@ -9,6 +9,7 @@ var mongoose = require("mongoose");
 var Tweets = require('../db/tweet.js');
 var Users = require('../db/user.js');
 var dbMethods = require('../db/databaseHelpers.js');
+var _ = require('underscore');
 
 mongoose.createConnection('mongodb://localhost/netsense_test');  
 
@@ -257,7 +258,43 @@ describe('findTweetById database method', function() {
 
 
 xdescribe('findTweetsContainingUserId', function() {
+  var testTweet1 = {tweetId: 'testTweet1', twitterUserId: '111'};
+  var testTweet2 = {tweetId: 'testTweet2', twitterUserId: '222'};
+  var testTweet3 = {tweetId: 'testTweet3', 
+                    twitterUserId: '333', 
+                    mentionedUserIds: ['222']};
+  var user1 = {twitterUserId: '111'};
+  var user2 = {twitterUserId: '222', name:'Drew'};
+  var user3 = {twitterUserId: '333', name:'Nick'};
 
+  beforeEach(function(done) {
+    Tweets.create([testTweet1, testTweet2, testTweet3], function(err, data) {
+      Users.create([user1, user2, user3], function(err, data){
+        done();        
+      });
+    });
+  });
+
+  afterEach(function(done) {
+    Tweets.remove({}, function(err) {
+      Users.remove({}, function(err) {
+        done();        
+      });
+    });
+  });
+
+  it('Should be a function', function(done) {
+    expect(dbMethods.findTweetsContainingUserId).to.be.a('function');
+    done();
+  });
+
+  it('Should find a tweet with a twitterUserId matching the passed in userId param', function(done){
+    dbMethods.findTweetsContainingUserId('111', function(data){
+      console.log('!!!!!!!!!!!', data);
+      expect(data.length).to.equal(1);
+      done();
+    });
+  });
 });
 
 xdescribe('deleteTweet', function() {
