@@ -34,12 +34,4 @@ module.exports = function(router) {
       res.send(err);
     }
   });
-
-  router.route('/login')
-  .get(function(){
-    console.log('login!');
-
-  }
-
-    );
 };
