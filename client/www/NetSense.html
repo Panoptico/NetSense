@@ -47,8 +47,9 @@
         <div class="col-md-3">
           <div class="private tracks"><u>Private Tracks</u>
             <ul>
-              <li>@APIRXR</li>
-              <li>@HackReactor</li>
+              {{#each}}
+                <li>{{name}}</li>
+              {{/each}}
             </ul>
           </div>
           <div class="public tracks"><u>Public Tracks</u>

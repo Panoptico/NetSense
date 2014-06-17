@@ -24,6 +24,9 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 });
 
 NetSense.NetSenseDashboardRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('track');
+  },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
       outlet: 'ContentView',
