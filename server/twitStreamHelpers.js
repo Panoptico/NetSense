@@ -14,7 +14,7 @@ module.exports = exports = {
   saveTweets: function(stream) {
     stream.on('tweet', function (tweet) {
     // save processed tweet to DB
-      databaseHelpers.saveTweet(processTweet(tweet), function(err, data) {console.log(err, data)};);
+      databaseHelpers.saveTweet(processTweet(tweet), function(err, data) {console.log(err, data);});
     });
   }
 };
