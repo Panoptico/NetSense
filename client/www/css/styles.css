@@ -48,6 +48,10 @@ ul {
   font-size: 2.75vh;
 }
 
+.dashboardView {
+  height: 90vh;
+}
+
 .col-md-3 {
   padding-right: 0;
   height: 95vh;

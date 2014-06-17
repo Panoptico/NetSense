@@ -71,10 +71,38 @@
             </ul>
           </div>
         </div>
+
+
+
         <div class="col-md-9">
-          <div class="dashboardView">Dashboard</div>
+          <div class="dashboard navigator">
+            <div class="settings">
+              {{#link-to "dashboard.tweetMap"}}
+                Tweet Map
+              {{/link-to}}
+            </div>
+            <div class="settings">
+              {{#link-to "dashboard.sentimentGraph"}}
+                Sentiment Graph
+              {{/link-to}}
+            </div>
+          </div>
+          <div class="dashboardView">
+            {{outlet InformationView}}
+          </div>
         </div>
+
+
+
       </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/tweetMap">
+      <p>Tweet Map</p>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/sentimentGraph">
+      <p>Sentiment Graph</p>
     </script>
 
     <!--  Settings Template -->
@@ -91,6 +119,7 @@
         </div>
       </div>
     </script>
+
 
 
 
