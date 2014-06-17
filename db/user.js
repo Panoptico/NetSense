@@ -6,6 +6,7 @@ var UserSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  twitterHandle: String,
   name: String,
   email: String,
   categoriesToFollow: String,
