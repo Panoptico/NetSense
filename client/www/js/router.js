@@ -14,6 +14,9 @@ NetSense.Router.map(function(){
 });
 
 NetSense.NetSenseRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('track');
+  },
   renderTemplate: function(controller){
     this._super(this, arguments);
     this.render('NetSense/dashboard', {
@@ -25,7 +28,7 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 
 NetSense.NetSenseDashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('track');
+    return this.modelFor('NetSense');
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
