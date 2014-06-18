@@ -1,4 +1,4 @@
-//To run these tests from the root directory: mocha -R nyan specs/serverSpec.js
+//To run these tests from the root directory: mocha -R nyan --timeout 5s specs/databaseSpec.js
 
 var express = require('express');
 var supertest = require('supertest');
@@ -185,7 +185,7 @@ describe('deleteUserById', function() {
 
 describe('saveTweet database method', function() {
   var testTweet = {tweetId: 'testTweet', text: '1'};
-  var testTweet2 = {tweetId: 'testTweet', text: '2'};
+  var testTweet2 = {tweetId: 'testTweet2', text: '2'};
 
   afterEach(function(done) {
     Tweets.remove({}, function(err) {
@@ -258,7 +258,7 @@ describe('findTweetById database method', function() {
 });
 
 
-xdescribe('findTweetsContainingUserId', function() {
+describe('findTweetsContainingUserId', function() {
   var testTweet1 = {tweetId: 'testTweet1', twitterUserId: '111'};
   var testTweet2 = {tweetId: 'testTweet2', twitterUserId: '222'};
   var testTweet3 = {tweetId: 'testTweet3', 
@@ -290,15 +290,24 @@ xdescribe('findTweetsContainingUserId', function() {
   });
 
   it('Should find a tweet with a twitterUserId matching the passed in userId param', function(done){
-    dbMethods.findTweetsContainingUserId('111', function(data){
-      console.log('!!!!!!!!!!!', data);
+    dbMethods.findTweetsContainingUserId('111', function(err, data){
       expect(data.length).to.equal(1);
+      expect(data[0].twitterUserId).to.equal('111');
+      done();
+    });
+  });
+
+  it('Should find tweets with mentionedUserIds containing the passed in userId param', function (done) {
+    dbMethods.findTweetsContainingUserId('222', function(err, data) {
+      console.log('got here', data.length);
+      expect(data.length).to.equal(2);
+      console.log(data);
       done();
     });
   });
 });
 
-xdescribe('deleteTweet', function() {
+describe('deleteTweet', function() {
   var testTweet1 = {tweetId: 'testTweet1'};
   var testTweet2 = {tweetId: 'testTweet2'};
 
@@ -323,11 +332,66 @@ xdescribe('deleteTweet', function() {
     dbMethods.deleteTweet(testTweet1, function(err, data) {
       Tweets.find(testTweet1, function(err, data) {
         expect(data.length).to.equal(0);
+        Tweets.find({}, function(err, data) {
+          expect(data.length).to.equal(1);
+          done();
+        });
       });
-      Tweets.find({}, function(err, data) {
-        expect(data.length).to.equal(1);
-      });
+    });
+  });
+});
+
+
+
+describe('saveNewTrackByName', function() {
+  afterEach(function(done) {
+    Tracks.remove({}, function(err) {
       done();
+    });
+  });
+
+  it('Should be a function', function(done) {
+    expect(dbMethods.saveNewTrackByName).to.be.a('function');
+    done();
+  });
+
+  it('Should create a new track', function(done) {
+    dbMethods.saveNewTrackByName('JavaScript', function(err, data) {
+      Tracks.find({name: 'JavaScript'}, function(err, data) {
+        expect(data.length).to.equal(1);
+        Tracks.find({name: 'Cats'}, function(err, data) {
+          expect(data.length).to.equal(0);
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe('addTweetToTrack', function() {
+  beforeEach(function(done) {
+    Tracks.create({name: 'Ember'}, function(err, data) {
+      done();
+    });
+  }); 
+  afterEach(function(done) {
+    Tracks.remove({}, function(err) {
+      done();
+    });
+  });
+
+  it('Should be a function', function(done) {
+    expect(dbMethods.saveNewTrackByName).to.be.a('function');
+    done();
+  });
+
+  it('Should add tweets to a track', function(done) {
+    dbMethods.addTweetToTrack('Ember', {tweetId: 'test', text: 'hampster dance'}, function(err, data) {
+      Tracks.find({name: 'Ember'}, function(err, data) {
+        expect(data[0].tweets.length).to.equal(1);
+        expect(data[0].tweets[0].tweetId).to.equal('test');
+        done();
+      });
     });
   });
 });
