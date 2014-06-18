@@ -8,7 +8,7 @@ var UserSchema = new mongoose.Schema({
   },
   name: String,
   email: String,
-  categoriesToFollow: String,
+  tracks: [String],
   companyName: String
   //TO DO: Add searchHistory, recentSearches, mostFrequentSearches
 });
@@ -16,4 +16,3 @@ var UserSchema = new mongoose.Schema({
 var Users = mongoose.model('Users', UserSchema);
 
 module.exports = exports = Users;
-

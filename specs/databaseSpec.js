@@ -6,8 +6,9 @@ var expect = require('chai').expect;
 var url = require('url');
 var app = require('../server/app.js');
 var mongoose = require("mongoose");
-var Tweets = require('../db/tweet.js');
 var Users = require('../db/user.js');
+var Tracks = require('../db/track.js');
+var Tweets = require('../db/tweet.js');
 var dbMethods = require('../db/databaseHelpers.js');
 var _ = require('underscore');
 
