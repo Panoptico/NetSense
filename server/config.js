@@ -5,7 +5,9 @@ var mongoose         = require('mongoose'),
     session          = require('express-session'),
     middle           = require('./middleware'),
     passport         = require('./passportHelpers.js'),
-    TwitterStrategy  = require('passport-twitter').Strategy;
+    TwitterStrategy  = require('passport-twitter').Strategy,
+    dbMethods        = require('../db/databaseHelpers'),
+    twitStream       = require('./TwitStreamHelpers');
 
 passport.use(new TwitterStrategy({
   consumerKey: process.env.CONSUMERKEY,
@@ -13,7 +15,33 @@ passport.use(new TwitterStrategy({
   callbackURL: "http://127.0.0.1:8080/login/v1/auth/twitter/callback"
 }, function(token, tokenSecret, profile, done) {
   // TODO: store/use token, tokensecret, profile.id
-  done(null, profile.id);
+  var userId = '' + profile.id;
+  var twitterHandle = profile.username;
+  var user = {twitterUserId: userId,
+              token: token,
+              tokenSecret: tokenSecret,
+              twitterHandle: twitterHandle
+             };
+  dbMethods.findUserById(userId, function(err, data) {
+    if (!err) {
+      if (data.length === 0) {
+        dbMethods.saveNewUser(user, function(err, data) {
+          if (data) {
+            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
+          }
+            done(null, profile.id);
+        });
+      } else {
+        dbMethods.updateUserInfo(user, function(err, data) {
+          if(err) {console.error(err);}
+          if (data) {
+            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
+          }
+          done(null, profile.id);
+        });
+      }
+    }
+  });
 }));
 
 mongoose.connect(process.env.DB_URL);
