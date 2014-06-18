@@ -6,7 +6,7 @@ var TrackSchema = new mongoose.Schema({
     unique: true
   },
   tweets: [TweetSchema], //tweets
-  followers: [String], //user ids
+  followers: [UserSchema], //user ids
   streaming: Boolean
 });
 
