@@ -28,7 +28,7 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 
 NetSense.NetSenseDashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.modelFor('NetSense');
+    return this.store.find('track');
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
@@ -40,6 +40,9 @@ NetSense.NetSenseDashboardRoute = Ember.Route.extend({
 });
 
 NetSense.DashboardTweetMapRoute = Ember.Route.extend({
+  model: function(){
+    return this.store.find('tweet');
+  },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/tweetMap', {
       outlet: 'InformationView',
@@ -50,6 +53,9 @@ NetSense.DashboardTweetMapRoute = Ember.Route.extend({
 });
 
 NetSense.DashboardSentimentGraphRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('tweet');
+  },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/sentimentGraph', {
       outlet: 'InformationView',

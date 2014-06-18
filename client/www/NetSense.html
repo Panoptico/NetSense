@@ -100,10 +100,16 @@
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/tweetMap">
       <p>Tweet Map</p>
+      {{#each}}
+        <li>time: {{createdAt}}, location: {{latitude}}, {{longitude}}</li>
+      {{/each}}      
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/sentimentGraph">
       <p>Sentiment Graph</p>
+      {{#each}}
+        <li>{{sentimentScore}}</li>
+      {{/each}}
     </script>
 
     <!--  Settings Template -->
