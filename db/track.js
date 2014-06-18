@@ -1,13 +1,13 @@
 var mongoose = require('mongoose');
 
 var TrackSchema = new mongoose.Schema({
-  trackId: {type: Number,
+  name: {type: String,
     required: true,
     unique: true
   },
-  name: String,
-  tweets: [String], //tweet ids
-  followers: [String] //user ids
+  tweets: [TweetSchema], //tweets
+  followers: [String], //user ids
+  streaming: Boolean
 });
 
 var Tracks = mongoose.model('Tracks', TrackSchema);
