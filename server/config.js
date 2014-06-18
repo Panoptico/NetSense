@@ -1,48 +1,9 @@
-var mongoose         = require('mongoose'),
-    cors             = require('cors'),
-    cookieParser     = require('cookie-parser'),
-    bodyParser       = require('body-parser'),
-    session          = require('express-session'),
-    middle           = require('./middleware'),
-    passport         = require('./passportHelpers.js'),
-    TwitterStrategy  = require('passport-twitter').Strategy,
-    dbMethods        = require('../db/databaseHelpers'),
-    twitStream       = require('./TwitStreamHelpers');
-
-passport.use(new TwitterStrategy({
-  consumerKey: process.env.CONSUMERKEY,
-  consumerSecret: process.env.CONSUMERSECRET,
-  callbackURL: "http://127.0.0.1:8080/login/v1/auth/twitter/callback"
-}, function(token, tokenSecret, profile, done) {
-  // TODO: store/use token, tokensecret, profile.id
-  var userId = '' + profile.id;
-  var twitterHandle = profile.username;
-  var user = {twitterUserId: userId,
-              token: token,
-              tokenSecret: tokenSecret,
-              twitterHandle: twitterHandle
-             };
-  dbMethods.findUserById(userId, function(err, data) {
-    if (!err) {
-      if (data.length === 0) {
-        dbMethods.saveNewUser(user, function(err, data) {
-          if (data) {
-            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
-          }
-            done(null, profile.id);
-        });
-      } else {
-        dbMethods.updateUserInfo(user, function(err, data) {
-          if(err) {console.error(err);}
-          if (data) {
-            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
-          }
-          done(null, profile.id);
-        });
-      }
-    }
-  });
-}));
+var bodyParser       = require('body-parser');
+var cookieParser     = require('cookie-parser');
+var cors             = require('cors');
+var session          = require('express-session');
+var middle           = require('./middleware');
+var mongoose         = require('mongoose');
 
 mongoose.connect(process.env.DB_URL);
 
@@ -57,12 +18,10 @@ module.exports = exports = {
     app.use(session({secret: 'secret'}));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use('/login/v1', routers.loginRouter);
+    app.use('/api/v1/login/twitter', routers.loginRouter);
     app.use('/static/v1', routers.staticAssetsRouter);
     app.use('/tweetdata/v1', routers.tweetDataRouter);
     app.use(middle.logError);
     app.use(middle.handleError);
-  },
-
-  passport: passport
+  }
 };

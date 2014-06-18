@@ -1,16 +1,17 @@
-var express  = require('express'),
-    passport = require('./config.js').passport;
+var express  = require('express');
+var passport = require('passport');
 
 var app = express();
 
 var routers = {
-  loginRouter: express.Router(),
+  twitterLoginRouter: express.Router(),
   staticAssetsRouter: express.Router(),
-  tweetDataRouter: express.Router()
+  tweetDataRouter: express.Router(),
+
 };
 
 require('./config.js').config(app, express, routers);
-require('./routers/loginRouter.js')(routers.loginRouter, passport);
+require('./login/twitterLogin/twitter_login_routes.js')(routers.twitterLoginRouter, passport);
 require('./routers/staticAssetsRouter.js')(routers.staticAssetsRouter);
 require('./routers/tweetDataRouter.js')(routers.tweetDataRouter);
 
