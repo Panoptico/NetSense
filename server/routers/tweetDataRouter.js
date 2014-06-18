@@ -14,42 +14,36 @@ module.exports = exports = function(router) {
     });
 
   router.route('/user/:userId')
-  .get(function(req, res, next) {
+  .get(function(req, res) {
     var userId = req.params.userId;
     if (userId) {
-      next(userId);
+      dbMethods.findUserById(userId, function(err, data) {
+        if (err) {
+          console.log('error:', err);
+          res.send(404);
+        } else {
+          res.send(data);
+        }
+      });
     } else {
       throw "error: no userId on get request to /user/:userId";
     }
-  },
-  dbMethods.findUserById,
-  function(err, data, res) {
-    if (err) {
-      console.log('error:', err);
-      res.send(404);
-    } else {
-      res.send(data);
-    }
   });
 
-/*
   router.route('/track/:trackName')
-  .get(function(req, res, next) {
+  .get(function(req, res) {
     var trackName = req.params.trackName;
     if (trackName) {
-      next(trackName);
+      dbMethods.findTrackByName(trackName, function(err, data) {
+        if (err) {
+          console.log('error:', err);
+          res.send(404);
+        } else {
+          res.send(data);
+        }
+      });
     } else {
       throw "error: no trackName on get request to /track/:trackName";
     }
-  },
-  dbMethods.findTrackByName,
-  function(err, data, res) {
-    if (err) {
-      console.log('error:', err);
-      res.send(404);
-    } else {
-      res.send(data);
-    }
   });
-*/
 };
