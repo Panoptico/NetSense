@@ -101,7 +101,7 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/tweetMap">
       <p>Tweet Map</p>
       {{#each}}
-        <li>time: {{createdAt}}, location: {{latitude}}, {{longitude}}</li>
+        <li>{{createdAt}}</li>
       {{/each}}      
     </script>
 
@@ -140,5 +140,9 @@
     <script src="./js/models/tweet.js"></script>
     <script src="./js/models/track.js"></script>
     <script src="./js/models/fixtures.js"></script>
+    <script src="./js/controllers/NetSenseController.js"></script>
+    <script src="./js/controllers/DashboardController.js"></script>
+    <script src="./js/controllers/DashboardTweetMapController.js"></script>
+    <script src="./js/controllers/DashboardSentimentGraphController.js"></script>
   </body>
 </html>
