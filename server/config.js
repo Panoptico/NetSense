@@ -6,7 +6,7 @@ var mongoose         = require('mongoose'),
     middle           = require('./middleware'),
     passport         = require('./passportHelpers.js'),
     TwitterStrategy  = require('passport-twitter').Strategy,
-    dbMethods        = require(''),
+    dbMethods        = require('../db/databaseHelpers'),
     twitStream       = require('./TwitStreamHelpers');
 
 passport.use(new TwitterStrategy({
@@ -16,27 +16,26 @@ passport.use(new TwitterStrategy({
 }, function(token, tokenSecret, profile, done) {
   // TODO: store/use token, tokensecret, profile.id
   var userId = '' + profile.id;
+  var twitterHandle = profile.username;
   var user = {twitterUserId: userId,
               token: token,
               tokenSecret: tokenSecret,
-              twitterHandle: profile.username
+              twitterHandle: twitterHandle
              };
   dbMethods.findUserById(userId, function(err, data) {
     if (!err) {
       if (data.length === 0) {
         dbMethods.saveNewUser(user, function(err, data) {
           if (data) {
-            var screenNameToTrack = data.twitterHandle;
-            twitStream.saveTweets(twitStream.makeNewStream(screenNameToTrack, token, tokenSecret));
+            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
           }
             done(null, profile.id);
         });
-        //TODO: create new user if no user.id match is found, else update user
       } else {
         dbMethods.updateUserInfo(user, function(err, data) {
+          if(err) {console.error(err);}
           if (data) {
-            var screenNameToTrack = data.twitterHandle;
-            twitStream.saveTweets(twitStream.makeNewStream(screenNameToTrack, token, tokenSecret));
+            twitStream.makeNewStream(twitterHandle, token, tokenSecret);
           }
           done(null, profile.id);
         });
