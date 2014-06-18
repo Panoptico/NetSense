@@ -1,8 +1,10 @@
 var Tweets = require('./tweet.js');
 var Users = require('./user.js');
+var Tracks = require('./track.js');
 
 var handleDatabaseResponse = function(err, data, next) {
   if (err) {
+    console.error(err);
     next(err);
     return err;
   } else {
@@ -31,10 +33,20 @@ module.exports = exports = {
       {inReplyToUserIdStr: userId},
       {mentionedUserIds: userId}
     ]).exec();
+    //TODO: log errors for find
 
-    tweets.then( function(err, tweetData) {
+    tweets.then(function(tweetData) {
+      var err = null;
       handleDatabaseResponse(err, tweetData, next);
     });
+  },
+
+  deleteTweet: function(tweet, next) {
+    Tweets.remove(tweet, function(err) {
+      var data = null;
+      handleDatabaseResponse(err, data, next);
+    });
+
   },
 
   saveNewUser: function(user, next) {
@@ -61,6 +73,28 @@ module.exports = exports = {
 
   deleteUserById: function(twitterUserId, next) {
     Users.remove({twitterUserId: twitterUserId}, function(err, data) {
+      handleDatabaseResponse(err, data, next);
+    });
+  },
+
+  saveNewTrackByName: function(trackName, next) {
+    Tracks.create({name: trackName}, function(err, data) {
+      console.error(err);
+      handleDatabaseResponse(err, data, next);
+    });
+  },
+
+  addTweetToTrack: function(trackName, tweet, next) {
+    Tracks.findOne({name: trackName},function(err, track){
+      track.tweets.push(tweet);
+      track.save(function (err) {
+        if (err) {console.error(err);}
+        next(err);
+      });
+    });
+  },
+  findTrackByName: function(trackName, next) {
+    Tracks.findOne({name: trackName}, function(err, data){
       handleDatabaseResponse(err, data, next);
     });
   }
