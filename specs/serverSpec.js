@@ -1,4 +1,5 @@
-//To run these tests from the root directory: mocha -R --timeout 5s nyan specs/serverSpec.js
+//To run these tests from the root directory: 
+ // mocha -R nyan --timeout 5s specs/serverSpec.js
 
 var express = require('express');
 var supertest = require('supertest');
@@ -74,33 +75,60 @@ describe('Testing the /user/:userId route', function() {
 });
 
 
-describe('Testing the /track/:trackName route', function() {
+describe('Server response to requests to the /track/:trackName route', function() {
+  var route = '/tweetdata/v1/track/';
   var testTrack = {
     name: 'testTrack',
     streaming: true
   };
+  var newTrack = {
+    name: 'newTrack'
+  };
 
   beforeEach(function(done) {
     Tracks.create(testTrack, function(err, data) {
-      console.log('\nerror:', err, '\ndata:', data);
+      console.log('\nerror:', err);
       done();
     });
   });
 
   afterEach(function(done) {
     Tracks.remove(testTrack, function(err) {
-      console.log('\nerror:', err);
-      done();
+      if (err) {
+        console.log('\nerror:', err);        
+      }
+      Tracks.remove(newTrack, function(err) {
+        if (err) {
+          console.log(err);
+        }
+        done();
+      });
     });
   });
 
   it('Should return track data if the track exists in the database', function(done) {
     supertest(app)
-    .get('/tweetdata/v1/track/testTrack')
+    .get(route + 'testTrack')
     .expect(200)
     .expect(function(res) {
-      expect(res.body[0].streaming).to.equal(true);
+      expect(res.body.streaming).to.equal(true);
     })
     .end(done);
   });
+
+  it('Should save new tracks to DB on post requests', function(done) {
+    supertest(app)
+    .post(route + 'newTrack')
+    .expect(201)
+    .end(function(){
+      console.log('end reached');
+      dbMethods.findTrackByName('newTrack', function(err, data){
+        console.log('finding a track', data);
+          expect(data.name).to.equal('newTrack');
+          done();
+      });
+    });
+  });
+  //TODO: test for 409 res when posting an existing track
 });
+

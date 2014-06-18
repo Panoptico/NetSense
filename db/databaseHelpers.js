@@ -94,7 +94,7 @@ module.exports = exports = {
     });
   },
   findTrackByName: function(trackName, next) {
-    Tracks.find({name: trackName}, function(err, data){
+    Tracks.findOne({name: trackName}, function(err, data){
       handleDatabaseResponse(err, data, next);
     });
   }
