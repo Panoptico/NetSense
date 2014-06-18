@@ -7,7 +7,7 @@ var url = require('url');
 var app = require('../server/app.js');
 var mongoose = require("mongoose");
 var Users = require('../db/user.js');
-// var Tracks = require('../db/track.js');
+var Tracks = require('../db/track.js');
 var Tweets = require('../db/tweet.js');
 var dbMethods = require('../db/databaseHelpers.js');
 
@@ -42,19 +42,22 @@ describe('Server responses to get requests', function(){
 });
 
 
-describe('Testing the /user/:user route', function() {
-  var testUser = {twitterUserId: 'testUser', name: 'nick'};
+describe('Testing the /user/:userId route', function() {
+  var testUser = {
+    twitterUserId: 'testUser',
+    name: 'nick'
+  };
 
   beforeEach(function(done) {
     Users.create(testUser, function(err, data) {
-      console.log('\n', err, data);
+      console.log('\nerror:', err, '\ndata:', data);
       done();
     });
   });
 
   afterEach(function(done) {
-      Users.remove(testUser, function(err) {
-      console.log('\n', err);
+    Users.remove(testUser, function(err) {
+      console.log('\nerror:', err);
       done();
     });
   });
@@ -63,9 +66,41 @@ describe('Testing the /user/:user route', function() {
     supertest(app)
     .get('/tweetdata/v1/user/testUser')
     .expect(200)
-    /*.expect(function(res) {
-      console.log('>>>>>>>>>>>>>>>>>>>>', res);
-    })*/
+    .expect(function(res) {
+      expect(res.body[0].twitterUserId).to.equal('testUser');
+    })
+    .end(done);
+  });
+});
+
+
+describe('Testing the /track/:trackName route', function() {
+  var testTrack = {
+    name: 'testTrack',
+    streaming: true
+  };
+
+  beforeEach(function(done) {
+    Tracks.create(testTrack, function(err, data) {
+      console.log('\nerror:', err, '\ndata:', data);
+      done();
+    });
+  });
+
+  afterEach(function(done) {
+    Tracks.remove(testTrack, function(err) {
+      console.log('\nerror:', err);
+      done();
+    });
+  });
+
+  it('Should return track data if the track exists in the database', function(done) {
+    supertest(app)
+    .get('/tweetdata/v1/track/testTrack')
+    .expect(200)
+    .expect(function(res) {
+      expect(res.body[0].streaming).to.equal(true);
+    })
     .end(done);
   });
 });
