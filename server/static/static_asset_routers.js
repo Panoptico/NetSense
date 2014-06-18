@@ -1,4 +1,4 @@
-var databaseHelpers = require('../../db/databaseHelpers.js');
+var databaseHelpers = require('../../db/database_controllers.js');
 var authHelpers = require('../authHelpers.js');
 
 module.exports = function(router) {
