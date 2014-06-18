@@ -1,4 +1,4 @@
-//To run these tests from the root directory: mocha -R nyan specs/serverSpec.js
+//To run these tests from the root directory: mocha -R nyan --timeout 5s specs/databaseSpec.js
 
 var express = require('express');
 var supertest = require('supertest');
@@ -8,6 +8,7 @@ var app = require('../server/app.js');
 var mongoose = require("mongoose");
 var Tweets = require('../db/tweet.js');
 var Users = require('../db/user.js');
+var Tracks = require('../db/track.js');
 var dbMethods = require('../db/databaseHelpers.js');
 var _ = require('underscore');
 
@@ -184,7 +185,7 @@ describe('deleteUserById', function() {
 
 describe('saveTweet database method', function() {
   var testTweet = {tweetId: 'testTweet', text: '1'};
-  var testTweet2 = {tweetId: 'testTweet', text: '2'};
+  var testTweet2 = {tweetId: 'testTweet2', text: '2'};
 
   afterEach(function(done) {
     Tweets.remove({}, function(err) {
@@ -292,6 +293,15 @@ xdescribe('findTweetsContainingUserId', function() {
     dbMethods.findTweetsContainingUserId('111', function(data){
       console.log('!!!!!!!!!!!', data);
       expect(data.length).to.equal(1);
+      expect(data[0].twitterUserId).to.equal('111');
+      done();
+    });
+  });
+
+  it('Should find tweets with mentionedUserIds containing the passed in userId param', function (done) {
+    dbMethods.findTweetsContainingUserId('222', function(done) {
+      expect(data.length).to.equal(2);
+      expect(data).to.include(testTweet3);
       done();
     });
   });
@@ -327,6 +337,61 @@ xdescribe('deleteTweet', function() {
         expect(data.length).to.equal(1);
       });
       done();
+    });
+  });
+});
+
+
+
+describe('saveNewTrackByName', function() {
+  afterEach(function(done) {
+    Tracks.remove({}, function(err) {
+      done();
+    });
+  });
+
+  it('Should be a function', function(done) {
+    expect(dbMethods.saveNewTrackByName).to.be.a('function');
+    done();
+  });
+
+  it('Should create a new track', function(done) {
+    dbMethods.saveNewTrackByName('JavaScript', function(err, data) {
+      Tracks.find({name: 'JavaScript'}, function(err, data) {
+        expect(data.length).to.equal(1);
+        Tracks.find({name: 'Cats'}, function(err, data) {
+          expect(data.length).to.equal(0);
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe('addTweetToTrack', function() {
+  beforeEach(function(done) {
+    Tracks.create({name: 'Ember'}, function(err, data) {
+      done();
+    });
+  }); 
+  afterEach(function(done) {
+    Tracks.remove({}, function(err) {
+      done();
+    });
+  });
+
+  it('Should be a function', function(done) {
+    expect(dbMethods.saveNewTrackByName).to.be.a('function');
+    done();
+  });
+
+  it('Should add tweets to a track', function(done) {
+    dbMethods.addTweetToTrack('Ember', {tweetId: 'test', text: 'hampster dance'}, function(err, data) {
+      Tracks.find({name: 'Ember'}, function(err, data) {
+        expect(data[0].tweets.length).to.equal(1);
+        expect(data[0].tweets[0].tweetId).to.equal('test');
+        done();
+      });
     });
   });
 });
