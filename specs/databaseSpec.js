@@ -1,16 +1,17 @@
-//To run these tests from the root directory: mocha -R nyan --timeout 5s specs/databaseSpec.js
+//To run these tests from the root directory: 
+  // mocha -R nyan --timeout 5s specs/databaseSpec.js
 
-var express = require('express');
+var _         = require('underscore');
+var app       = require('../server/app.js');
+var dbMethods = require('../db/database_controllers.js');
+var expect    = require('chai').expect;
+var express   = require('express');
+var mongoose  = require('mongoose');
 var supertest = require('supertest');
-var expect = require('chai').expect;
-var url = require('url');
-var app = require('../server/app.js');
-var mongoose = require("mongoose");
-var Users = require('../db/user.js');
-var Tracks = require('../db/track.js');
-var Tweets = require('../db/tweet.js');
-var dbMethods = require('../db/databaseHelpers.js');
-var _ = require('underscore');
+var Tracks    = require('../server/track/track_model.js');
+var Tweets    = require('../server/tweet/tweet_model.js');
+var url       = require('url');
+var Users     = require('../server/user/user_model.js');
 
 mongoose.createConnection('mongodb://localhost/netsense_test');  
 
