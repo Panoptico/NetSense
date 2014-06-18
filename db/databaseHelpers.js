@@ -33,10 +33,20 @@ module.exports = exports = {
       {inReplyToUserIdStr: userId},
       {mentionedUserIds: userId}
     ]).exec();
+    //TODO: log errors for find
 
-    tweets.then( function(err, tweetData) {
+    tweets.then(function(tweetData) {
+      var err = null;
       handleDatabaseResponse(err, tweetData, next);
     });
+  },
+
+  deleteTweet: function(tweet, next) {
+    Tweets.remove(tweet, function(err) {
+      var data = null;
+      handleDatabaseResponse(err, data, next);
+    });
+
   },
 
   saveNewUser: function(user, next) {
