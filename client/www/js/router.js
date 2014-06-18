@@ -2,8 +2,11 @@ NetSense.Router.map(function(){
   this.resource('NetSense', {path: '/'}, function(){
 
     this.resource('dashboard', {path: '/dashboard'}, function(){
-      this.route('tweetMap');
-      this.route('sentimentGraph');
+      this.resource('track', {path: '/track/:trackID'}, function(){
+
+        this.resource('tweetMap', {path: '/tweetMap'});
+        this.resource('sentimentGraph', {path: '/sentimentGraph'});
+      });
     });
 
     this.route('dashboard');
@@ -26,7 +29,7 @@ NetSense.NetSenseRoute = Ember.Route.extend({
   }
 });
 
-NetSense.NetSenseDashboardRoute = Ember.Route.extend({
+NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('track');
   },
@@ -39,7 +42,7 @@ NetSense.NetSenseDashboardRoute = Ember.Route.extend({
   }
 });
 
-NetSense.DashboardTweetMapRoute = Ember.Route.extend({
+NetSense.TweetMapRoute = Ember.Route.extend({
   model: function(){
     return this.store.find('tweet');
   },
@@ -52,7 +55,7 @@ NetSense.DashboardTweetMapRoute = Ember.Route.extend({
   }
 });
 
-NetSense.DashboardSentimentGraphRoute = Ember.Route.extend({
+NetSense.SentimentGraphRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('tweet');
   },

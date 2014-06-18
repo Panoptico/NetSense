@@ -48,7 +48,7 @@
           <div class="private tracks"><u>Private Tracks</u>
             <ul>
               {{#each}}
-                <li>{{name}}</li>
+                <li>{{#link-to "track" id}}{{name}}{{/link-to}}</li>
               {{/each}}
             </ul>
           </div>
@@ -78,12 +78,12 @@
         <div class="col-md-9">
           <div class="dashboard navigator">
             <div class="settings">
-              {{#link-to "dashboard.tweetMap"}}
+              {{#link-to "tweetMap"}}
                 Tweet Map
               {{/link-to}}
             </div>
             <div class="settings">
-              {{#link-to "dashboard.sentimentGraph"}}
+              {{#link-to "sentimentGraph"}}
                 Sentiment Graph
               {{/link-to}}
             </div>
