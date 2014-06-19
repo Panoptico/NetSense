@@ -1,11 +1,12 @@
 var mongoose = require('mongoose');
 
 var TweetSchema = new mongoose.Schema({
-  createdAt: String,
-  tweetId: {type: String,
+  tweetId: {
+    type: String,
     required: true,
     unique: true
   },
+  createdAt: String,
   text: String,
   twitterUserId: String,
   userName: String,
@@ -22,7 +23,6 @@ var TweetSchema = new mongoose.Schema({
 var Tweets = mongoose.model('Tweets', TweetSchema);
 
 module.exports = Tweets;
-
 
 //ToDo: include users as subdocuments
 //e.g. TweetSchema.user = [UserSchema]

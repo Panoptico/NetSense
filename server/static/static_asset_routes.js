@@ -1,5 +1,4 @@
-var databaseHelpers = require('../../db/databaseHelpers.js');
-var authHelpers = require('../authHelpers.js');
+var databaseHelpers = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
   router.route('/emberTest')

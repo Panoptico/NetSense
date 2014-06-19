@@ -1,6 +1,6 @@
-var Tweets = require('./tweet.js');
-var Users = require('./user.js');
-var Tracks = require('./track.js');
+var Users = require('../server/user/user_model.js');
+var Tracks = require('../server/track/track_model.js');
+var Tweets = require('../server/tweet/tweet_model.js');
 
 var handleDatabaseResponse = function(err, data, next) {
   if (err) {
@@ -13,7 +13,7 @@ var handleDatabaseResponse = function(err, data, next) {
   }
 };
 
-module.exports = exports = {
+module.exports = {
   saveTweet: function(tweet, next) {
     //save to deleteUserById
     Tweets.create(tweet, function(err, data) {
@@ -93,10 +93,10 @@ module.exports = exports = {
       });
     });
   },
+
   findTrackByName: function(trackName, next) {
     Tracks.findOne({name: trackName}, function(err, data){
       handleDatabaseResponse(err, data, next);
     });
   }
-
 };
