@@ -19,8 +19,8 @@ module.exports = exports = {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use('/api/v1/login/twitter', routers.loginRouter);
-    app.use('/static/v1', routers.staticAssetsRouter);
-    app.use('/tweetdata/v1', routers.tweetDataRouter);
+    app.use('/api/v1/static', routers.staticAssetsRouter);
+    app.use('/api/v1/tweetdata', routers.tweetDataRouter);
     app.use(middle.logError);
     app.use(middle.handleError);
   }
