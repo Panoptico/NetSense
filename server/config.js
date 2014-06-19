@@ -1,14 +1,14 @@
 var bodyParser       = require('body-parser');
 var cookieParser     = require('cookie-parser');
 var cors             = require('cors');
-var session          = require('express-session');
 var middle           = require('./middleware');
 var mongoose         = require('mongoose');
+var session          = require('express-session');
 
 mongoose.connect(process.env.DB_URL);
 
 module.exports = exports = {
-  config: function(app, express, routers) {
+  config: function(app, express, routers, passport) {
     app.set('port', process.env.PORT || 8080);
     app.set('base url', process.env.URL || 'http://localhost');
     app.use(cors());
@@ -18,9 +18,11 @@ module.exports = exports = {
     app.use(session({secret: 'secret'}));
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use('/api/v1/login/twitter', routers.loginRouter);
+    app.use('/api/v1/login/twitter', routers.twitterLoginRouter);
     app.use('/api/v1/static', routers.staticAssetsRouter);
-    app.use('/api/v1/tweetdata', routers.tweetDataRouter);
+    app.use('/api/v1/user', routers.userRouter);
+    app.use('/api/v1/tweet', routers.tweetRouter);
+    app.use('/api/v1/track', routers.trackRouter);
     app.use(middle.logError);
     app.use(middle.handleError);
   }

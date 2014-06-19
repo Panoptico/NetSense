@@ -1,6 +1,6 @@
 var dbMethods        = require('../../../db/database_controllers');
 var TwitterStrategy  = require('passport-twitter').Strategy;
-var twitStream       = require('./TwitStreamHelpers');
+var twitStream       = require('../../twitter/stream_controllers');
 
 
 module.exports = exports = {

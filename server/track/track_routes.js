@@ -1,7 +1,7 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
-  router.route('/track/:trackName')
+  router.route('/:trackName')
   .get(function(req, res) {
     var trackName = req.params.trackName;
     if (trackName) {

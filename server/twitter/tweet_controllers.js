@@ -29,5 +29,5 @@ module.exports = {
       mentionedIds: mentionedIds,
       sentimentScore: sentimentScore
     };
-  };
+  }
 };

@@ -27,9 +27,9 @@ describe('Server responses to get requests', function(){
       done();
   });
 
-  it('Should return 302 redirect for get "/static/v1/emberTest"', function(done){
+  it('Should return 302 redirect for get "/api/v1/static/emberTest"', function(done){
     supertest(app)
-      .get('/static/v1/emberTest')
+      .get('/api/v1/static/emberTest')
       .expect(302)
       .end(function(err, res){
         if (err) return done(err);
@@ -67,7 +67,7 @@ describe('Testing the /user/:userId route', function() {
 
   it('Should return user data if the user exists in the database', function(done) {
     supertest(app)
-    .get('/tweetdata/v1/user/testUser')
+    .get('/api/v1/user/testUser')
     .expect(200)
     .expect(function(res) {
       expect(res.body[0].twitterUserId).to.equal('testUser');
@@ -78,7 +78,7 @@ describe('Testing the /user/:userId route', function() {
 
 
 describe('Server response to requests to the /track/:trackName route', function() {
-  var route = '/tweetdata/v1/track/';
+  var route = '/api/v1/track/';
   var testTrack = {
     name: 'testTrack',
     streaming: true
