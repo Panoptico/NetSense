@@ -5,4 +5,9 @@ module.exports = function(router) {
   .get(function(req, res){
     res.redirect('/emberTest.html');
   });
+
+  router.route('/NetSense')
+  .get(function(req, res){
+    res.redirect('/NetSense.html');
+  });
 };

@@ -9,7 +9,7 @@ module.exports = function(router, passport) {
 
   router.route('/callback')
   .get(passport.authenticate('twitter', {
-    successRedirect: 'http://127.0.0.1:8080',
-    failureRedirect: 'http://127.0.0.1:8080/api/v1/static/emberTest'
+    successRedirect: process.env.BASE_URL + '/static/NetSense',
+    failureRedirect: process.env.BASE_URL
   }));
 };

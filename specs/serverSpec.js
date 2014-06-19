@@ -27,9 +27,9 @@ describe('Server responses to get requests', function(){
       done();
   });
 
-  it('Should return 302 redirect for get "/api/v1/static/emberTest"', function(done){
+  it('Should return 302 redirect for get "/static/emberTest"', function(done){
     supertest(app)
-      .get('/api/v1/static/emberTest')
+      .get('/static/emberTest')
       .expect(302)
       .end(function(err, res){
         if (err) return done(err);

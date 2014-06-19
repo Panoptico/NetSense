@@ -18,11 +18,11 @@ module.exports = exports = {
     app.use(session({secret: 'secret'}));
     app.use(passport.initialize());
     app.use(passport.session());
+    app.use('/static', routers.staticAssetsRouter);
     app.use('/api/v1/login/twitter', routers.twitterLoginRouter);
-    app.use('/api/v1/static', routers.staticAssetsRouter);
     app.use('/api/v1/user', routers.userRouter);
-    app.use('/api/v1/tweet', routers.tweetRouter);
     app.use('/api/v1/track', routers.trackRouter);
+    app.use('/api/v1/tweet', routers.tweetRouter);
     app.use(middle.logError);
     app.use(middle.handleError);
   }
