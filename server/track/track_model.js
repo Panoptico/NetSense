@@ -1,9 +1,10 @@
 var mongoose = require('mongoose');
-var TweetSchema = require('./tweet.js').Schema;
-var UserSchema = require('./user.js').Schema;
+var UserSchema = require('../user/user_model.js').Schema;
+var TweetSchema = require('../tweet/tweet_model.js').Schema;
 
 var TrackSchema = new mongoose.Schema({
-  name: {type: String,
+  name: {
+    type: String,
     required: true,
     unique: true
   },
