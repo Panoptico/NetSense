@@ -1,10 +1,11 @@
-var Twit = require('Twit'),
-    databaseHelpers = require('../db/databaseHelpers.js');
+var Twit = require('Twit');
+var dbMethods = require('../../db/database_controllers.js');
+var tweetMethods = require('./tweet_controllers.js');
 
 var saveTweets = function(stream) {
   stream.on('tweet', function (tweet) {
     // save processed tweet to DB
-    databaseHelpers.saveTweet(processTweet(tweet), function(err, data) {console.log(err, data);});
+    dbMethods.saveTweet(tweetMethods.processTweet(tweet), function(err, data) {console.log(err, data);});
   });
 };
 

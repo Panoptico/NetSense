@@ -1,5 +1,5 @@
-var express  = require('express');
-var passport = require('passport');
+var express   = require('express');
+var passport  = require('./passport/passport_controllers.js');
 
 var app = express();
 
