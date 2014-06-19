@@ -12,10 +12,7 @@ var Tweets    = require('../server/tweet/tweet_model.js');
 var url       = require('url');
 var Users     = require('../server/user/user_model.js');
 
-
-
 mongoose.createConnection('mongodb://localhost/netsense_test');  
-// mongoose.createConnection(process.env.DB_URL);
 
 
 describe('Server responses to get requests', function(){

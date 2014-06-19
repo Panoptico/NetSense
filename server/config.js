@@ -5,7 +5,7 @@ var middle           = require('./middleware');
 var mongoose         = require('mongoose');
 var session          = require('express-session');
 
-mongoose.connect(process.env.DB_URL);
+mongoose.connect(process.env.DB_URI);
 
 module.exports = exports = {
   config: function(app, express, routers, passport) {
