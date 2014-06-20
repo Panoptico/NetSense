@@ -12,6 +12,7 @@ var paths = {
   specs: ['specs/*.js']
 };
 
+//TODO: look into gulp hangup on running test
 gulp.task('test', ['lint', 'runTests']);
 
 gulp.task('lint', function(){
