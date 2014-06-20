@@ -100,15 +100,15 @@
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <p>Tweet Map</p>
-      {{#each}}
-        <li>{{createdAt}}</li>
+      {{#each tweet in tweets}}
+        <li>{{tweet.createdAt}}</li>
       {{/each}}      
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
       <p>Sentiment Graph</p>
-      {{#each}}
-        <li>{{sentimentScore}}</li>
+      {{#each tweet in tweets}}
+        <li>{{tweet.sentimentScore}}</li>
       {{/each}}
     </script>
 
@@ -142,7 +142,7 @@
     <script src="./js/models/fixtures.js"></script>
     <script src="./js/controllers/NetSenseController.js"></script>
     <script src="./js/controllers/DashboardController.js"></script>
-    <script src="./js/controllers/DashboardTweetMapController.js"></script>
-    <script src="./js/controllers/DashboardSentimentGraphController.js"></script>
+    <script src="./js/controllers/TweetMapController.js"></script>
+    <script src="./js/controllers/SentimentGraphController.js"></script>
   </body>
 </html>
