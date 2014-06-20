@@ -6,3 +6,14 @@ var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
 var nodemon = require('gulp-nodemon');
 var open = require('gulp-open');
+
+var paths = {
+  specs: ['specs/*.js']
+};
+
+gulp.task('test', ['lint', 'runTests']);
+
+gulp.task('runTests',function() {
+  return gulp.src(paths.specs)
+    .pipe(mocha());
+});
