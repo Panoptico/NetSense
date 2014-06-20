@@ -1,13 +1,11 @@
 NetSense.Router.map(function(){
   this.resource('NetSense', {path: '/'}, function(){
-
-    this.resource('dashboard', {path: '/dashboard'}, function(){
-      this.route('tweetMap');
-      this.route('sentimentGraph');
+    this.resource('dashboard', function(){
+      this.resource('track', {path: '/track/:trackId'}, function(){
+        this.resource('tweetMap');
+        this.resource('sentimentGraph');
+      });
     });
-
-    this.route('dashboard');
-
     this.route('settings');
     this.route('login');
   });
@@ -18,43 +16,50 @@ NetSense.NetSenseRoute = Ember.Route.extend({
     return this.store.find('track');
   },
   renderTemplate: function(controller){
-    this._super(this, arguments);
-    this.render('NetSense/dashboard', {
-      outlet: 'ContentView',
-      into: 'NetSense'
-    });
+    this.render('NetSense');
   }
 });
 
-NetSense.NetSenseDashboardRoute = Ember.Route.extend({
+NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.modelFor('NetSense');
+    return this.store.find('track');
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
-      outlet: 'ContentView',
-      into: 'NetSense',
-      controller: controller
     });
   }
 });
 
-NetSense.DashboardTweetMapRoute = Ember.Route.extend({
+NetSense.TrackIndexRoute = Ember.Route.extend({
+  model: function(object, transition){
+    var trackId = transition.state.params.track.trackId;
+    return this.store.find('track', trackId);
+  },
   renderTemplate: function(controller){
-    this.render('NetSense/dashboard/tweetMap', {
-      outlet: 'InformationView',
-      into: 'NetSense/dashboard',
-      controller: controller
+    this.render('NetSense/dashboard/track')
+  }
+});
+
+NetSense.TweetMapRoute = Ember.Route.extend({
+  model: function(controller, transition){
+    return this.store.find('track', transition.state.params.track.trackId)
+  },
+  renderTemplate: function(controller){
+    this.render('NetSense/dashboard/track');
+    this.render('NetSense/dashboard/track/tweetMap', {
+      into: 'NetSense/dashboard/track'
     });
   }
 });
 
-NetSense.DashboardSentimentGraphRoute = Ember.Route.extend({
+NetSense.SentimentGraphRoute = Ember.Route.extend({
+  model: function(controller, transition){
+    return this.store.find('track', transition.state.params.track.trackId)
+  },
   renderTemplate: function(controller){
-    this.render('NetSense/dashboard/sentimentGraph', {
-      outlet: 'InformationView',
-      into: 'NetSense/dashboard',
-      controller: controller
+    this.render('NetSense/dashboard/track');
+    this.render('NetSense/dashboard/track/sentimentGraph', {
+      into: 'NetSense/dashboard/track'
     });
   }
 });
@@ -62,9 +67,6 @@ NetSense.DashboardSentimentGraphRoute = Ember.Route.extend({
 NetSense.NetSenseSettingsRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/settings', {
-      outlet: 'ContentView',
-      into: 'NetSense',
-      controller: controller
     });
   }
 });
@@ -72,9 +74,6 @@ NetSense.NetSenseSettingsRoute = Ember.Route.extend({
 NetSense.NetSenseLoginRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/login', {
-      outlet: 'ContentView',
-      into: 'NetSense',
-      controller: controller
     });
   }
 });
