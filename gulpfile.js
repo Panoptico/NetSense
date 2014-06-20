@@ -6,3 +6,17 @@ var mocha = require('gulp-mocha');
 var shell = require('gulp-shell');
 var nodemon = require('gulp-nodemon');
 var open = require('gulp-open');
+
+var paths = {
+  scripts: ['server/**/*.js'],
+  specs: ['specs/*.js'],
+  client: ['']
+}
+
+gulp.task('lint', function(){
+  return gulp.src(paths.scripts)
+    .pipe(plumber())
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(notify({message: 'Lint done'}));
+});
