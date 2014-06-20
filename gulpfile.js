@@ -9,9 +9,10 @@ var open = require('gulp-open');
 
 var paths = {
   scripts: ['server/**/*.js'],
-  specs: ['specs/*.js'],
-  client: ['']
-}
+  specs: ['specs/*.js']
+};
+
+gulp.task('test', ['lint', 'runTests']);
 
 gulp.task('lint', function(){
   return gulp.src(paths.scripts)
@@ -19,4 +20,10 @@ gulp.task('lint', function(){
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(notify({message: 'Lint done'}));
+});
+
+
+gulp.task('runTests',function() {
+  return gulp.src(paths.specs)
+    .pipe(mocha());
 });
