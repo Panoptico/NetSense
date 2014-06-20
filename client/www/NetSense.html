@@ -20,7 +20,7 @@
           {{/link-to}}
         </div>
         <div class="settings">
-          {{#link-to "NetSense.dashboard"}}
+          {{#link-to "dashboard"}}
             Dashboard
           {{/link-to}}
         </div>
@@ -30,7 +30,7 @@
           {{/link-to}}
         </div>
       </div>
-      {{outlet ContentView}}
+      {{outlet}}
       <footer></footer>
     </script>
 
@@ -73,39 +73,39 @@
           </div>
         </div>
 
-
-
         <div class="col-md-9">
-          <div class="dashboard navigator">
-            <div class="settings">
-              {{#link-to "tweetMap"}}
-                Tweet Map
-              {{/link-to}}
-            </div>
-            <div class="settings">
-              {{#link-to "sentimentGraph"}}
-                Sentiment Graph
-              {{/link-to}}
-            </div>
-          </div>
-          <div class="dashboardView">
-            {{outlet InformationView}}
-          </div>
+          {{outlet}}
         </div>
-
-
 
       </div>
     </script>
 
-    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/tweetMap">
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track">
+      <div class="dashboard navigator">
+        <div class="settings">
+          {{#link-to "tweetMap"}}
+            Tweet Map
+          {{/link-to}}
+        </div>
+        <div class="settings">
+          {{#link-to "sentimentGraph"}}
+            Sentiment Graph
+          {{/link-to}}
+        </div>
+      </div>
+      <div class="dashboardView">
+        {{outlet}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <p>Tweet Map</p>
       {{#each}}
         <li>{{createdAt}}</li>
       {{/each}}      
     </script>
 
-    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/sentimentGraph">
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
       <p>Sentiment Graph</p>
       {{#each}}
         <li>{{sentimentScore}}</li>
@@ -132,8 +132,8 @@
 
     <script src="./lib/jQuery/dist/jquery.min.js"></script>
     <script src="./lib/handlebars/handlebars.min.js"></script>
-    <script src="./lib/ember/ember.min.js"></script>
-    <script src="./lib/ember-data/ember-data.min.js"></script>
+    <script src="./lib/ember/ember.js"></script>
+    <script src="./lib/ember-data/ember-data.js"></script>
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>
