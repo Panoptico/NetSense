@@ -1,6 +1,26 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
+  router.route('/')
+  .post(function(req, res) {
+    var userId = req.user;
+    var trackName = req.params.trackName;
+    console.log(userId)
+    if(userId) {
+      dbMethods.findUserById(userId, function(err, data){
+        // TODO: Check if track is already in data.tracks
+        data.tracks.push(trackName);
+        data.save(function(err){
+          if(err) {
+            console.error('Error:', err);
+            res.send(500, err);
+          } else {
+            res.send(201, data);
+          }
+        });
+      });
+    }
+  })
   .get(function(req, res) {
    dbMethods.findAllTracks(function(err, data) {
      res.send({tracks: data});
@@ -31,23 +51,5 @@ module.exports = function(router) {
     } else {
       res.send(data);
     }
-  })
-  .post(function(req, res) {
-
-       var userId = req.user;
-   if(userId) {
-     dbMethods.findUserById(userId, function(err, data){
-       // TODO: Check if track is already in data.tracks
-       data.tracks.push(trackName);
-       data.save(function(err){
-         if(err) {
-           console.error('Error:', err);
-           res.send(500, err);
-         } else {
-           res.send(201, data);
-         }
-       });
-     });
-   }
   });
 };

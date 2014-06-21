@@ -12,6 +12,17 @@
   font-size: 2.75vh;
 }
 
+.input {
+  height: 5vh;
+  background-color: currentColor;
+}
+
+input {
+  width: 23vw;
+  position: relative;
+  left: .65vw;
+}
+
 .tracks {
   height: 23.75vh;
   width: 100%;
@@ -23,11 +34,12 @@ ul {
 }
 
 .public {
-  background-color: burlywood;
+  background-color: crimson;
 }
 
 .private {
-  background-color: crimson;
+  background-color: burlywood;
+  height: 90vh;
 }
 
 .favorites {
