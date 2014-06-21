@@ -6,7 +6,7 @@ NetSense.ApplicationAdapter = DS.RESTAdapter.extend({
     return {
       'SESSION_TOKEN': this.get('session.authToken')
     };
-  }.property('session.authToken');
+  }.property('session.authToken')
 });
 
 DS.RESTAdapter.reopen({
