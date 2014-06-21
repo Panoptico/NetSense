@@ -5,7 +5,6 @@ NetSense.DashboardController = Ember.ArrayController.extend({
         name: trackName
       });
       track.save();
-      trackName = ""
     }
   }
 });

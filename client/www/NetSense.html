@@ -48,10 +48,10 @@
           <div class="input">
             {{input class="col-md-11" action="onSubmit" placeholder="+ Add new track"}}
           </div>
-          <div class="private tracks"><u>Private Tracks</u>
+          <div class="private tracks"><u>Streams</u>
             <ul>
-              {{#each track in privateTracks}}
-                <li>{{#link-to "track"}}anything{{/link-to}}</li>
+              {{#each}}
+                <li>{{#link-to "track" name}}{{name}}{{/link-to}}</li>
               {{/each}}
             </ul>
           </div>
