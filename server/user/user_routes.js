@@ -1,6 +1,13 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
+  router.route('/')
+  .get(function(req, res) {
+    dbMethods.findUserById(req.user, function(err, data) {
+      res.send({user: data});
+    })
+  })
+
   router.route('/:userId')
   .get(function(req, res) {
     var userId = req.params.userId;

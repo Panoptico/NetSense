@@ -12,9 +12,9 @@ NetSense.Router.map(function(){
 });
 
 NetSense.NetSenseRoute = Ember.Route.extend({
-  model: function() {
-    return this.store.find('track');
-  },
+  // model: function() {
+  //   return this.store.find('track');
+  // },
   renderTemplate: function(controller){
     this.render('NetSense');
   }
@@ -22,7 +22,7 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 
 NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('track');
+    return this.store.find('user');
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
