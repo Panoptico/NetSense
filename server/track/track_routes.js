@@ -1,6 +1,7 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
+  router.route('/')
   .get(function(req, res) {
    dbMethods.findAllTracks(function(err, data) {
      res.send({tracks: data});
