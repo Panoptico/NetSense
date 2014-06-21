@@ -1,10 +1,11 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
-  router.route('/')
   .get(function(req, res) {
-    res.json([{"name": "HARDCODEDTEST", id:1}, {name:"PLEASEWORK", id:2}]);
-  });
+   dbMethods.findAllTracks(function(err, data) {
+     res.send({tracks: data});
+   });
+ });
 
   router.route('/:trackName')
   .get(function(req, res) {
@@ -15,7 +16,7 @@ module.exports = function(router) {
           console.log('error:', err);
           res.send(404);
         } else {
-          res.send(data);
+          res.send({track: data});
         }
       });
     } else {
@@ -32,17 +33,21 @@ module.exports = function(router) {
     }
   })
   .post(function(req, res) {
-    var trackName = req.params.trackName;
-    dbMethods.findTrackByName(trackName, function(err, data){
-      if(err) {
-        res.send(500, err);
-      } else if(data) {
-        res.send(409, data);
-      } else {
-        dbMethods.saveNewTrackByName(trackName, function(err, data) {
-          res.send(201, data);
-        });
-      }
-    });
+
+       var userId = req.user;
+   if(userId) {
+     dbMethods.findUserById(userId, function(err, data){
+       // TODO: Check if track is already in data.tracks
+       data.tracks.push(trackName);
+       data.save(function(err){
+         if(err) {
+           console.error('Error:', err);
+           res.send(500, err);
+         } else {
+           res.send(201, data);
+         }
+       });
+     });
+   }
   });
 };

@@ -98,5 +98,11 @@ module.exports = {
     Tracks.findOne({name: trackName}, function(err, data){
       handleDatabaseResponse(err, data, next);
     });
-  }
+  },
+
+  findAllTracks: function(next) {
+   Tracks.find(function(err,data){
+     handleDatabaseResponse(err,data,next);
+   });
+ }
 };
