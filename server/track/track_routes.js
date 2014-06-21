@@ -3,7 +3,7 @@ var dbMethods = require('../../db/database_controllers.js');
 module.exports = function(router) {
   router.route('/')
   .get(function(req, res) {
-    res.json([{"name": "HARDCODEDTEST", id:1}, {name:"PLEASEWORK", id:2});
+    res.json([{"name": "HARDCODEDTEST", id:1}, {name:"PLEASEWORK", id:2}]);
   });
 
   router.route('/:trackName')
