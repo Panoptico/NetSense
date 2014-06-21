@@ -8,6 +8,10 @@ module.exports = function(router) {
 
   router.route('/NetSense')
   .get(function(req, res){
-    res.redirect('/NetSense.html');
+    if(req.user) {
+      res.redirect('/NetSense.html');      
+    } else {
+      res.redirect('/NetSense.html#/login');
+    }
   });
 };
