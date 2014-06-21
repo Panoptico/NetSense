@@ -1,6 +1,11 @@
 var dbMethods = require('../../db/database_controllers.js');
 
 module.exports = function(router) {
+  router.route('/')
+  .get(function(req, res) {
+    res.send(200, 'request a specific track (api/v1/track/<trackid>');
+  });
+
   router.route('/:trackName')
   .get(function(req, res) {
     var trackName = req.params.trackName;
