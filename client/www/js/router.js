@@ -12,17 +12,17 @@ NetSense.Router.map(function(){
 });
 
 NetSense.NetSenseRoute = Ember.Route.extend({
-  // model: function() {
-  //   return this.store.find('track');
-  // },
   renderTemplate: function(controller){
     this.render('NetSense');
   }
 });
 
-NetSense.DashboardRoute = Ember.Route.extend({
+
+// want to find user, so we have only that user's tracks
+// must give the userId with model  ============================================================
+NetSense.DashboardIndexRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('track');
+    return this.store.find('user', 1);
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
@@ -36,13 +36,14 @@ NetSense.TrackIndexRoute = Ember.Route.extend({
     return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
-    this.render('NetSense/dashboard/track')
+    this.render('NetSense/dashboard/track');
   }
 });
 
 NetSense.TweetMapRoute = Ember.Route.extend({
   model: function(controller, transition){
-    return this.store.find('track', transition.state.params.track.trackId)
+    var trackId = transition.state.params.track.trackId;
+    return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');
@@ -54,7 +55,8 @@ NetSense.TweetMapRoute = Ember.Route.extend({
 
 NetSense.SentimentGraphRoute = Ember.Route.extend({
   model: function(controller, transition){
-    return this.store.find('track', transition.state.params.track.trackId)
+    var trackId = transition.state.params.track.trackId;
+    return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');

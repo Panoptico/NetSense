@@ -1,4 +1,4 @@
-NetSense.DashboardController = Ember.ArrayController.extend({
+NetSense.DashboardController = Ember.ObjectController.extend({
   actions:{
     onSubmit: function(trackName){
       var track = this.store.createRecord('track', {

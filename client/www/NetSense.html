@@ -50,15 +50,15 @@
           </div>
           <div class="private tracks"><u>Streams</u>
             <ul>
-              {{#each}}
-                <li>{{#link-to "track" name}}{{name}}{{/link-to}}</li>
+              {{#each track in tracks}}
+                <li>{{#link-to "track" track.id}}{{track.name}}{{/link-to}}</li>
               {{/each}}
             </ul>
           </div>
         </div>
 
         <div class="col-md-9">
-          {{outlet}}
+          {{outlet VisualizerView}}
         </div>
 
       </div>
@@ -85,7 +85,7 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <p>Tweet Map</p>
       {{#each tweet in tweets}}
-        <li>{{tweet.createdAt}}</li>
+        <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
       {{/each}}      
     </script>
 
