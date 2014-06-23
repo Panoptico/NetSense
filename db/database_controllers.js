@@ -87,12 +87,15 @@ module.exports = exports = {
 
   addTweetToTrack: function(trackName, tweet, next) {
     Tracks.findOne({name: trackName},function(err, track){
-      if (err) {console.log('error: ', err); return;}
+      if (err) {console.log('error: ', err);}
       if (track) {
         track.tweets.push(tweet);
-        track.save();
+        track.save(function (err, track) {
+          next(err, track);          
+        });
+      } else {
+        next(err)
       }
-      next(err, track);
     });
   },
 
