@@ -6,10 +6,11 @@
 
 .settings {
   float: right;
-  padding-right: 2vw;
+  padding: 0 2vw;
   height: 5vh;
   color: white;
   font-size: 2.75vh;
+  text-align: center;
 }
 
 .input {
@@ -88,6 +89,7 @@ div .private  :hover {
 
 .logout {
   float: left;
+  padding-left: 0;
 }
 
 .dashboard  {
