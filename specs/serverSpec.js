@@ -50,14 +50,18 @@ describe('Testing the /user/:userId route', function() {
 
   beforeEach(function(done) {
     Users.create(testUser, function(err, data) {
-      console.log('\nerror:', err, '\ndata:', data);
+      if (err) {
+        console.log('\nerror:', err, '\ndata:', data);
+      }
       done();
     });
   });
 
   afterEach(function(done) {
     Users.remove(testUser, function(err) {
-      console.log('\nerror:', err);
+      if (err) {
+        console.log('\nerror:', err);
+      }
       done();
     });
   });
@@ -86,7 +90,9 @@ describe('Server response to requests to the /track/:trackName route', function(
 
   beforeEach(function(done) {
     Tracks.create(testTrack, function(err, data) {
-      console.log('\nerror:', err);
+      if (err) {
+        console.log('\nerror:', err);
+      }
       done();
     });
   });
@@ -94,7 +100,7 @@ describe('Server response to requests to the /track/:trackName route', function(
   afterEach(function(done) {
     Tracks.remove(testTrack, function(err) {
       if (err) {
-        console.log('\nerror:', err);        
+        console.log('\nerror:', err);
       }
       Tracks.remove(newTrack, function(err) {
         if (err) {
@@ -110,7 +116,7 @@ describe('Server response to requests to the /track/:trackName route', function(
     .get(route + 'testTrack')
     .expect(200)
     .expect(function(res) {
-      expect(res.body.streaming).to.equal(true);
+      expect(res.body.track.streaming).to.equal(true);
     })
     .end(done);
   });
@@ -120,14 +126,11 @@ describe('Server response to requests to the /track/:trackName route', function(
     .post(route + 'newTrack')
     .expect(201)
     .end(function(){
-      console.log('end reached');
       dbMethods.findTrackByName('newTrack', function(err, data){
-        console.log('finding a track', data);
-          expect(data.name).to.equal('newTrack');
-          done();
+        expect(data.name).to.equal('newTrack');
+        done();
       });
     });
   });
   //TODO: test for 409 res when posting an existing track
 });
-

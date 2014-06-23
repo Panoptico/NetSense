@@ -50,7 +50,8 @@ module.exports = function(router) {
     } else {
       throw "error: no trackName on get request to /track/:trackName";
     }
-  },
+  });
+  /*,
   dbMethods.findTrackByName,
   function(err, data) {
     if (err) {
@@ -59,5 +60,5 @@ module.exports = function(router) {
     } else {
       res.send(data);
     }
-  });
+  });*/
 };
