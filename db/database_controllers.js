@@ -13,7 +13,7 @@ var handleDatabaseResponse = function(err, data, next) {
   }
 };
 
-module.exports = {
+module.exports = exports = {
   saveTweet: function(tweet, next) {
     //save to deleteUserById
     Tweets.create(tweet, function(err, data) {
@@ -58,6 +58,7 @@ module.exports = {
   updateUserInfo: function(user, next) {
     if(user.twitterUserId) {
       Users.update({twitterUserId: user.twitterUserId}, user, function(err, numberAffected, raw) {
+        //the update method's callback takes 3 parameters: error, numberAffected, raw
         handleDatabaseResponse(err, numberAffected, next);
       });
     } else {
@@ -79,18 +80,19 @@ module.exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      console.error(err);
+      if(err) {console.log('error: ', err); return;}
       handleDatabaseResponse(err, data, next);
     });
   },
 
   addTweetToTrack: function(trackName, tweet, next) {
     Tracks.findOne({name: trackName},function(err, track){
-      track.tweets.push(tweet);
-      track.save(function (err) {
-        if (err) {console.error(err);}
-        next(err);
-      });
+      if (err) {console.log('error: ', err); return;}
+      if (track) {
+        track.tweets.push(tweet);
+        track.save();
+      }
+      next(err, track);
     });
   },
 
@@ -106,3 +108,4 @@ module.exports = {
    });
  }
 };
+

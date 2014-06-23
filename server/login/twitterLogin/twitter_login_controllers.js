@@ -5,8 +5,8 @@ var twitStream       = require('../../twitter/stream_controllers');
 
 module.exports = exports = {
   twitterStrategy: new TwitterStrategy({
-      consumerKey: process.env.CONSUMERKEY,
-      consumerSecret: process.env.CONSUMERSECRET,
+      consumerKey: process.env.TWITTER_CONSUMERKEY,
+      consumerSecret: process.env.TWITTER_CONSUMERSECRET,
       callbackURL: "/api/v1/login/twitter/callback"
     }, function(token, tokenSecret, profile, done) {
       var userId = '' + profile.id;
