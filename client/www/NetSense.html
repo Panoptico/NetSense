@@ -58,7 +58,7 @@
         </div>
 
         <div class="col-md-9">
-          {{outlet VisualizerView}}
+          {{outlet}}
         </div>
 
       </div>
@@ -78,7 +78,7 @@
         </div>
       </div>
       <div class="dashboardView">
-        {{outlet}}
+        {{outlet VisualizerView}}
       </div>
     </script>
 
@@ -86,7 +86,7 @@
       <p>Tweet Map</p>
       {{#each tweet in tweets}}
         <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
-      {{/each}}      
+      {{/each}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
@@ -114,8 +114,10 @@
     <script src="./js/lib/d3.min.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
-    <script src="./js/lib/ember.min.js"></script>
-    <script src="./js/lib/ember-data.min.js"></script>
+<!--    <script src="./js/lib/ember.min.js"></script>
+    <script src="./js/lib/ember-data.min.js"></script>  -->
+    <script src="./lib/ember/ember.js"></script>
+    <script src="./lib/ember-data/ember-data.js"></script>
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>

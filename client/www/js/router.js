@@ -20,7 +20,7 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 
 // want to find user, so we have only that user's tracks
 // must give the userId with model  ============================================================
-NetSense.DashboardIndexRoute = Ember.Route.extend({
+NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
     return this.store.find('user', 1);
   },
@@ -48,6 +48,7 @@ NetSense.TweetMapRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');
     this.render('NetSense/dashboard/track/tweetMap', {
+      outlet: 'VisualizerView',
       into: 'NetSense/dashboard/track'
     });
   }
@@ -61,6 +62,7 @@ NetSense.SentimentGraphRoute = Ember.Route.extend({
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');
     this.render('NetSense/dashboard/track/sentimentGraph', {
+      outlet: 'VisualizerView',
       into: 'NetSense/dashboard/track'
     });
   }
