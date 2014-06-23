@@ -1,12 +1,18 @@
-var Twit = require('Twit');
+var Twit = require('twit');
 var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 
-var saveTweets = function(stream) {
-  stream.on('tweet', function (tweet) {
-    // save processed tweet to DB
-    dbMethods.saveTweet(tweetMethods.processTweet(tweet), function(err, data) {console.log(err, data);});
-  });
+var saveTweetsToTrack = function(stream, trackName) {
+  dbMethods.saveNewTrackByName(trackName, function(err, data) {
+    if(err) {console.log('error: ', err); return;};
+    stream.on('tweet', function (tweet) {
+      // save processed tweet to DB
+      var processedTweet = tweetMethods.processTweet(tweet);
+      dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
+        if(err) {console.log('error: ', err); return;}
+      });
+    });
+  })
 };
 
 module.exports = exports = {
@@ -17,9 +23,8 @@ module.exports = exports = {
       access_token: token,
       access_token_secret: secret
     });
-
-    var stream = T.stream('statuses/filter', {track: track});
-    saveTweets(stream);
+    var stream = T.stream('statuses/filter', {'track': track});
+    saveTweetsToTrack(stream, track);
     return stream;
   },
 
@@ -57,3 +62,7 @@ module.exports = exports = {
     });
   }
 };
+
+
+
+
