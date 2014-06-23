@@ -107,7 +107,7 @@ div .private  :hover {
 
 .navigator .visualLink :hover {
   color: currentColor;
-  background-color: white
+  background-color: #A6CDE4;
 }
 
 #logout .navLink {
