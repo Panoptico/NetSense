@@ -12,13 +12,15 @@ module.exports = function(router) {
     if(userId) {
       dbMethods.findUserById(userId, function(err, data){
         // TODO: Check if track is already in data.tracks
-        data.tracks.push(track.name);
-        data.save(function(err){
+        console.log('data:', data);
+        console.log('track:', track)
+        data[0].tracks.push(track.name);
+        data[0].save(function(err){
           if(err) {
             console.error('Error:', err);
             res.send(500, err);
           } else {
-            res.send(201, data);
+            res.send(201, {user: data[0]});
           }
         });
       });
