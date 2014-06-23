@@ -14,26 +14,34 @@
   <body>
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
-        <div class="settings">
+        <div class="navLink">
           {{#link-to "NetSense.settings"}}
-            User settings
+            <div class="settings">
+              User settings
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings">
+        <div class="navLink">
           {{#link-to "dashboard"}}
-            Dashboard
+            <div class="settings">
+              Dashboard
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings login">
+        <div class="navLink">
           {{#link-to "NetSense.login"}}
-            Login
+            <div class="settings login">
+              Login
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings logout">
+        <div class="navLink">
           {{#link-to "NetSense.login"}}
-            Logout
+            <div class="settings logout">
+              Logout
+  <!--          TODO: Implement logout...     -->
+            </div>
           {{/link-to}}
-<!--          TODO: Implement logout...     -->
         </div>
       </div>
       {{outlet}}
@@ -72,14 +80,18 @@
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track">
       <div class="dashboard navigator">
-        <div class="settings">
+        <div class="visualLink button">
           {{#link-to "tweetMap"}}
-            Tweet Map
+            <div class="settings">
+              Tweet Map
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings">
+        <div class="visualLink button">
           {{#link-to "sentimentGraph"}}
-            Sentiment Graph
+            <div class="settings">
+              Sentiment Graph
+            </div>
           {{/link-to}}
         </div>
       </div>
