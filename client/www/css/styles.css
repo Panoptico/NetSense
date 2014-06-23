@@ -94,6 +94,10 @@ div .private  :hover {
   background-color: currentColor;
 }
 
+.settings {
+  border-radius: 2px;
+}
+
 .navigator .navLink :hover {
   color: black;
   background-color: white;
@@ -102,4 +106,13 @@ div .private  :hover {
 .navigator .visualLink :hover {
   color: currentColor;
   background-color: white
+}
+
+#logout .navLink {
+  font-size: 2vh;
+}
+
+#logout :hover {
+  color: red;
+  background-color: black;
 }

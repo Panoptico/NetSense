@@ -16,32 +16,30 @@
       <div class="navigator">
         <div class="navLink">
           {{#link-to "NetSense.settings"}}
-            <div class="settings">
+            <div class="settings navLink">
               User settings
             </div>
           {{/link-to}}
         </div>
         <div class="navLink">
           {{#link-to "dashboard"}}
-            <div class="settings">
+            <div class="settings navLink">
               Dashboard
             </div>
           {{/link-to}}
         </div>
         <div class="navLink">
           {{#link-to "NetSense.login"}}
-            <div class="settings login">
+            <div class="settings login navLink">
               Login
             </div>
           {{/link-to}}
         </div>
-        <div class="navLink">
-          {{#link-to "NetSense.login"}}
-            <div class="settings logout">
+        <div class="navLink" id="logout">
+            <div class="settings logout navLink" {{action something}}>
               Logout
   <!--          TODO: Implement logout...     -->
             </div>
-          {{/link-to}}
         </div>
       </div>
       {{outlet}}
