@@ -29,6 +29,12 @@
             Login
           {{/link-to}}
         </div>
+        <div class="settings logout">
+          {{#link-to "NetSense.login"}}
+            Logout
+          {{/link-to}}
+<!--          TODO: Implement logout...     -->
+        </div>
       </div>
       {{outlet}}
       <footer></footer>
@@ -48,12 +54,12 @@
           <div class="input">
             {{input class="col-md-11" action="onSubmit" placeholder="+ Add new track"}}
           </div>
-          <div class="private tracks"><u>Streams</u>
-            <ul>
+          <div class="private tracks"><b>Streams</b>
               {{#each track in tracks}}
-                <li>{{#link-to "track" track.id}}{{track.name}}{{/link-to}}</li>
+                {{#link-to "track" track.id}}
+                  <div class="trackLink">{{track.name}}</div>
+                {{/link-to}}
               {{/each}}
-            </ul>
           </div>
         </div>
 
@@ -92,7 +98,7 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
       <p>Sentiment Graph</p>
       {{#each tweet in tweets}}
-        <li>{{tweet.sentimentScore}}</li>
+        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
       {{/each}}
     </script>
 

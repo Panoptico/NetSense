@@ -40,6 +40,7 @@ ul {
 .private {
   background-color: #7CC1E9;
   height: 90vh;
+  overflow: hidden;
 }
 
 .favorites {
@@ -72,4 +73,19 @@ ul {
 .col-md-9 {
   padding-left: 0;
   height: 95vh;
+}
+
+.trackLink {
+  padding: 10px;
+  margin: 15px;
+  color: black;
+}
+
+div .private  :hover {
+  background-color: #4988AC;
+  text-decoration: none;
+}
+
+.logout {
+  float: left;
 }
