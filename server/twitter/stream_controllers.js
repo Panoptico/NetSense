@@ -12,8 +12,8 @@ var saveTweets = function(stream) {
 module.exports = exports = {
   makeNewStream: function(track, token, secret) {
     var T = new Twit({
-      consumer_key: process.env.CONSUMERKEY,
-      consumer_secret: process.env.CONSUMERSECRET,
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
       access_token: token,
       access_token_secret: secret
     });
@@ -25,8 +25,8 @@ module.exports = exports = {
 
   sendRetweet: function(tweetId, token, tokenSecret) {
     var T = new Twit({
-      consumer_key: process.env.CONSUMERKEY,
-      consumer_secret: process.env.CONSUMERSECRET,
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
       access_token: token,
       access_token_secret: tokenSecret
     });
@@ -42,8 +42,8 @@ module.exports = exports = {
 
   sendTweet: function(text, token, tokenSecret) {
     var T = new Twit({
-      consumer_key: process.env.CONSUMERKEY,
-      consumer_secret: process.env.CONSUMERSECRET,
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
       access_token: token,
       access_token_secret: tokenSecret
     });
