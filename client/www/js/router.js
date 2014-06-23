@@ -18,17 +18,40 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 });
 
 
+
+
+
+
+
+
+
+
 // want to find user, so we have only that user's tracks
 // must give the userId with model  ============================================================
 NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('user', 1);
+    console.log(arguments)
+    return this.store.find('user').then(function(result){
+      return result.get('firstObject');
+    });
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
     });
   }
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 NetSense.TrackIndexRoute = Ember.Route.extend({
   model: function(object, transition){
