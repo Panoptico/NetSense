@@ -38,7 +38,7 @@ ul {
 }
 
 .private {
-  background-color: burlywood;
+  background-color: #7CC1E9;
   height: 90vh;
 }
 
@@ -55,9 +55,9 @@ ul {
 .dashboardView, .settingsView {
   height: 95vh;
   width: 100%;
-  background-color: darkblue;
-  color: white;
+  background-color: #C4D7E2;
   font-size: 2.75vh;
+  overflow: hidden;
 }
 
 .dashboardView {
