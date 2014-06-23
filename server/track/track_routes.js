@@ -4,12 +4,15 @@ module.exports = function(router) {
   router.route('/')
   .post(function(req, res) {
     var userId = req.user;
-    var trackName = req.params.trackName;
-    console.log(userId)
+    var track = req.body.track;
+    console.log(track);
+    dbMethods.saveNewTrackByName(track.name, function(){
+      /* Handle error? */
+    });
     if(userId) {
       dbMethods.findUserById(userId, function(err, data){
         // TODO: Check if track is already in data.tracks
-        data.tracks.push(trackName);
+        data.tracks.push(track.name);
         data.save(function(err){
           if(err) {
             console.error('Error:', err);
@@ -19,6 +22,8 @@ module.exports = function(router) {
           }
         });
       });
+    } else {
+      res.send(401);
     }
   })
   .get(function(req, res) {
