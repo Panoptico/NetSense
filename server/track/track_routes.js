@@ -7,7 +7,7 @@ module.exports = function(router) {
   .post(function(req, res) {
     var userId = req.user;
     var track = req.body.track;
-    streamControllers.makeNewStream(track.name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+    streamControllers.saveTweetsToTrack(track.name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
 
     if(userId) {
       dbMethods.findUserById(userId, function(err, data){
