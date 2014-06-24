@@ -23,6 +23,7 @@ module.exports = exports = {
     app.use('/api/v1/user', routers.userRouter);
     app.use('/api/v1/track', routers.trackRouter);
     app.use('/api/v1/tweet', routers.tweetRouter);
+    app.use('/api/v1/socket/track', routers.socketRouter);
     app.use(middle.logError);
     app.use(middle.handleError);
   }

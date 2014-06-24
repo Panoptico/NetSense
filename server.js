@@ -1,9 +1,8 @@
 var app = require('./server/app.js');
-var server = require('http').Server(app);
-var io = require('socket.io')(server);
+// var server = require('http').Server(app);
+// var io = require('socket.io')(server);
 
-var port  = app.get('port'),
-    log   = 'Listening on ' + app.get('base url') + ':' + port;
+var port = app.get('port');
 
-server.listen(port);
-console.log(log);
+app.listen(port);
+console.log('Listening on ' + app.get('base url') + ':' + port);

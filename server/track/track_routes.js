@@ -1,7 +1,6 @@
 var dbMethods = require('../../db/database_controllers.js');
 var streamControllers = require('../twitter/stream_controllers');
 
-
 module.exports = function(router) {
   router.route('/')
   .post(function(req, res) {
