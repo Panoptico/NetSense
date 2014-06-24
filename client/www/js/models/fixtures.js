@@ -46,7 +46,7 @@ NetSense.Track.FIXTURES = [
   },
   {
     id: 3,
-    name: 'TheSymbolFormerllyKnownAsATrack',
+    name: 'JavaScript',
     tweets: [2, 3]
   }
 ];

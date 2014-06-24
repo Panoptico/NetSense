@@ -13,7 +13,7 @@ var handleDatabaseResponse = function(err, data, next) {
   }
 };
 
-module.exports = {
+module.exports = exports = {
   saveTweet: function(tweet, next) {
     //save to deleteUserById
     Tweets.create(tweet, function(err, data) {
@@ -46,7 +46,6 @@ module.exports = {
       var data = null;
       handleDatabaseResponse(err, data, next);
     });
-
   },
 
   saveNewUser: function(user, next) {
@@ -58,6 +57,7 @@ module.exports = {
   updateUserInfo: function(user, next) {
     if(user.twitterUserId) {
       Users.update({twitterUserId: user.twitterUserId}, user, function(err, numberAffected, raw) {
+        //the update method's callback takes 3 parameters: error, numberAffected, raw
         handleDatabaseResponse(err, numberAffected, next);
       });
     } else {
@@ -79,18 +79,22 @@ module.exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      console.error(err);
+      if(err) {console.log('error3 trackName already exists');}
       handleDatabaseResponse(err, data, next);
     });
   },
 
-  addTweetToTrack: function(trackName, tweet, next) {
+  addTweetToTrack: function(trackName, tweetId, next) {
     Tracks.findOne({name: trackName},function(err, track){
-      track.tweets.push(tweet);
-      track.save(function (err) {
-        if (err) {console.error(err);}
-        next(err);
-      });
+      if (err) {console.log('error: ', err);}
+      if (track) {
+        track.tweets.push(tweetId);
+        track.save(function (err, track) {
+          next(err, track);          
+        });
+      } else {
+        next(err)
+      }
     });
   },
 
@@ -101,8 +105,14 @@ module.exports = {
   },
 
   findAllTracks: function(next) {
-   Tracks.find(function(err,data){
-     handleDatabaseResponse(err,data,next);
-   });
- }
+    Tracks.find(function(err,data){
+      handleDatabaseResponse(err,data,next);
+    });
+  },
+
+  findAllTweets: function(next) {
+    Tweets.find(function(err, data){
+      handleDatabaseResponse(err, data, next);
+    });
+  }
 };

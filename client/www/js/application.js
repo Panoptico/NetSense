@@ -11,9 +11,22 @@ NetSense.ApplicationAdapter = DS.RESTAdapter.extend({
 
 DS.RESTAdapter.reopen({
   namespace: 'api/v1',
-  host: 'http://NetSenseDev.azurewebsites.net'
+  // host: 'http://NetSenseDev.azurewebsites.net'
+  host: 'http://localhost:8080'  
 });
 
 Ember.Inflector.inflector.uncountable('track');
 Ember.Inflector.inflector.uncountable('tweet');
 Ember.Inflector.inflector.uncountable('user');
+
+NetSense.UserSerializer = DS.RESTSerializer.extend({
+  primaryKey: 'twitterUserId'
+});
+
+NetSense.TrackSerializer = DS.RESTSerializer.extend({
+  primaryKey: 'name'
+});
+
+NetSense.TweetSerializer = DS.RESTSerializer.extend({
+  primaryKey: 'tweetId'
+});

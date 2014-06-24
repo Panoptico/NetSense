@@ -12,17 +12,28 @@ NetSense.Router.map(function(){
 });
 
 NetSense.NetSenseRoute = Ember.Route.extend({
-  // model: function() {
-  //   return this.store.find('track');
-  // },
   renderTemplate: function(controller){
     this.render('NetSense');
   }
 });
 
+
+
+
+
+
+
+
+
+
+// want to find user, so we have only that user's tracks
+// must give the userId with model  ============================================================
 NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
-    return this.store.find('user');
+    console.log(arguments)
+    return this.store.find('user').then(function(result){
+      return result.get('firstObject');
+    });
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard', {
@@ -30,23 +41,37 @@ NetSense.DashboardRoute = Ember.Route.extend({
   }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
 NetSense.TrackIndexRoute = Ember.Route.extend({
   model: function(object, transition){
     var trackId = transition.state.params.track.trackId;
     return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
-    this.render('NetSense/dashboard/track')
+    this.render('NetSense/dashboard/track');
   }
 });
 
 NetSense.TweetMapRoute = Ember.Route.extend({
   model: function(controller, transition){
-    return this.store.find('track', transition.state.params.track.trackId)
+    var trackId = transition.state.params.track.trackId;
+    return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');
     this.render('NetSense/dashboard/track/tweetMap', {
+      outlet: 'VisualizerView',
       into: 'NetSense/dashboard/track'
     });
   }
@@ -54,11 +79,13 @@ NetSense.TweetMapRoute = Ember.Route.extend({
 
 NetSense.SentimentGraphRoute = Ember.Route.extend({
   model: function(controller, transition){
-    return this.store.find('track', transition.state.params.track.trackId)
+    var trackId = transition.state.params.track.trackId;
+    return this.store.find('track', trackId);
   },
   renderTemplate: function(controller){
     this.render('NetSense/dashboard/track');
     this.render('NetSense/dashboard/track/sentimentGraph', {
+      outlet: 'VisualizerView',
       into: 'NetSense/dashboard/track'
     });
   }
