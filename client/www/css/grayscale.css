@@ -30,6 +30,12 @@ p {
     line-height: 1.5;
 }
 
+.banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 @media(min-width:767px) {
     p {
         margin: 0 0 35px;
