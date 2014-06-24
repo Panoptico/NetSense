@@ -1,15 +1,27 @@
 .navigator {
   height: 5vh;
   width: 100%;
-  background-color: currentColor;
+  background-color: black;
 }
 
 .settings {
   float: right;
-  padding-right: 2vw;
+  padding: 0 2vw;
   height: 5vh;
   color: white;
   font-size: 2.75vh;
+  text-align: center;
+}
+
+.input {
+  height: 5vh;
+  background-color: currentColor;
+}
+
+input {
+  width: 23vw;
+  position: relative;
+  left: .65vw;
 }
 
 .tracks {
@@ -23,11 +35,13 @@ ul {
 }
 
 .public {
-  background-color: burlywood;
+  background-color: crimson;
 }
 
 .private {
-  background-color: crimson;
+  background-color: #7CC1E9;
+  height: 90vh;
+  overflow: hidden;
 }
 
 .favorites {
@@ -43,9 +57,9 @@ ul {
 .dashboardView, .settingsView {
   height: 95vh;
   width: 100%;
-  background-color: darkblue;
-  color: white;
+  background-color: #A6CDE4;
   font-size: 2.75vh;
+  overflow: hidden;
 }
 
 .dashboardView {
@@ -60,4 +74,47 @@ ul {
 .col-md-9 {
   padding-left: 0;
   height: 95vh;
+}
+
+.trackLink {
+  padding: 10px;
+  margin: 15px 0px;
+  color: black;
+}
+
+div .private  :hover {
+  background-color: #4988AC;
+  text-decoration: none;
+}
+
+.logout {
+  float: left;
+  padding-left: 0;
+}
+
+.dashboard  {
+  background-color: currentColor;
+}
+
+.settings {
+  border-radius: 2px;
+}
+
+.navigator .navLink :hover {
+  color: black;
+  background-color: white;
+}
+
+.navigator .visualLink :hover {
+  color: currentColor;
+  background-color: #A6CDE4;
+}
+
+#logout .navLink {
+  font-size: 2vh;
+}
+
+#logout :hover {
+  color: red;
+  background-color: black;
 }

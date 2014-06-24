@@ -4,7 +4,7 @@ NetSense.User.FIXTURES = [
     twitterUserId: 'USERID!98135084020',
     name: 'Bob',
     email: 'bob@bob.com',
-    privateTracks: [1, 2, 3],
+    tracks: [1, 2, 3],
     companyName: 'ThisIsARealCompany'
   }
 ];
@@ -46,7 +46,7 @@ NetSense.Track.FIXTURES = [
   },
   {
     id: 3,
-    name: 'TheSymbolFormerllyKnownAsATrack',
+    name: 'JavaScript',
     tweets: [2, 3]
   }
 ];

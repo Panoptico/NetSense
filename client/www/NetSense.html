@@ -14,62 +14,47 @@
   <body>
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
-        <div class="settings">
+        <div class="navLink">
           {{#link-to "NetSense.settings"}}
-            User settings
+            <div class="settings navLink">
+              User settings
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings">
+        <div class="navLink">
           {{#link-to "dashboard"}}
-            Dashboard
+            <div class="settings navLink">
+              Dashboard
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings login">
-          {{#link-to "NetSense.login"}}
-            Login
-          {{/link-to}}
+        <div class="navLink">
+          <a href="/api/v1/login/twitter" class="settings navLink">Login</a>
+        </div>
+        <div class="navLink" id="logout">
+            <div class="settings logout navLink" {{action warn}}>
+              Logout
+  <!--          TODO: Implement logout...     -->
+            </div>
         </div>
       </div>
       {{outlet}}
       <footer></footer>
     </script>
 
-    <!--  Login Template -->
-    <script type="text/x-handlebars" data-template-name="NetSense/login">
-      <center>
-        <button class="twitLogin">Login With Twitter</button>
-      </center>
-    </script>
-
     <!--  Dashboard Template  -->
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard">
       <div class="row">
         <div class="col-md-3">
-          <div class="private tracks"><u>Private Tracks</u>
-            <ul>
-              {{#each}}
-                <li>{{#link-to "track" id}}{{name}}{{/link-to}}</li>
+          <div class="input">
+            {{input class="col-md-11" value=trackName action="onSubmit" placeholder="+ Add new track"}}
+          </div>
+          <div class="private tracks"><b>Streams</b>
+              {{#each track in tracks}}
+                {{#link-to "track" track.id}}
+                  <div class="trackLink">{{track.id}}</div>
+                {{/link-to}}
               {{/each}}
-            </ul>
-          </div>
-          <div class="public tracks"><u>Public Tracks</u>
-            <ul>
-              <li>#JavaScript</li>
-              <li>#RyanStellarFanClub</li>
-              <li>#SuchIsThePower</li>
-            </ul>
-          </div>
-          <div class="favorites tracks"><u>Favorites</u>
-            <ul>
-              <li>#RyanStellarFanClub</li>
-              <li>#HonestyHour</li>
-            </ul>
-          </div>
-          <div class="recent tracks"><u>Recent</u>
-            <ul>
-              <li>#JavaScript</li>
-              <li>#HorseJS</li>
-            </ul>
           </div>
         </div>
 
@@ -82,33 +67,39 @@
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track">
       <div class="dashboard navigator">
-        <div class="settings">
+        <div class="visualLink button">
           {{#link-to "tweetMap"}}
-            Tweet Map
+            <div class="settings">
+              Tweet Map
+            </div>
           {{/link-to}}
         </div>
-        <div class="settings">
+        <div class="visualLink button">
           {{#link-to "sentimentGraph"}}
-            Sentiment Graph
+            <div class="settings">
+              Sentiment Graph
+            </div>
           {{/link-to}}
         </div>
       </div>
       <div class="dashboardView">
-        {{outlet}}
+        {{outlet VisualizerView}}
       </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <p>Tweet Map</p>
       {{#each tweet in tweets}}
-        <li>{{tweet.createdAt}}</li>
-      {{/each}}      
+        {{#if tweet.latitude}}
+          <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
+        {{/if}}
+      {{/each}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
       <p>Sentiment Graph</p>
       {{#each tweet in tweets}}
-        <li>{{tweet.sentimentScore}}</li>
+        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
       {{/each}}
     </script>
 
@@ -127,13 +118,13 @@
       </div>
     </script>
 
-
-
-
-    <script src="./lib/jQuery/dist/jquery.min.js"></script>
-    <script src="./lib/handlebars/handlebars.min.js"></script>
-    <script src="./lib/ember/ember.js"></script>
-    <script src="./lib/ember-data/ember-data.js"></script>
+    <script src="./js/lib/d3.min.js"></script>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/handlebars.min.js"></script>
+    <script src="./js/lib/ember.min.js"></script>
+    <script src="./js/lib/ember-data.min.js"></script> 
+   <!-- <script src="./lib/ember/ember.js"></script>
+    <script src="./lib/ember-data/ember-data.js"></script> -->
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>
