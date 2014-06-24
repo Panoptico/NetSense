@@ -2,7 +2,7 @@ var Twit = require('twit');
 var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 
-var onTweet = function(tweet){
+var onTweet = function(tweet, trackName){
   var processedTweet = tweetMethods.processTweet(tweet);
   console.log('tweet processed!');
   dbMethods.saveTweet(processedTweet, function(err, data){
@@ -19,38 +19,36 @@ var onTweet = function(tweet){
   });
 }
 
-var saveTweetsToTrack = function(stream, trackName) {
-  dbMethods.saveNewTrackByName(trackName, function(err, data) {
-    if(err) {
-      console.log('error1 track already exists');
-      // return false to indicate stream already existed (and did not need to be started)
-      return false;
-    };
-    stream.on('tweet', function (tweet) {
-      console.log('tweet found!');
-      onTweet(tweet, trackName);
-    });
-    // return true to indicate that stream did not previously exist
-    return true;
-  })
-};
+var startStream = function(trackName, token, secret) {
+  var T = new Twit({
+    consumer_key: process.env.TWITTER_CONSUMERKEY,
+    consumer_secret: process.env.TWITTER_CONSUMERSECRET,
+    access_token: token,
+    access_token_secret: secret
+  });
+
+  var stream = T.stream('statuses/filter', {track: trackName});
+  console.log('Created stream instance:', trackName);
+  
+  stream.on('tweet', function (tweet) {
+    console.log('tweet found!');
+    onTweet(tweet, trackName);
+  });
+}
 
 module.exports = exports = {
-  makeNewStream: function(track, token, secret) {
-    var T = new Twit({
-      consumer_key: process.env.TWITTER_CONSUMERKEY,
-      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
-      access_token: token,
-      access_token_secret: secret
-    });
-    var stream = T.stream('statuses/filter', {'track': track});
-    console.log('created stream instance:', track);
+  saveTrack: function(trackName, token, secret) {
+    dbMethods.saveNewTrackByName(trackName, function(err, data) {
+      if(err) {
+        console.log('error1 track already exists');
+        // return false to indicate stream already existed (and did not need to be started)
+        return;
+      };
 
-    if(saveTweetsToTrack(stream, track)){
-      return stream;
-    } else {
-      delete stream;
-    }
+      startStream(trackName, token, secret);
+      // return true to indicate that stream did not previously exist
+      return true;
+    })
   },
 
   sendRetweet: function(tweetId, token, tokenSecret) {
@@ -94,7 +92,7 @@ var initStreams = function() {
       console.log(err);
     }
     for (var i = 0; i < data.length; i++) {
-      exports.makeNewStream(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      exports.saveTrack(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
     } 
   });
 };
