@@ -19,7 +19,7 @@ var onTweet = function(tweet, trackName){
   });
 }
 
-var makeNewStream = function(trackName, token, secret) {
+var startStream = function(trackName, token, secret) {
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMERKEY,
     consumer_secret: process.env.TWITTER_CONSUMERSECRET,
@@ -37,7 +37,7 @@ var makeNewStream = function(trackName, token, secret) {
 }
 
 module.exports = exports = {
-  saveTweetsToTrack: function(trackName, token, secret) {
+  saveTrack: function(trackName, token, secret) {
     dbMethods.saveNewTrackByName(trackName, function(err, data) {
       if(err) {
         console.log('error1 track already exists');
@@ -45,7 +45,7 @@ module.exports = exports = {
         return;
       };
 
-      makeNewStream(trackName, token, secret);
+      startStream(trackName, token, secret);
       // return true to indicate that stream did not previously exist
       return true;
     })
@@ -92,7 +92,7 @@ var initStreams = function() {
       console.log(err);
     }
     for (var i = 0; i < data.length; i++) {
-      exports.saveTweetsToTrack(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      exports.saveTrack(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
     } 
   });
 };

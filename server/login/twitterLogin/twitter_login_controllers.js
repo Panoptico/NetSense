@@ -21,7 +21,7 @@ module.exports = exports = {
           if (data.length === 0) {
             dbMethods.saveNewUser(user, function(err, data) {
               if (data) {
-                twitStream.saveTweetsToTrack(twitterHandle, token, tokenSecret);
+                twitStream.saveTrack(twitterHandle, token, tokenSecret);
               }
                 done(null, profile.id);
             });
@@ -29,7 +29,7 @@ module.exports = exports = {
             dbMethods.updateUserInfo(user, function(err, data) {
               if(err) {console.error(err);}
               if (data) {
-                twitStream.saveTweetsToTrack(twitterHandle, token, tokenSecret);
+                twitStream.saveTrack(twitterHandle, token, tokenSecret);
               }
               done(null, profile.id);
             });
