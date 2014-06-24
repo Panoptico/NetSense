@@ -90,7 +90,9 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <p>Tweet Map</p>
       {{#each tweet in tweets}}
-        <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
+        {{#if tweet.latitude}}
+          <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
+        {{/if}}
       {{/each}}
     </script>
 
