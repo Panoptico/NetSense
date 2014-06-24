@@ -29,11 +29,7 @@
           {{/link-to}}
         </div>
         <div class="navLink">
-          {{#link-to "NetSense.login"}}
-            <div class="settings login navLink">
-              Login
-            </div>
-          {{/link-to}}
+          <a href="/api/v1/login/twitter" class="settings navLink">Login</a>
         </div>
         <div class="navLink" id="logout">
             <div class="settings logout navLink" {{action warn}}>
@@ -44,13 +40,6 @@
       </div>
       {{outlet}}
       <footer></footer>
-    </script>
-
-    <!--  Login Template -->
-    <script type="text/x-handlebars" data-template-name="NetSense/login">
-      <center>
-      <a href="/api/v1/login/twitter" class="btn btn-default btn-lg">Login</a>
-      </center>
     </script>
 
     <!--  Dashboard Template  -->
