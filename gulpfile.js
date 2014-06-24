@@ -23,7 +23,6 @@ gulp.task('lint', function(){
     .pipe(notify({message: 'Lint done'}));
 });
 
-
 gulp.task('runTests',function() {
   return gulp.src(paths.specs)
     .pipe(mocha());

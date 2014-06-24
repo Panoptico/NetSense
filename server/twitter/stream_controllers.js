@@ -17,7 +17,6 @@ var saveTweetsToTrack = function(stream, trackName) {
           if(err) {console.log('error:  ', err); return;}
         });
       });
-      // dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
     });
   })
 };
