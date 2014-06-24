@@ -27,6 +27,6 @@ NetSense.TrackSerializer = DS.RESTSerializer.extend({
   primaryKey: 'name'
 });
 
-NetSense.TweetSerialier = DS.RESTSerializer.extend({
+NetSense.TweetSerializer = DS.RESTSerializer.extend({
   primaryKey: 'tweetId'
 });
