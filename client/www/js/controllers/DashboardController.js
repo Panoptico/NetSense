@@ -1,4 +1,5 @@
 NetSense.DashboardController = Ember.ObjectController.extend({
+  content: {},
   actions:{
     onSubmit: function(trackName){
       trackName = trackName.replace(/\s/g,'')
