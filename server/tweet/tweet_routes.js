@@ -13,4 +13,11 @@ module.exports = function(router) {
         res.send(data);      
       });
     });
+
+  router.route('/')
+    .get(function(req, res) {
+      dbMethods.findAllTweets(function(err, data) {
+        res.send({tweets: data});
+      });
+    });
 };

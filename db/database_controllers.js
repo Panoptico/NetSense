@@ -46,7 +46,6 @@ module.exports = exports = {
       var data = null;
       handleDatabaseResponse(err, data, next);
     });
-
   },
 
   saveNewUser: function(user, next) {
@@ -80,16 +79,16 @@ module.exports = exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      if(err) {console.log('error: ', err);}
+      if(err) {console.log('error: trackName already exists');}
       handleDatabaseResponse(err, data, next);
     });
   },
 
-  addTweetToTrack: function(trackName, tweet, next) {
+  addTweetToTrack: function(trackName, tweetId, next) {
     Tracks.findOne({name: trackName},function(err, track){
       if (err) {console.log('error: ', err);}
       if (track) {
-        track.tweets.push(tweet);
+        track.tweets.push(tweetId);
         track.save(function (err, track) {
           next(err, track);          
         });
@@ -106,9 +105,14 @@ module.exports = exports = {
   },
 
   findAllTracks: function(next) {
-   Tracks.find(function(err,data){
-     handleDatabaseResponse(err,data,next);
-   });
- }
-};
+    Tracks.find(function(err,data){
+      handleDatabaseResponse(err,data,next);
+    });
+  },
 
+  findAllTweets: function(next) {
+    Tweets.find(function(err, data){
+      handleDatabaseResponse(err, data, next);
+    });
+  }
+};
