@@ -2,23 +2,36 @@ var Twit = require('twit');
 var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 
-var saveTweetsToTrack = function(stream, trackName) {
-  dbMethods.saveNewTrackByName(trackName, function(err, data) {
-    if(err) {console.log('error1 track already exists');};
-    stream.on('tweet', function (tweet) {
-      // save processed tweet to DB
-      var processedTweet = tweetMethods.processTweet(tweet);
-      dbMethods.saveTweet(processedTweet, function(err, data) {
-        if (err) {
-          console.log('error2 trackName already exists');
+var onTweet = function(tweet){
+  var processedTweet = tweetMethods.processTweet(tweet);
+  console.log('tweet processed!');
+  dbMethods.saveTweet(processedTweet, function(err, data){
+    if(err) {
+      console.log('Error while saving tweet', processedTweet);
+    } else {
+      dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data){
+        if(err) {
+          console.log('Error while saving tweet:', tweet, 'to track:', trackName);
           return;
         }
-        dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data) {
-          if(err) {console.log('error:  ', err); return;}
-        });
       });
-      // dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
+    }
+  });
+}
+
+var saveTweetsToTrack = function(stream, trackName) {
+  dbMethods.saveNewTrackByName(trackName, function(err, data) {
+    if(err) {
+      console.log('error1 track already exists');
+      // return false to indicate stream already existed (and did not need to be started)
+      return false;
+    };
+    stream.on('tweet', function (tweet) {
+      console.log('tweet found!');
+      onTweet(tweet, trackName);
     });
+    // return true to indicate that stream did not previously exist
+    return true;
   })
 };
 
@@ -32,8 +45,12 @@ module.exports = exports = {
     });
     var stream = T.stream('statuses/filter', {'track': track});
     console.log('created stream instance:', track);
-    saveTweetsToTrack(stream, track);
-    return stream;
+
+    if(saveTweetsToTrack(stream, track)){
+      return stream;
+    } else {
+      delete stream;
+    }
   },
 
   sendRetweet: function(tweetId, token, tokenSecret) {
