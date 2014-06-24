@@ -79,7 +79,7 @@ module.exports = exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      if(err) {console.log('error: trackName already exists');}
+      if(err) {console.log('error3 trackName already exists');}
       handleDatabaseResponse(err, data, next);
     });
   },
