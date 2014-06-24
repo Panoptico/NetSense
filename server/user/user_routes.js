@@ -14,7 +14,7 @@ module.exports = function(router) {
     if (userId) {
       dbMethods.findUserById(userId, function(err, data) {
         if (err) {
-          console.log('error:', err);
+          console.log('error: ', err);
           res.send(404);
         } else {
           res.send(data);

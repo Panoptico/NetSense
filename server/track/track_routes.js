@@ -18,7 +18,7 @@ module.exports = function(router) {
         userInfo.tracks.push(track.name);
         dbMethods.updateUserInfo(userInfo, function(err, data){
           if(err) {
-            console.error('Error:', err);
+            console.log('Error: ', err);
             res.send(500, err);
           } else {
             res.send(201, {user: userInfo});
@@ -42,7 +42,7 @@ module.exports = function(router) {
     if (trackName) {
       dbMethods.findTrackByName(trackName, function(err, data) {
         if (err) {
-          console.log('error:', err);
+          console.log('error: ', err);
           res.send(404);
         } else {
           res.send({track: data});

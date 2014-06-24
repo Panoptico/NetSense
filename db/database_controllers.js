@@ -80,7 +80,7 @@ module.exports = exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      if(err) {console.log('error: ', err); return;}
+      if(err) {console.log('error: ', err);}
       handleDatabaseResponse(err, data, next);
     });
   },

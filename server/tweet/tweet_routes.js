@@ -7,7 +7,7 @@ module.exports = function(router) {
       console.log('tweetId', tweetId);
       dbMethods.findTweetById('' + tweetId, function(err, data) {
         if (err) {
-          console.log('error:', err);
+          console.log('error: ', err);
           return;
         }
         res.send(data);      

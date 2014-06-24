@@ -4,17 +4,17 @@ var tweetMethods = require('./tweet_controllers.js');
 
 var saveTweetsToTrack = function(stream, trackName) {
   dbMethods.saveNewTrackByName(trackName, function(err, data) {
-    if(err) {console.log('error: ', err); return;};
+    if(err) {console.log('error: track already exists');};
     stream.on('tweet', function (tweet) {
       // save processed tweet to DB
       var processedTweet = tweetMethods.processTweet(tweet);
       dbMethods.saveTweet(processedTweet, function(err, data) {
         if (err) {
-          console.log('error:', err);
+          console.log('error: ', err);
           return;
         }
         dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data) {
-          if(err) {console.log('error: ', err); return;}
+          if(err) {console.log('error:  ', err); return;}
         });
       });
       // dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
@@ -70,3 +70,16 @@ module.exports = exports = {
     });
   }
 };
+
+var initStreams = function() {
+  dbMethods.findAllTracks(function(err, data) {
+    console.log(err, data)
+    if (!err) {
+      for (var i = 0; i < data.length; i++) {
+        exports.makeNewStream(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      } 
+    }
+  });
+};
+
+initStreams();
