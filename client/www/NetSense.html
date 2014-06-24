@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Bootstrap Core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Fonts -->
+    <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/styles.css"></link>
+  </head>
+
+  <body>
+    <script type="text/x-handlebars" data-template-name="NetSense">
+      <div class="navigator">
+        <div class="navLink">
+          {{#link-to "NetSense.settings"}}
+            <div class="settings navLink">
+              User settings
+            </div>
+          {{/link-to}}
+        </div>
+        <div class="navLink">
+          {{#link-to "dashboard"}}
+            <div class="settings navLink">
+              Dashboard
+            </div>
+          {{/link-to}}
+        </div>
+        <div class="navLink">
+          <a href="/api/v1/login/twitter" class="settings navLink">Login</a>
+        </div>
+        <div class="navLink" id="logout">
+            <div class="settings logout navLink" {{action warn}}>
+              Logout
+  <!--          TODO: Implement logout...     -->
+            </div>
+        </div>
+      </div>
+      {{outlet}}
+      <footer></footer>
+    </script>
+
+    <!--  Dashboard Template  -->
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="input">
+            {{input class="col-md-11" value=trackName action="onSubmit" placeholder="+ Add new track"}}
+          </div>
+          <div class="private tracks"><b>Streams</b>
+              {{#each track in tracks}}
+                {{#link-to "track" track.id}}
+                  <div class="trackLink">{{track.id}}</div>
+                {{/link-to}}
+              {{/each}}
+          </div>
+        </div>
+
+        <div class="col-md-9">
+          {{outlet}}
+        </div>
+
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track">
+      <div class="dashboard navigator">
+        <div class="visualLink button">
+          {{#link-to "tweetMap"}}
+            <div class="settings">
+              Tweet Map
+            </div>
+          {{/link-to}}
+        </div>
+        <div class="visualLink button">
+          {{#link-to "sentimentGraph"}}
+            <div class="settings">
+              Sentiment Graph
+            </div>
+          {{/link-to}}
+        </div>
+      </div>
+      <div class="dashboardView">
+        {{outlet VisualizerView}}
+      </div>
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
+      <p>Tweet Map</p>
+      {{#each tweet in tweets}}
+        {{#if tweet.latitude}}
+          <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
+        {{/if}}
+      {{/each}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
+      <p>Sentiment Graph</p>
+      {{#each tweet in tweets}}
+        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
+      {{/each}}
+    </script>
+
+    <!--  Settings Template -->
+    <script type="text/x-handlebars" data-template-name="NetSense/settings">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="private tracks"><u>User Settings</u></div>
+          <div class="public tracks"><u>Linked Accounts</u></div>
+          <div class="favorites tracks"><u>Automation Settings</u></div>
+          <div class="recent tracks"><u>More Settings!</u></div>
+        </div>
+        <div class="col-md-9">
+          <div class="settingsView">Settings</div>
+        </div>
+      </div>
+    </script>
+
+    <script src="./js/lib/d3.min.js"></script>
+    <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/handlebars.min.js"></script>
+    <script src="./js/lib/ember.min.js"></script>
+    <script src="./js/lib/ember-data.min.js"></script> 
+   <!-- <script src="./lib/ember/ember.js"></script>
+    <script src="./lib/ember-data/ember-data.js"></script> -->
+    <script src="./js/application.js"></script>
+    <script src="./js/router.js"></script>
+    <script src="./js/models/user.js"></script>
+    <script src="./js/models/tweet.js"></script>
+    <script src="./js/models/track.js"></script>
+    <script src="./js/models/fixtures.js"></script>
+    <script src="./js/controllers/NetSenseController.js"></script>
+    <script src="./js/controllers/DashboardController.js"></script>
+    <script src="./js/controllers/TweetMapController.js"></script>
+    <script src="./js/controllers/SentimentGraphController.js"></script>
+  </body>
+</html>
