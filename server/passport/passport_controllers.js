@@ -8,8 +8,7 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   dbMethods.findUserById(user, function(err, data) {
     done(null, user);
-  })
-
+  });
 });
 
 module.exports = passport;
