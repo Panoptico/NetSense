@@ -38,6 +38,7 @@ module.exports = function(router) {
   router.route('/:trackName')
   .get(function(req, res) {
     var trackName = req.params.trackName;
+    trackName = trackName.replace(/\s/g,'');
     if (trackName) {
       dbMethods.findTrackByName(trackName, function(err, data) {
         if (err) {
