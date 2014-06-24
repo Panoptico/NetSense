@@ -8,9 +8,16 @@ var saveTweetsToTrack = function(stream, trackName) {
     stream.on('tweet', function (tweet) {
       // save processed tweet to DB
       var processedTweet = tweetMethods.processTweet(tweet);
-      dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
-        if(err) {console.log('error: ', err); return;}
+      dbMethods.saveTweet(processedTweet, function(err, data) {
+        if (err) {
+          console.log('error:', err);
+          return;
+        }
+        dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data) {
+          if(err) {console.log('error: ', err); return;}
+        });
       });
+      // dbMethods.addTweetToTrack(trackName, processedTweet, function(err, data) {
     });
   })
 };
@@ -24,6 +31,7 @@ module.exports = exports = {
       access_token_secret: secret
     });
     var stream = T.stream('statuses/filter', {'track': track});
+    console.log('created stream instance:', track);
     saveTweetsToTrack(stream, track);
     return stream;
   },
