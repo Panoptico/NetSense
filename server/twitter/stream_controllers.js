@@ -92,7 +92,7 @@ var initStreams = function() {
       console.log(err);
     }
     for (var i = 0; i < data.length; i++) {
-      exports.saveTrack(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      startStream(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
     } 
   });
 };
