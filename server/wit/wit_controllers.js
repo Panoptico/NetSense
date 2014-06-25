@@ -1,7 +1,7 @@
 var request = require('request');
 
 module.exports = exports = {
-  sendTextToWit: function(text) {
+  sendTextToWit: function(text, next) {
     var headers = {
       Authorization: 'Bearer ' + process.env.WIT_AI_KEY
     };
@@ -17,7 +17,7 @@ module.exports = exports = {
       body = JSON.parse(body);
       var intent = body.outcome.intent;
       console.log('outcome:', body.outcome);
-      //TODO: integrate with automated events router
+      next(body);
     });
   }
 }

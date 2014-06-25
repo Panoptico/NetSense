@@ -5,9 +5,3 @@ exports.sentimentAnalysis = function(tweet){
   tweet.sentimentScore = sentimentScore;
   return tweet;
 }
-
-exports.NLP = function(tweet){
-  // TODO: call Wit.AI
-
-  return tweet;
-}
