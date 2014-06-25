@@ -18,7 +18,6 @@ module.exports = {
       console.log(trackName, 'streamed new tweet:', tweet.id_str);
 
       tweet.sentimentScore = sentiment.analyze(tweet.text).score;
-      console.log(tweet.sentimentScore);
       socket.emit('tweet', tweet);
     });
   }
