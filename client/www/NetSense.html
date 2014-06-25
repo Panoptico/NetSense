@@ -1,6 +1,20 @@
 <!doctype html>
 <html>
   <head>
+    <!-- Google Maps Settings -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <style>
+      html, body {
+        height: 100%;
+        width: 100%;
+      }
+      #google-map {
+        height: 80%;
+        width: 100%;
+      }
+    </style>
+
     <!-- Bootstrap Core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -88,6 +102,8 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
+      <div id="google-map"></div>
+      <label {{action "renderMap" on="click"}}>Render Map</label>
       <p>Tweet Map</p>
       {{#each tweet in tweets}}
         {{#if tweet.latitude}}
@@ -122,9 +138,11 @@
     <script src="./js/lib/jquery.min.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
     <script src="./js/lib/ember.min.js"></script>
-    <script src="./js/lib/ember-data.min.js"></script> 
+    <script src="./js/lib/ember-data.min.js"></script>
    <!-- <script src="./lib/ember/ember.js"></script>
     <script src="./lib/ember-data/ember-data.js"></script> -->
+    <script src="./js/lib/socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>

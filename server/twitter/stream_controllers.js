@@ -81,4 +81,4 @@ var initStreams = function() {
   });
 };
 
-initStreams();
+// initStreams();
