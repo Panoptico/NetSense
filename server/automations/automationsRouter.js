@@ -1,5 +1,6 @@
 var processor = require('../processing_controllers.js');
 var ringDoorbell = require('./ringDoorbell.js')
+var Wit = require('../wit/wit_controllers.js');
 
 // General natural language processing for any text and callback
 exports.NLP = function(text, next){
