@@ -19,10 +19,19 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
           content: "<h4>" + data.user.name + "</h4><div>" + data.text + "</div>"
         });
 
+        var birdIcon = "bird_original.png";
+        if (data.sentimentScore < 0) {
+          birdIcon = "bird_negative.png";
+        } else if (data.sentimentScore === 0) {
+          birdIcon = "bird_neutral.png";
+        } else if (0 < data.sentimentScore) {
+          birdIcon = "bird_positive.png";
+        }
+
         var marker = new google.maps.Marker({
           position: location,
           title: "Tweet",
-          icon: "http://www.volkside.com/wp/wp-content/themes/thematic_vs/images/twitter-bird-small.png",
+          icon: "./img/" + birdIcon,
           animation: google.maps.Animation.DROP,
           draggable: false
         });

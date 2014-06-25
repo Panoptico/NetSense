@@ -1,4 +1,5 @@
 var Twit = require('Twit');
+var sentiment = require('../sentiment/sentiment_controllers.js');
 
 var T = new Twit({
   consumer_key: process.env.TWITTER_CONSUMERKEY,
@@ -15,6 +16,9 @@ module.exports = {
 
     stream.on('tweet', function(tweet) {
       console.log(trackName, 'streamed new tweet:', tweet.id_str);
+
+      tweet.sentimentScore = sentiment.analyze(tweet.text).score;
+      console.log(tweet.sentimentScore);
       socket.emit('tweet', tweet);
     });
   }
