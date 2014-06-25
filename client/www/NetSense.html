@@ -10,7 +10,7 @@
         width: 100%;
       }
       #google-map {
-        height: 80%;
+        height: 100%;
         width: 100%;
       }
     </style>
@@ -102,13 +102,12 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
-      <div id="google-map"></div>
-      <label {{action "renderMap" on="click"}}>Render Map</label>
-      <p>Tweet Map</p>
+      <div id="google-map" {{action "renderMap" on="doubleClick"}}></div>
+      <!-- <p>Tweet Map</p> -->
       {{#each tweet in tweets}}
-        {{#if tweet.latitude}}
+        <!-- {{#if tweet.latitude}}
           <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
-        {{/if}}
+        {{/if}} -->
       {{/each}}
     </script>
 
