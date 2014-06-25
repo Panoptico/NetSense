@@ -7,7 +7,7 @@ var processor = require('../processing_controllers.js');
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
-  automationsRouter.route(tweet, trackName);
+  automationsRouter.automate(tweet, trackName);
   console.log('tweet processed!');
   dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
