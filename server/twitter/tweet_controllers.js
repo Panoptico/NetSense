@@ -11,8 +11,8 @@ module.exports = {
 
     var mentionedIds = _.pluck(tweet.entities.user_mentions, 'id_str');
 
-    // calculate sentiment score and save as a new property on the tweet schema
-    var sentimentScore = sentiment.analyze(tweet.text).score;
+    // // calculate sentiment score and save as a new property on the tweet schema
+    // var sentimentScore = sentiment.analyze(tweet.text).score;
 
     return {
       tweetId: tweet.id_str,
@@ -26,8 +26,8 @@ module.exports = {
       longitude: longitude,
       retweetCount: tweet.retweet_count,
       inReplyToUserIdStr: tweet.in_reply_to_user_id_str,
-      mentionedIds: mentionedIds,
-      sentimentScore: sentimentScore
+      mentionedIds: mentionedIds/*,
+      sentimentScore: sentimentScore*/
     };
   }
 };

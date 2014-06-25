@@ -1,13 +1,17 @@
 var Twit = require('twit');
 var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
+var automationsRouter = require('../automations/automationsRouter.js');
+var processor = require('../processing_controllers.js');
 
 var onTweet = function(tweet, trackName){
-  var processedTweet = tweetMethods.processTweet(tweet);
+  var reformattedTweet = tweetMethods.processTweet(tweet);
+  var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
+  automationsRouter.route(tweet, trackName);
   console.log('tweet processed!');
-  dbMethods.saveTweet(processedTweet, function(err, data){
+  dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
-      console.log('Error while saving tweet', processedTweet);
+      console.log('Error while saving tweet', analyzedTweet);
     } else {
       dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data){
         if(err) {
