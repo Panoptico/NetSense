@@ -16,7 +16,8 @@ module.exports = exports = {
       if(err) return console.error(err);
       body = JSON.parse(body);
       var intent = body.outcome.intent;
-      console.log('outcome:', body);
+      console.log('outcome:', body.outcome);
+      //TODO: integrate with automated events router
     });
   }
 }
