@@ -1,5 +1,5 @@
 var _ = require('underscore');
-var sentiment = require('../sentiment/sentiment_controllers.js');
+// var sentiment = require('../sentiment/sentiment_controllers.js');
 
 module.exports = {
   processTweet: function(tweet) {
