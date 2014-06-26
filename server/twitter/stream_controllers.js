@@ -8,29 +8,52 @@ var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
 
-  
+  // Get all tracks from tweet
+  var trackNames = getTrackNames(tweet);
 
-  // TODO: get trackName from tweet object...
-
-
-
-  automationsRouter.automate(tweet, trackName);
+  automationsRouter.automate(tweet, trackNames);
   console.log('tweet processed!');
-  dbMethods.saveTweet(analyzedTweet, function(err, data){
-    if(err) {
-      console.log('Error while saving tweet', analyzedTweet);
-    } else {
-      dbMethods.addTweetToTrack(trackName, tweet.id_str, function(err, data){
-        if(err) {
-          console.log('Error while saving tweet:', tweet, 'to track:', trackName);
-          return;
-        }
-      });
-    }
-  });
+
+  // dbMethods.saveTweet(analyzedTweet, function(err, data){
+  //   if(err) {
+  //     console.log('Error while saving tweet', analyzedTweet);
+  //   }
+  // })
+
+  // for(var i = 0; i < trackNames.length; i++){
+  //   dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
+  //     if(err) {
+  //       console.log('Error while saving tweet to track', trackNames[i])
+  //     }
+  //   });
+  // }
 }
 
-var twitterStream = {};
+
+// WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
+var getTrackNames = function(tweet){
+  var text = ' ' + tweet.text;
+// Find all hashtags and mentions
+                        // match all hashtags and mentions 
+                        // (nonword character + # or @ + some number of letters + nonword character)
+
+                        // returns array, or null, so ensure an array is found
+  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
+
+  // then join the array
+  trackNames = trackNames.join('')
+                         // and remove the # and @
+                         .replace(/#|@/g,'')
+                         // then split the results into an array
+                         .split(' ');
+
+  // first index is an empty string (from searching for spaces, then spliting on spaces)
+  // so replace it with user name (instead of pushing username to end of array)
+  trackNames[0] = tweet.user.screen_name;
+
+  return trackNames;
+}
+
 
 var startStream = function(trackName, token, secret) {
   var T = new Twit({
