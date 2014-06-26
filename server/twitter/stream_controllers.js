@@ -40,7 +40,8 @@ var startStream = function(trackName, token, secret) {
     access_token_secret: secret
   });   
 
-  twitterStream.stream = T.stream('statuses/filter', {track: trackName});
+  // Prefer to use statuses/filter, but 'user' is more reliable
+  twitterStream.stream = T.stream('user', {track: trackName});
   console.log('Created stream instance:', trackName);
   
   twitterStream.stream.on('tweet', function (tweet) {
