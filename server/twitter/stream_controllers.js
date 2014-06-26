@@ -7,6 +7,13 @@ var processor = require('../processing_controllers.js');
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
+
+  
+
+  // TODO: get trackName from tweet object...
+
+
+
   automationsRouter.automate(tweet, trackName);
   console.log('tweet processed!');
   dbMethods.saveTweet(analyzedTweet, function(err, data){
@@ -23,18 +30,20 @@ var onTweet = function(tweet, trackName){
   });
 }
 
+var twitterStream = {};
+
 var startStream = function(trackName, token, secret) {
   var T = new Twit({
     consumer_key: process.env.TWITTER_CONSUMERKEY,
     consumer_secret: process.env.TWITTER_CONSUMERSECRET,
     access_token: token,
     access_token_secret: secret
-  });
+  });   
 
-  var stream = T.stream('statuses/filter', {track: trackName});
+  twitterStream.stream = T.stream('statuses/filter', {track: trackName});
   console.log('Created stream instance:', trackName);
   
-  stream.on('tweet', function (tweet) {
+  twitterStream.stream.on('tweet', function (tweet) {
     console.log('tweet found!');
     onTweet(tweet, trackName);
   });
@@ -45,11 +54,13 @@ module.exports = exports = {
     dbMethods.saveNewTrackByName(trackName, function(err, data) {
       if(err) {
         console.log('error1 track already exists');
-        // return false to indicate stream already existed (and did not need to be started)
         return;
       };
-
-      startStream(trackName, token, secret);
+      // Stop stream
+      streams.stream.stop();
+      // Restart stream with updated tracks
+      initStreams();
+      // startStream(trackName, token, secret);
       // return true to indicate that stream did not previously exist
       return true;
     })
@@ -95,9 +106,12 @@ var initStreams = function() {
     if (err) {
       console.log(err);
     }
+    var streams = [];
+
     for (var i = 0; i < data.length; i++) {
-      startStream(data[i].name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      streams.push(data[i].name);
     } 
+      startStream(streams, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
   });
 };
 
