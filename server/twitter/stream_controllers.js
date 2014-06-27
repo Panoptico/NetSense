@@ -14,29 +14,27 @@ var onTweet = function(tweet, trackName){
   automationsRouter.automate(tweet, trackNames);
   console.log('tweet processed!');
 
-  // dbMethods.saveTweet(analyzedTweet, function(err, data){
-  //   if(err) {
-  //     console.log('Error while saving tweet', analyzedTweet);
-  //   }
-  // })
+  dbMethods.saveTweet(analyzedTweet, function(err, data){
+    if(err) {
+      console.log('Error while saving tweet', analyzedTweet);
+    }
+  })
 
-  // for(var i = 0; i < trackNames.length; i++){
-  //   dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
-  //     if(err) {
-  //       console.log('Error while saving tweet to track', trackNames[i])
-  //     }
-  //   });
-  // }
+  for(var i = 0; i < trackNames.length; i++){
+    dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
+      if(err) {
+        console.log('Error while saving tweet to track', trackNames[i])
+      }
+    });
+  }
 }
 
 
 // WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
 var getTrackNames = function(tweet){
   var text = ' ' + tweet.text;
-// Find all hashtags and mentions
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
-
                         // returns array, or null, so ensure an array is found
   var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
 

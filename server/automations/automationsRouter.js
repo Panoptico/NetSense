@@ -10,27 +10,25 @@ exports.NLP = function(text, next){
 
 // Specific use case of NLP on a tweet object with automations router
 exports.automate = function(tweet, trackName){
-
-  if(tweet.text === 'lets try automating email! #NetSenseHR'){
-    sendEmail('syeoryn@gmail.com','I\'m an automated tweet!!!!','IT WORKS!!!!!!!');
-  }
-
-  
-  // exports.NLP(tweet.text, function(nlp){
-  //   route(tweet, nlp, trackName);
-  // });
+  exports.NLP(tweet.text, function(nlp){
+    route(tweet, nlp, trackName);
+  });
 }
 
 var route = function(tweet, nlp, trackName){
-  // if(automations[nlp.intent]){
-  //   automations[nlp.intent](tweet, nlp, trackName);
-  // }
+  if(automations[nlp.intent]){
+    automations[nlp.intent](tweet, nlp, trackName);
+  }
 }
 
 // Each key equates to an intent
 // Each value is the automation function to call
 //   and takes (tweet, nlp, trackName) as their arguments
 var automations = {
-  ringDoorbell: ringDoorbell,
-  sendEmail: sendEmail
+  ringDoorbell: ringDoorbell
+  /* sendEmail could be automated, but for now
+   * it's just a helper method for ringDoorbell
+   * parameters would have to be changed for sendEmail
+   * to be functional in automation router
+   * sendEmail: sendEmail */
 }
