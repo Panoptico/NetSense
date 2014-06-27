@@ -388,7 +388,51 @@ describe('deleteTweet', function() {
   });
 });
 
+describe('findTracksByNames database method', function() {
+  var testTrack1 = {name: 'test111'};
+  var testTrack2 = {name: 'test222'};
+  var testTrack3 = {name: 'test333'};
 
+  beforeEach(function(done) {    
+    Tracks.create([testTrack1, testTrack2, testTrack3], function(err, tweet1, tweet2) {
+      done();
+    }); 
+  });
+
+  afterEach(function(done) {    
+    //delete all track documents from the test db
+    Tracks.remove({}, function(err) {
+      done();
+    }); 
+  });
+
+  it('Should be a function', function() {
+    expect(dbMethods.findTracksByNames).to.be.a('function');
+  });
+
+  it ('Should find an existing track', function(done) {
+    dbMethods.findTracksByNames(['test111'], function(err, data) {
+      expect(data[0].name).to.equal('test111');
+      done();
+    });
+  });
+
+  it ('Should find all specified existing tracks', function(done) {
+    dbMethods.findTracksByNames(['test111', 'test222'], function(err, data) {
+      expect(data.length).to.equal(2);
+      expect(data[0].name).to.equal('test111');
+      expect(data[1].name).to.equal('test222');
+      done();
+    })
+  });
+
+  it ('Should not find non-existing tracks', function(done) {
+    dbMethods.findTracksByNames(['fakeTrack'], function(err, data) {
+      expect(data.length).to.equal(0);
+      done();
+    });
+  });
+});
 
 describe('saveNewTrackByName', function() {
   afterEach(function(done) {
