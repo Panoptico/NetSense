@@ -14,19 +14,19 @@ var onTweet = function(tweet, trackName){
   automationsRouter.automate(tweet, trackNames);
   console.log('tweet processed!');
 
-  dbMethods.saveTweet(analyzedTweet, function(err, data){
-    if(err) {
-      console.log('Error while saving tweet', analyzedTweet);
-    }
-  })
+  // dbMethods.saveTweet(analyzedTweet, function(err, data){
+  //   if(err) {
+  //     console.log('Error while saving tweet', analyzedTweet);
+  //   }
+  // })
 
-  for(var i = 0; i < trackNames.length; i++){
-    dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
-      if(err) {
-        console.log('Error while saving tweet to track', trackNames[i])
-      }
-    });
-  }
+  // for(var i = 0; i < trackNames.length; i++){
+  //   dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
+  //     if(err) {
+  //       console.log('Error while saving tweet to track', trackNames[i])
+  //     }
+  //   });
+  // }
 }
 
 
