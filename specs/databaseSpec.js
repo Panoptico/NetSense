@@ -260,6 +260,53 @@ describe('findTweetById database method', function() {
 });
 
 
+describe('findTweetsByIds database method', function() {
+  var testTweet1 = {tweetId: 'test111'};
+  var testTweet2 = {tweetId: 'test222'};
+  var testTweet3 = {tweetId: 'test333'};
+
+  beforeEach(function(done) {    
+    Tweets.create([testTweet1, testTweet2, testTweet3], function(err, tweet1, tweet2) {
+      done();
+    }); 
+  });
+
+  afterEach(function(done) {    
+    //delete all tweet documents from the test db
+    Tweets.remove({}, function(err) {
+      done();
+    }); 
+  });
+
+  it('Should be a function', function() {
+    expect(dbMethods.findTweetsByIds).to.be.a('function');
+  });
+
+  it ('Should find an existing tweet', function(done) {
+    dbMethods.findTweetsByIds(['test111'], function(err, data) {
+      expect(data[0].tweetId).to.equal('test111');
+      done();
+    });
+  });
+
+  it ('Should find all specified existing tweets', function(done) {
+    dbMethods.findTweetsByIds(['test111', 'test222'], function(err, data) {
+      expect(data.length).to.equal(2);
+      expect(data[0].tweetId).to.equal('test111');
+      expect(data[1].tweetId).to.equal('test222');
+      done();
+    })
+  });
+
+  it ('Should not find non-existing tweets', function(done) {
+    dbMethods.findTweetsByIds(['fakeTweet'], function(err, data) {
+      expect(data.length).to.equal(0);
+      done();
+    });
+  });
+});
+
+
 describe('findTweetsContainingUserId', function() {
   var testTweet1 = {tweetId: 'testTweet1', twitterUserId: '111'};
   var testTweet2 = {tweetId: 'testTweet2', twitterUserId: '222'};
@@ -340,6 +387,53 @@ describe('deleteTweet', function() {
           done();
         });
       });
+    });
+  });
+});
+
+
+describe('findTracksByNames database method', function() {
+  var testTrack1 = {name: 'test111'};
+  var testTrack2 = {name: 'test222'};
+  var testTrack3 = {name: 'test333'};
+
+  beforeEach(function(done) {    
+    Tracks.create([testTrack1, testTrack2, testTrack3], function(err, tweet1, tweet2) {
+      done();
+    }); 
+  });
+
+  afterEach(function(done) {    
+    //delete all track documents from the test db
+    Tracks.remove({}, function(err) {
+      done();
+    }); 
+  });
+
+  it('Should be a function', function() {
+    expect(dbMethods.findTracksByNames).to.be.a('function');
+  });
+
+  it ('Should find an existing track', function(done) {
+    dbMethods.findTracksByNames(['test111'], function(err, data) {
+      expect(data[0].name).to.equal('test111');
+      done();
+    });
+  });
+
+  it ('Should find all specified existing tracks', function(done) {
+    dbMethods.findTracksByNames(['test111', 'test222'], function(err, data) {
+      expect(data.length).to.equal(2);
+      expect(data[0].name).to.equal('test111');
+      expect(data[1].name).to.equal('test222');
+      done();
+    })
+  });
+
+  it ('Should not find non-existing tracks', function(done) {
+    dbMethods.findTracksByNames(['fakeTrack'], function(err, data) {
+      expect(data.length).to.equal(0);
+      done();
     });
   });
 });

@@ -30,9 +30,15 @@ module.exports = function(router) {
     }
   })
   .get(function(req, res) {
-   dbMethods.findAllTracks(function(err, data) {
-     res.send({tracks: data});
-   });
+    if (req.query.ids) {
+      dbMethods.findTracksByNames(req.query.ids, function(err, data) {
+        res.send({tracks: data});
+      });
+    } else {
+      dbMethods.findAllTracks(function(err, data) {
+        res.send({tracks: data});
+      });
+    }
  });
 
   router.route('/:trackName')
