@@ -16,8 +16,15 @@ module.exports = function(router) {
 
   router.route('/')
     .get(function(req, res) {
-      dbMethods.findAllTweets(function(err, data) {
-        res.send({tweets: data});
-      });
+      console.log('Tweet query:', req.query);
+      if (req.query.ids) {
+        dbMethods.findTweetsByIds(req.query.ids, function(err, data) {
+          res.send({tweets: data});
+        });
+      } else {
+        dbMethods.findAllTweets(function(err, data) {
+          res.send({tweets: data});
+        });
+      }
     });
 };

@@ -27,6 +27,21 @@ module.exports = exports = {
     });
   },
 
+  findTweetsByIds: function(tweetIds, next) {
+    var query = [];
+    for (var i = 0; i < tweetIds.length; i++) {
+      query.push({tweetId: tweetIds[i]});
+    }
+
+    var tweets = Tweets.find().or(query).exec();
+
+    tweets.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
+    });
+  },
+
   findTweetsContainingUserId: function(userId, next) {
     var tweets = Tweets.find().or([
       {twitterUserId: userId}, 
