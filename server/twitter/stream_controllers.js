@@ -4,16 +4,28 @@ var tweetMethods = require('./tweet_controllers.js');
 var automationsRouter = require('../automations/automationsRouter.js');
 var processor = require('../processing_controllers.js');
 
+var contains = function (arr, target){
+  var result = false;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return true;
+    }
+  }
+  return false;
+};
+
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
 
+  // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
+  trackNames = trackNames.map(function(trackName) {return trackName.toLowerCase();});
 
-  automationsRouter.automate(tweet, trackNames);
-  console.log('tweet processed!');
-
+  if(contains(trackNames, 'netsensehr')) {
+    automationsRouter.automate(tweet, trackNames);
+  }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
       console.log('Error while saving tweet', analyzedTweet);
@@ -33,10 +45,8 @@ var onTweet = function(tweet, trackName){
 // WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
 var getTrackNames = function(tweet){
   var text = ' ' + tweet.text;
-// Find all hashtags and mentions
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
-
                         // returns array, or null, so ensure an array is found
   var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
 
