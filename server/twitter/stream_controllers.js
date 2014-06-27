@@ -3,17 +3,20 @@ var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 var automationsRouter = require('../automations/automationsRouter.js');
 var processor = require('../processing_controllers.js');
+var _ = require('underscore');
 
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
 
+  // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
 
-  automationsRouter.automate(tweet, trackNames);
-  console.log('tweet processed!');
 
+  if((_.contains(trackNames, 'NetSenseHR'))) {
+    automationsRouter.automate(tweet, trackNames);
+  }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
       console.log('Error while saving tweet', analyzedTweet);
