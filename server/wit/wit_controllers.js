@@ -14,10 +14,9 @@ module.exports = exports = {
 
     request.get(options, function(err, res, body){
       if(err) return console.error(err);
-      body = JSON.parse(body);
-      var intent = body.outcome.intent;
-      console.log('outcome:', body.outcome);
-      next(body);
+      outcomes = ( JSON.parse(body) ).outcomes[0];
+      var intent = outcomes.intent;
+      next(outcomes);
     });
   }
 }
