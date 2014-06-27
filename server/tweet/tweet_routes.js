@@ -22,9 +22,10 @@ module.exports = function(router) {
       });
     })
     .post(function(req, res) {
-      var text = req.body.text;
-      var tweetId = req.body.tweetId;
-      // need user token and tokensecret
-      streamControllers.sendTweet(text, tweetId, token, tokenSecret);
+      var text = req.body.text + ' @' + req.body.userName;
+      console.log('\n\n\n\n\n\n\n\nTEXT:', text);
+      // TODO: replace netsensehr token and tokenSecret with the user that's currently logged in
+      streamControllers.sendTweet(text, req.body.tweetId, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      res.send(200);
     });
 };

@@ -77,7 +77,7 @@ module.exports = exports = {
     });
 
     var params = {status: text};
-    
+
     if (tweetId) {
       params.in_reply_to_status_id = tweetId;
     }
@@ -86,7 +86,7 @@ module.exports = exports = {
       if (err) {
         console.log('error:', err);
       } else {
-        console.log("Tweeted!", data, response);
+        console.log("Tweeted!", data);
       }
     });
   }

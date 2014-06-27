@@ -8,6 +8,22 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       modal: true,
       buttons: {
         Send: function() {
+          $.ajax({
+            url: 'http://localhost:8080/api/v1/tweet/',
+            type: 'POST',
+            data: JSON.stringify({
+              text: $('#reply').val(),
+              tweetId: __netsense_currentTweetId,
+              userName: __netsense_currentUserName
+            }),
+            contentType: 'application/json',
+            success: function (data) {
+              console.log('Replied to tweet!');
+            },
+            error: function (data) {
+              console.error('Failed to reply to tweet:', data);
+            }
+          });
           $(this).dialog("close");
         },
         Cancel: function() {
@@ -76,30 +92,35 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
     // sets dummy data
     var data = [
       {
+        tweetId: '1',
         user: {name: 'jake'},
         text: 'hello',
         createdAt: 1,
         sentimentScore: 3
       },
       {
+        tweetId: '2',
         user: {name: 'hoover'},
         text: 'yo',
         createdAt: 2,
         sentimentScore: -3
       },
       {
-        user: {name: 'apple'},
+        tweetId: '482561715041603585',
+        user: {name: 'BeebiBoob'},
         text: 'hi',
         createdAt: 3,
         sentimentScore: 0
       },
       {
+        tweetId: '4',
         user: {name: 'erin'},
         text: 'hello world!',
         createdAt: 4,
         sentimentScore: 1
       },
       {
+        tweetId: '5',
         user: {name: 'kris'},
         text: 'doh',
         createdAt: 5,
@@ -158,7 +179,9 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         .style("fill", function(d) { return d.color; })
         .on('mouseover', tooltip.show)
         .on('mouseout', tooltip.hide)
-        .on('click', function() {
+        .on('click', function(tweet) {
+          window.__netsense_currentTweetId = tweet.tweetId;
+          window.__netsense_currentUserName = tweet.user.name;
           $("#input-box").dialog( "open" );
         });
   }

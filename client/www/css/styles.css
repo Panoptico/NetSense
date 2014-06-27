@@ -176,3 +176,7 @@ div .private  :hover {
 .d3-input-box {
   left: 0;
 }
+
+#input-box {
+  font-size: 14px;
+}
