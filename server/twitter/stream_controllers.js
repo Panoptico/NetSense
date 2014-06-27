@@ -3,7 +3,16 @@ var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 var automationsRouter = require('../automations/automationsRouter.js');
 var processor = require('../processing_controllers.js');
-var _ = require('underscore');
+
+var contains = function (arr, target){
+  var result = false;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return true;
+    }
+  }
+  return false;
+};
 
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
@@ -12,9 +21,9 @@ var onTweet = function(tweet, trackName){
   // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
+  trackNames = trackNames.map(function(trackName) {return trackName.toLowerCase();});
 
-
-  if((_.contains(trackNames, 'NetSenseHR'))) {
+  if(contains(trackNames, 'netsensehr')) {
     automationsRouter.automate(tweet, trackNames);
   }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
