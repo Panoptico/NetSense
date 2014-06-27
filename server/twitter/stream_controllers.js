@@ -45,10 +45,8 @@ var onTweet = function(tweet, trackName){
 // WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
 var getTrackNames = function(tweet){
   var text = ' ' + tweet.text;
-// Find all hashtags and mentions
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
-
                         // returns array, or null, so ensure an array is found
   var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
 
