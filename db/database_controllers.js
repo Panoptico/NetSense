@@ -26,6 +26,21 @@ module.exports = exports = {
     });
   },
 
+  findTweetsByIds: function(tweetIds, next) {
+    var query = [];
+    for (var i = 0; i < tweetIds.length; i++) {
+      query.push({tweetId: tweetIds[i]});
+    }
+
+    var tweets = Tweets.find().or(query).exec();
+
+    tweets.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
+    });
+  },
+
   findTweetsContainingUserId: function(userId, next) {
     Tweets.find().or([
       {twitterUserId: userId}, 
@@ -95,6 +110,21 @@ module.exports = exports = {
   findTrackByName: function(trackName, next) {
     Tracks.findOne({name: trackName}, function(err, data) {
       handleDatabaseResponse(err, data, next);
+    });
+  },
+
+  findTracksByNames: function(trackNames, next) {
+    var query = [];
+    for (var i = 0; i < trackNames.length; i++) {
+      query.push({name: trackNames[i]});
+    }
+    
+    var tracks = Tracks.find().or(query).exec();
+
+    tracks.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
     });
   },
 
