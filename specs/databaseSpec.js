@@ -259,6 +259,52 @@ describe('findTweetById database method', function() {
 });
 
 
+describe('findTweetsByIds database method', function() {
+  var testTweet1 = {tweetId: 'test111'};
+  var testTweet2 = {tweetId: 'test222'};
+  var testTweet3 = {tweetId: 'test333'};
+
+  beforeEach(function(done) {    
+    Tweets.create([testTweet1, testTweet2, testTweet3], function(err, tweet1, tweet2) {
+      done();
+    }); 
+  });
+
+  afterEach(function(done) {    
+    //delete all tweet documents from the test db
+    Tweets.remove({}, function(err) {
+      done();
+    }); 
+  });
+
+  it('Should be a function', function() {
+    expect(dbMethods.findTweetsByIds).to.be.a('function');
+  });
+
+  it ('Should find an existing tweet', function(done) {
+    dbMethods.findTweetsByIds(['test111'], function(err, data) {
+      expect(data[0].tweetId).to.equal('test111');
+      done();
+    });
+  });
+
+  it ('Should find all specified existing tweets', function(done) {
+    dbMethods.findTweetsByIds(['test111', 'test222'], function(err, data) {
+      expect(data.length).to.equal(2);
+      expect(data[0].tweetId).to.equal('test111');
+      expect(data[1].tweetId).to.equal('test222');
+      done();
+    })
+  });
+
+  it ('Should not find non-existing tweets', function(done) {
+    dbMethods.findTweetsByIds(['fakeTweet'], function(err, data) {
+      expect(data.length).to.equal(0);
+      done();
+    });
+  });
+});
+
 describe('findTweetsContainingUserId', function() {
   var testTweet1 = {tweetId: 'testTweet1', twitterUserId: '111'};
   var testTweet2 = {tweetId: 'testTweet2', twitterUserId: '222'};
