@@ -21,7 +21,7 @@ var onTweet = function(tweet, trackName){
       });
     }
   });
-}
+};
 
 var startStream = function(trackName, token, secret) {
   var T = new Twit({
@@ -38,7 +38,7 @@ var startStream = function(trackName, token, secret) {
     console.log('tweet found!');
     onTweet(tweet, trackName);
   });
-}
+};
 
 module.exports = exports = {
   saveTrack: function(trackName, token, secret) {

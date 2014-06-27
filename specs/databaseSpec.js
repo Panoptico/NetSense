@@ -143,6 +143,7 @@ describe('updateUserInfo', function() {
   });
 });
 
+
 describe('deleteUserById', function() {
   var testUser1 = {twitterUserId: 'testUser1'};
   var testUser2 = {twitterUserId: 'testUser2'};
@@ -308,6 +309,7 @@ describe('findTweetsContainingUserId', function() {
   });
 });
 
+
 describe('deleteTweet', function() {
   var testTweet1 = {tweetId: 'testTweet1'};
   var testTweet2 = {tweetId: 'testTweet2'};
@@ -343,7 +345,6 @@ describe('deleteTweet', function() {
 });
 
 
-
 describe('saveNewTrackByName', function() {
   afterEach(function(done) {
     Tracks.remove({}, function(err) {
@@ -369,12 +370,14 @@ describe('saveNewTrackByName', function() {
   });
 });
 
+
 describe('addTweetToTrack', function() {
   beforeEach(function(done) {
     Tracks.create({name: 'Ember'}, function(err, data) {
       done();
     });
-  }); 
+  });
+
   afterEach(function(done) {
     Tracks.remove({}, function(err) {
       done();
@@ -387,10 +390,10 @@ describe('addTweetToTrack', function() {
   });
 
   it('Should add tweets to a track', function(done) {
-    dbMethods.addTweetToTrack('Ember', {tweetId: 'test', text: 'hampster dance'}, function(err, data) {
+    dbMethods.addTweetToTrack('Ember', '12345', function(err, data) {
       Tracks.find({name: 'Ember'}, function(err, data) {
         expect(data[0].tweets.length).to.equal(1);
-        expect(data[0].tweets[0].tweetId).to.equal('test');
+        expect(data[0].tweets[0]).to.equal('12345');
         done();
       });
     });
