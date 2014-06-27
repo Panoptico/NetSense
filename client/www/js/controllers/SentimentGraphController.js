@@ -107,7 +107,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       },
       {
         tweetId: '482561715041603585',
-        user: {name: 'BeebiBoob'},
+        user: {name: 'fitrawulandari1'},
         text: 'hi',
         createdAt: 3,
         sentimentScore: 0

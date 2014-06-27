@@ -68,7 +68,7 @@ module.exports = exports = {
     });
   },
 
-  sendTweet: function(text, tweetId, token, tokenSecret) {
+  sendTweet: function(text, tweetId, userName, token, tokenSecret) {
     var T = new Twit({
       consumer_key: process.env.TWITTER_CONSUMERKEY,
       consumer_secret: process.env.TWITTER_CONSUMERSECRET,
@@ -76,11 +76,13 @@ module.exports = exports = {
       access_token_secret: tokenSecret
     });
 
-    var params = {status: text};
-
-    if (tweetId) {
+    var params = {};
+    var status = text;
+    if (tweetId && userName) {
+      status = status + ' @' + userName;
       params.in_reply_to_status_id = tweetId;
     }
+    params.status = status;
 
     T.post('statuses/update', params, function(err, data, response) {
       if (err) {
