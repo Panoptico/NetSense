@@ -119,6 +119,21 @@ module.exports = exports = {
     });
   },
 
+  findTracksByNames: function(trackNames, next) {
+    var query = [];
+    for (var i = 0; i < trackNames.length; i++) {
+      query.push({name: trackNames[i]});
+    }
+    
+    var tracks = Tracks.find().or(query).exec();
+
+    tracks.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
+    });
+  },
+
   findAllTracks: function(next) {
     Tracks.find(function(err,data){
       handleDatabaseResponse(err,data,next);
