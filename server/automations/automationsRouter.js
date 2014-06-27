@@ -15,8 +15,9 @@ exports.automate = function(tweet, trackName){
 }
 
 var route = function(tweet, nlp, trackName){
-  console.log(nlp)
-  automations[nlp.intent](tweet, nlp, trackName);
+  if(automations[nlp.intent]){
+    automations[nlp.intent](tweet, nlp, trackName);
+  }
 }
 
 // Each key equates to an intent
