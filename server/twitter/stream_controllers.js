@@ -68,7 +68,7 @@ module.exports = exports = {
     });
   },
 
-  sendTweet: function(text, token, tokenSecret) {
+  sendTweet: function(text, tweetId, token, tokenSecret) {
     var T = new Twit({
       consumer_key: process.env.TWITTER_CONSUMERKEY,
       consumer_secret: process.env.TWITTER_CONSUMERSECRET,
@@ -76,11 +76,17 @@ module.exports = exports = {
       access_token_secret: tokenSecret
     });
 
-    T.post('statuses/update', {status: text}, function(err, data, response) {
+    var params = {status: text};
+    
+    if (tweetId) {
+      params.in_reply_to_status_id = tweetId;
+    }
+
+    T.post('statuses/update', params, function(err, data, response) {
       if (err) {
         console.log('error:', err);
       } else {
-        console.log("Tweeted!");
+        console.log("Tweeted!", data, response);
       }
     });
   }

@@ -97,9 +97,20 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <p>Sentiment Graph</p>
+      <div {{action "renderGraph" on="click"}}>Click on a datapoint to respond to the tweet</div>
+      <div id="scatterplot"></div>
+
+      <div id="input-box" title="Reply">
+        <form>
+          <fieldset>
+            <input type="text" name="reply" id="reply" class="text ui-widget-content ui-corner-all">
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- <p>Sentiment Graph</p> -->
       {{#each tweet in tweets}}
-        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
+        <!-- <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li> -->
       {{/each}}
     </script>
 
@@ -119,12 +130,15 @@
     </script>
 
     <script src="./js/lib/d3.min.js"></script>
+    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
     <script src="./js/lib/handlebars.min.js"></script>
     <script src="./js/lib/ember.min.js"></script>
-    <script src="./js/lib/ember-data.min.js"></script> 
-   <!-- <script src="./lib/ember/ember.js"></script>
-    <script src="./lib/ember-data/ember-data.js"></script> -->
+    <script src="./js/lib/ember-data.min.js"></script>
+    <!-- <script src="./lib/ember/ember.js"></script> -->
+    <!-- <script src="./lib/ember-data/ember-data.js"></script> -->
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>

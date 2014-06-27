@@ -1,4 +1,5 @@
 var dbMethods = require('../../db/database_controllers.js');
+var streamControllers = require('../twitter/stream_controllers');
 
 module.exports = function(router) {
   router.route('/:tweetId')
@@ -19,5 +20,11 @@ module.exports = function(router) {
       dbMethods.findAllTweets(function(err, data) {
         res.send({tweets: data});
       });
+    })
+    .post(function(req, res) {
+      var text = req.body.text;
+      var tweetId = req.body.tweetId;
+      // need user token and tokensecret
+      streamControllers.sendTweet(text, tweetId, token, tokenSecret);
     });
 };
