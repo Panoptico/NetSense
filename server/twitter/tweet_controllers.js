@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var Twit = require('twit');
 // var sentiment = require('../sentiment/sentiment_controllers.js');
 
 module.exports = {
@@ -32,5 +33,47 @@ module.exports = {
       mentionedIds: mentionedIds/*,
       sentimentScore: sentimentScore*/
     };
+  }, 
+
+  sendRetweet: function(tweetId, token, tokenSecret) {
+    var T = new Twit({
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
+      access_token: token,
+      access_token_secret: tokenSecret
+    });
+
+    T.post('statuses/retweet/' + tweetId, {id: tweetId}, function(err, data, response) {
+      if (err) {
+        console.log('error:', err);
+      } else {
+        console.log('Retweeted!');
+      }
+    });
+  },
+
+  sendTweet: function(text, tweetId, userName, token, tokenSecret) {
+    var T = new Twit({
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
+      access_token: token,
+      access_token_secret: tokenSecret
+    });
+
+    var params = {};
+    var status = text;
+    if (tweetId && userName) {
+      status = '@' + userName + ' ' + status;
+      params.in_reply_to_status_id = tweetId;
+    }
+    params.status = status;
+
+    T.post('statuses/update', params, function(err, data, response) {
+      if (err) {
+        console.log('error:', err);
+      } else {
+        console.log("Tweeted!", data);
+      }
+    });
   }
 };

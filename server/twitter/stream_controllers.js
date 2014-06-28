@@ -21,9 +21,8 @@ var onTweet = function(tweet, trackName){
   // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
-  trackNames = trackNames.map(function(trackName) {return trackName.toLowerCase();});
-
   if(contains(trackNames, 'netsensehr')) {
+    console.log('automated');
     automationsRouter.automate(tweet, trackNames);
   }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
@@ -48,7 +47,7 @@ var getTrackNames = function(tweet){
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
                         // returns array, or null, so ensure an array is found
-  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || [];
+  var trackNames = text.match(/\W([#@]\w+)/g) || [];
 
   // then join the array
   trackNames = trackNames.join('')
@@ -61,6 +60,7 @@ var getTrackNames = function(tweet){
   // so replace it with user name (instead of pushing username to end of array)
   trackNames[0] = tweet.user.screen_name;
 
+  trackNames = trackNames.map(function(track){return track.toLowerCase();})
   return trackNames;
 };
 
@@ -97,48 +97,6 @@ module.exports = exports = {
       // startStream(trackName, token, secret);
       // return true to indicate that stream did not previously exist
       return true;
-    });
-  },
-
-  sendRetweet: function(tweetId, token, tokenSecret) {
-    var T = new Twit({
-      consumer_key: process.env.TWITTER_CONSUMERKEY,
-      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
-      access_token: token,
-      access_token_secret: tokenSecret
-    });
-
-    T.post('statuses/retweet/' + tweetId, {id: tweetId}, function(err, data, response) {
-      if (err) {
-        console.log('error:', err);
-      } else {
-        console.log('Retweeted!');
-      }
-    });
-  },
-
-  sendTweet: function(text, tweetId, userName, token, tokenSecret) {
-    var T = new Twit({
-      consumer_key: process.env.TWITTER_CONSUMERKEY,
-      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
-      access_token: token,
-      access_token_secret: tokenSecret
-    });
-
-    var params = {};
-    var status = text;
-    if (tweetId && userName) {
-      status = status + ' @' + userName;
-      params.in_reply_to_status_id = tweetId;
-    }
-    params.status = status;
-
-    T.post('statuses/update', params, function(err, data, response) {
-      if (err) {
-        console.log('error:', err);
-      } else {
-        console.log("Tweeted!", data);
-      }
     });
   }
 };

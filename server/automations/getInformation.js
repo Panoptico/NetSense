@@ -1,5 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
+var twitter = require('../twitter/tweet_controllers.js');
 
 var getInformation = function(tweet, nlp, trackName){
   console.log(nlp.entities.search_query[0].value)
@@ -13,7 +14,8 @@ var getInformation = function(tweet, nlp, trackName){
     var link = 'http://lmgtfy.com/?q=' + query;
   }
   
-  // replyToTweet(tweet, link);
+  // replyToTweet(tweet, link) as NetSenseHR
+  twitter.sendTweet(link, tweet.id_str, tweet.user.screen_name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET)
 }
 
 var crawlForLink = function(target){
@@ -25,7 +27,7 @@ var crawlForLink = function(target){
       link = link.slice( link.indexOf('http'), link.indexOf('&sa=') );
       return link;
     }
-  }
+  });
   return target;
 }
 
