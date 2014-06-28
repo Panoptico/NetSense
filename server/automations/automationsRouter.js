@@ -26,6 +26,6 @@ var route = function(tweet, nlp, trackName){
 //   and takes (tweet, nlp, trackName) as their arguments
 var automations = {
   ringDoorbell: ringDoorbell,
-  // schedule_event: googleCalendar.createNetsenseEvent
+  schedule_event: googleCalendar.createNetsenseEvent
 }
 

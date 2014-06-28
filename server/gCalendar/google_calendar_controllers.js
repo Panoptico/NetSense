@@ -3,10 +3,45 @@ var request = require('request')
 var TokenCache = require('google-oauth-jwt').TokenCache;
 var tokens = new TokenCache();
 
+
+var formatDatetime = function (nlp) {
+    if (nlp && nlp.entities && nlp.entities.datetime && !Array.isArray(nlp.entities.datetime)) {
+      nlp.entities.datetime = [nlp.entities.datetime];
+    }
+    //TODO:
+    // else if !datetime,
+      //check for next free spot (with some buffer/warning time)
+      //add event as an hour-long block by default
+
+    return nlp;
+};
+
+
+
+var googleEventifyEntities = function (outcome) {
+    var gEvent = {};
+    var summary;
+    gEvent.end = {dateTime: outcome.entities.datetime[0].value.to};
+    gEvent.start = {dateTime: outcome.entities.datetime[0].value.from};
+
+    if (outcome.entities.agenda_entry && outcome.entities.agenda_entry.value){
+      gEvent.summary = outcome.entities.agenda_entry.value;      
+    }
+
+    return gEvent;
+}; 
+
+
+
 module.exports = exports = {
-  createNetsenseEvent: function(event) {
-    //expect event to be an object with start, end, and summary properties
-    var body = JSON.stringify(event);
+  createNetsenseEvent: function(tweet, nlp, trackName) {
+/////get event
+    var gCalEvent = googleEventifyEntities(formatDatetime(nlp));
+
+    gCalEvent.summary = gCalEvent.summary || tweet.text;
+    
+    //expect gCalEvent to be an object with start, end, and summary properties
+    var body = JSON.stringify(gCalEvent);
 
     tokens.get({
       // use the email address of the NetSense google service account, as seen in the API console
@@ -42,7 +77,7 @@ module.exports = exports = {
 
 };
 
-//event must have start, end, and summary properties
+//gCalEvent must have start, end, and summary properties
 
 
 ///////////
@@ -62,6 +97,6 @@ var newevent = {
 exports.createNetsenseEvent(newevent);
 */
 
-//creates a new event on the netsense calendar
+//creates a new gCalEvent on the netsense calendar
 
 
