@@ -26,7 +26,7 @@ var route = function(tweet, nlp, trackName){
 // Each value is the automation function to call
 //   and takes (tweet, nlp, trackName) as their arguments
 var automations = {
-  ringDoorbell: ringDoorbell
+  ringDoorbell: ringDoorbell,
   /* sendEmail could be automated, but for now
    * it's just a helper method for ringDoorbell
    * parameters would have to be changed for sendEmail
