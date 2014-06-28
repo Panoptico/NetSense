@@ -2,6 +2,7 @@ var processor = require('../processing_controllers.js');
 var ringDoorbell = require('./ringDoorbell.js')
 var Wit = require('../wit/wit_controllers.js');
 var sendEmail = require('./sendEmail.js');
+var getInformation = require('./getInformation.js');
 
 // General natural language processing for any text and callback
 exports.NLP = function(text, next){
@@ -25,7 +26,8 @@ var route = function(tweet, nlp, trackName){
 // Each value is the automation function to call
 //   and takes (tweet, nlp, trackName) as their arguments
 var automations = {
-  ringDoorbell: ringDoorbell
+  ringDoorbell: ringDoorbell,
+  getInformation: getInformation
   /* sendEmail could be automated, but for now
    * it's just a helper method for ringDoorbell
    * parameters would have to be changed for sendEmail
