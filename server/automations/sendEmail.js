@@ -16,12 +16,12 @@ var sendEmail = function(to, subject, message){
     to: to,
     subject: subject,
     text: message,
-  }
+  };
 
   smtpTransport.sendMail(mailOptions, function(error, response){
     if(error) return console.error(error);
     console.log("Message sent: " + response.message);
   });
-}
+};
 
 module.exports = sendEmail;

@@ -1,5 +1,5 @@
 var gcal = require('google-calendar');
-var request = require('request')
+var request = require('request');
 var TokenCache = require('google-oauth-jwt').TokenCache;
 var tokens = new TokenCache();
 var onehour = 1000*60*60;
