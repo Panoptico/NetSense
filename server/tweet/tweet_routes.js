@@ -1,4 +1,5 @@
 var dbMethods = require('../../db/database_controllers.js');
+var streamControllers = require('../twitter/stream_controllers');
 
 module.exports = function(router) {
   router.route('/:tweetId')
@@ -16,7 +17,6 @@ module.exports = function(router) {
 
   router.route('/')
     .get(function(req, res) {
-      console.log('Tweet query:', req.query);
       if (req.query.ids) {
         dbMethods.findTweetsByIds(req.query.ids, function(err, data) {
           res.send({tweets: data});
@@ -26,5 +26,11 @@ module.exports = function(router) {
           res.send({tweets: data});
         });
       }
+    })
+    
+    .post(function(req, res) {
+      // TODO: replace netsensehr token and tokenSecret with the user that's currently logged in
+      streamControllers.sendTweet(req.body.text, req.body.tweetId, req.body.userName, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET);
+      res.send(200);
     });
 };

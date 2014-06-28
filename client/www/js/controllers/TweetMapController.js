@@ -6,7 +6,7 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
       mapTypeId: google.maps.MapTypeId.TERRAIN
     });
 
-    var socket = io.connect("http://localhost:8080");
+    var socket = io.connect(window.__netsense_url);
     socket.emit('track', this.get('model').id);
 
     socket.on("tweet", function(data) {
