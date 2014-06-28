@@ -1,5 +1,5 @@
 var processor = require('../processing_controllers.js');
-var ringDoorbell = require('./ringDoorbell.js')
+var ringDoorbell = require('./ringDoorbell.js');
 var Wit = require('../wit/wit_controllers.js');
 var sendEmail = require('./sendEmail.js');
 var googleCalendar = require('../gCalendar/google_calendar_controllers');

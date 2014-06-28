@@ -4,9 +4,12 @@ var _ = require('underscore');
 module.exports = {
   processTweet: function(tweet) {
     // rename properties to our tweet schema and save the properties we want
+    var latitude;
+    var longitude;
+
     if (tweet.geo) {
-      var latitude = tweet.geo.coordinates[0];
-      var longitude = tweet.geo.coordinates[1];
+      latitude = tweet.geo.coordinates[0];
+      longitude = tweet.geo.coordinates[1];
     }
 
     var mentionedIds = _.pluck(tweet.entities.user_mentions, 'id_str');
