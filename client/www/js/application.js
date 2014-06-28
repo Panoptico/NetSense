@@ -11,8 +11,7 @@ NetSense.ApplicationAdapter = DS.RESTAdapter.extend({
 
 DS.RESTAdapter.reopen({
   namespace: 'api/v1',
-  host: 'http://NetSenseDev.azurewebsites.net'
-  // host: 'http://localhost:8080'  
+  host: window.__netsense_url
 });
 
 Ember.Inflector.inflector.uncountable('track');

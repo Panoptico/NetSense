@@ -3,7 +3,16 @@ var dbMethods = require('../../db/database_controllers.js');
 var tweetMethods = require('./tweet_controllers.js');
 var automationsRouter = require('../automations/automationsRouter.js');
 var processor = require('../processing_controllers.js');
-var _ = require('underscore');
+
+var contains = function (arr, target){
+  var result = false;
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i] === target) {
+      return true;
+    }
+  }
+  return false;
+};
 
 var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
@@ -12,25 +21,25 @@ var onTweet = function(tweet, trackName){
   // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
+  trackNames = trackNames.map(function(trackName) {return trackName.toLowerCase();});
 
-
-  if((_.contains(trackNames, 'NetSenseHR'))) {
+  if(contains(trackNames, 'netsensehr')) {
     automationsRouter.automate(tweet, trackNames);
   }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
       console.log('Error while saving tweet', analyzedTweet);
     }
-  })
+  });
 
   for(var i = 0; i < trackNames.length; i++){
     dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
       if(err) {
-        console.log('Error while saving tweet to track', trackNames[i])
+        console.log('Error while saving tweet to track', trackNames[i]);
       }
     });
   }
-}
+};
 
 
 // WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
@@ -39,7 +48,7 @@ var getTrackNames = function(tweet){
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
                         // returns array, or null, so ensure an array is found
-  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
+  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || [];
 
   // then join the array
   trackNames = trackNames.join('')
@@ -53,7 +62,7 @@ var getTrackNames = function(tweet){
   trackNames[0] = tweet.user.screen_name;
 
   return trackNames;
-}
+};
 
 
 var startStream = function(trackName, token, secret) {
@@ -80,7 +89,7 @@ module.exports = exports = {
       if(err) {
         console.log('error1 track already exists');
         return;
-      };
+      }
       // Stop stream
       twitterStream.stream.stop();
       // Restart stream with updated tracks
@@ -88,7 +97,7 @@ module.exports = exports = {
       // startStream(trackName, token, secret);
       // return true to indicate that stream did not previously exist
       return true;
-    })
+    });
   },
 
   sendRetweet: function(tweetId, token, tokenSecret) {
@@ -108,7 +117,7 @@ module.exports = exports = {
     });
   },
 
-  sendTweet: function(text, token, tokenSecret) {
+  sendTweet: function(text, tweetId, userName, token, tokenSecret) {
     var T = new Twit({
       consumer_key: process.env.TWITTER_CONSUMERKEY,
       consumer_secret: process.env.TWITTER_CONSUMERSECRET,
@@ -116,11 +125,19 @@ module.exports = exports = {
       access_token_secret: tokenSecret
     });
 
-    T.post('statuses/update', {status: text}, function(err, data, response) {
+    var params = {};
+    var status = text;
+    if (tweetId && userName) {
+      status = status + ' @' + userName;
+      params.in_reply_to_status_id = tweetId;
+    }
+    params.status = status;
+
+    T.post('statuses/update', params, function(err, data, response) {
       if (err) {
         console.log('error:', err);
       } else {
-        console.log("Tweeted!");
+        console.log("Tweeted!", data);
       }
     });
   }

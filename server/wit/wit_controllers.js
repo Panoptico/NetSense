@@ -14,9 +14,11 @@ module.exports = exports = {
 
     request.get(options, function(err, res, body){
       if(err) return console.error(err);
-      outcomes = ( JSON.parse(body) ).outcomes[0];
-      var intent = outcomes.intent;
-      next(outcomes);
+
+      //take the first outcome in the Wit response
+      outcome = ( JSON.parse(body) ).outcomes[0];
+      var intent = outcome.intent;
+      next(outcome);
     });
   }
-}
+};

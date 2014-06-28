@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
   <head>
+    <!-- Google Maps Settings -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
     <!-- Bootstrap Core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -8,7 +12,14 @@
     <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="./css/jquery-ui.css">
     <link rel="stylesheet" href="./css/styles.css"></link>
+
+    <!-- Configuration -->
+    <script type="text/javascript">
+      // window.__netsense_url = 'http://NetSenseDev.azurewebsites.net';
+      window.__netsense_url = 'http://localhost:8080';
+    </script>
   </head>
 
   <body>
@@ -88,18 +99,31 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
-      <p>Tweet Map</p>
+      <div id="google-map" {{action "renderMap" on="doubleClick"}}></div>
+
+      <!-- <p>Tweet Map</p> -->
       {{#each tweet in tweets}}
-        {{#if tweet.latitude}}
+        <!-- {{#if tweet.latitude}}
           <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
-        {{/if}}
+        {{/if}} -->
       {{/each}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <p>Sentiment Graph</p>
+      <div {{action "renderGraph" on="click"}}>Click on a datapoint to respond to the tweet</div>
+      <div id="scatterplot"></div>
+
+      <div id="input-box" title="Reply">
+        <form>
+          <fieldset>
+            <input type="text" name="reply" id="reply" class="text ui-widget-content ui-corner-all">
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- <p>Sentiment Graph</p> -->
       {{#each tweet in tweets}}
-        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
+        <!-- <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li> -->
       {{/each}}
     </script>
 
@@ -119,12 +143,14 @@
     </script>
 
     <script src="./js/lib/d3.min.js"></script>
+    <script src="./js/lib/d3.tip.v0.6.3.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/jquery-ui.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
     <script src="./js/lib/ember.min.js"></script>
-    <script src="./js/lib/ember-data.min.js"></script> 
-   <!-- <script src="./lib/ember/ember.js"></script>
-    <script src="./lib/ember-data/ember-data.js"></script> -->
+    <script src="./js/lib/ember-data.min.js"></script>
+    <script src="./js/lib/socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>
