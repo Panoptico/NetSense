@@ -21,6 +21,4 @@ module.exports = exports = {
       next(outcome);
     });
   }
-
-
-}
+};

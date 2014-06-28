@@ -30,16 +30,16 @@ var onTweet = function(tweet, trackName){
     if(err) {
       console.log('Error while saving tweet', analyzedTweet);
     }
-  })
+  });
 
   for(var i = 0; i < trackNames.length; i++){
     dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
       if(err) {
-        console.log('Error while saving tweet to track', trackNames[i])
+        console.log('Error while saving tweet to track', trackNames[i]);
       }
     });
   }
-}
+};
 
 
 // WARNING: DOES NOT DISTINGUISH TRACKS FROM HASHTAGS VS MENTIONS
@@ -48,7 +48,7 @@ var getTrackNames = function(tweet){
                         // match all hashtags and mentions 
                         // (nonword character + # or @ + some number of letters + nonword character)
                         // returns array, or null, so ensure an array is found
-  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || []
+  var trackNames = tweet.text.match(/\W([#@]\w+)/g) || [];
 
   // then join the array
   trackNames = trackNames.join('')
@@ -62,7 +62,7 @@ var getTrackNames = function(tweet){
   trackNames[0] = tweet.user.screen_name;
 
   return trackNames;
-}
+};
 
 
 var startStream = function(trackName, token, secret) {
@@ -89,7 +89,7 @@ module.exports = exports = {
       if(err) {
         console.log('error1 track already exists');
         return;
-      };
+      }
       // Stop stream
       twitterStream.stream.stop();
       // Restart stream with updated tracks
@@ -97,7 +97,7 @@ module.exports = exports = {
       // startStream(trackName, token, secret);
       // return true to indicate that stream did not previously exist
       return true;
-    })
+    });
   },
 
   sendRetweet: function(tweetId, token, tokenSecret) {
