@@ -18,7 +18,6 @@ var onTweet = function(tweet, trackName){
   var reformattedTweet = tweetMethods.processTweet(tweet);
   var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
 
-  // TODO: check case -- use all lowercase for tweet text & track names
   // Get all tracks from tweet
   var trackNames = getTrackNames(tweet);
   if(contains(trackNames, 'netsensehr')) {
