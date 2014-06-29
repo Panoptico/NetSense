@@ -2,6 +2,7 @@ var app = require('./server/app.js');
 var server = require('http').Server(app);
 var socketio = require('socket.io')(server);
 var socketMethods = require('./server/twitter/socket_controllers.js');
+var doorbell = require('./server/automations/ringDoorbell.js');
 
 var port = app.get('port');
 
@@ -14,4 +15,10 @@ socketio.on('connection', function(socket) {
   socket.on('track', function(data) {
     socketMethods.sendTrackStream(socket, data);
   });
+
+  socket.on('doorbell', function(data) {
+    socket.emit('welcomed', data);
+    doorbell.setSocket(socket);
+  });
 });
+

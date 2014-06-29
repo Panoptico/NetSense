@@ -26,14 +26,14 @@ var onTweet = function(tweet, trackName){
   }
   dbMethods.saveTweet(analyzedTweet, function(err, data){
     if(err) {
-      console.log('Error while saving tweet', analyzedTweet);
+      // console.error('Error while saving tweet', analyzedTweet);
     }
   });
 
   for(var i = 0; i < trackNames.length; i++){
     dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
       if(err) {
-        console.log('Error while saving tweet to track', trackNames[i]);
+        // console.error('Error while saving tweet to track', trackNames[i]);
       }
     });
   }
@@ -77,7 +77,7 @@ var startStream = function(trackName, token, secret) {
   console.log('Created stream instance:', trackName);
   
   twitterStream.stream.on('tweet', function (tweet) {
-    console.log('tweet found!');
+    // console.log('tweet found!');
     onTweet(tweet, trackName);
   });
 };
