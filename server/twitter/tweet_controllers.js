@@ -1,5 +1,5 @@
 var _ = require('underscore');
-// var sentiment = require('../sentiment/sentiment_controllers.js');
+var Twit = require('twit');
 
 module.exports = {
   processTweet: function(tweet) {
@@ -14,9 +14,6 @@ module.exports = {
 
     var mentionedIds = _.pluck(tweet.entities.user_mentions, 'id_str');
 
-    // // calculate sentiment score and save as a new property on the tweet schema
-    // var sentimentScore = sentiment.analyze(tweet.text).score;
-
     return {
       tweetId: tweet.id_str,
       createdAt: tweet.created_at,
@@ -29,8 +26,49 @@ module.exports = {
       longitude: longitude,
       retweetCount: tweet.retweet_count,
       inReplyToUserIdStr: tweet.in_reply_to_user_id_str,
-      mentionedIds: mentionedIds/*,
-      sentimentScore: sentimentScore*/
+      mentionedIds: mentionedIds
     };
+  }, 
+
+  sendRetweet: function(tweetId, token, tokenSecret) {
+    var T = new Twit({
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
+      access_token: token,
+      access_token_secret: tokenSecret
+    });
+
+    T.post('statuses/retweet/' + tweetId, {id: tweetId}, function(err, data, response) {
+      if (err) {
+        console.log('error:', err);
+      } else {
+        console.log('Retweeted!');
+      }
+    });
+  },
+
+  sendTweet: function(text, tweetId, userName, token, tokenSecret) {
+    var T = new Twit({
+      consumer_key: process.env.TWITTER_CONSUMERKEY,
+      consumer_secret: process.env.TWITTER_CONSUMERSECRET,
+      access_token: token,
+      access_token_secret: tokenSecret
+    });
+
+    var params = {};
+    var status = text;
+    if (tweetId && userName) {
+      status = '@' + userName + ' ' + status;
+      params.in_reply_to_status_id = tweetId;
+    }
+    params.status = status;
+
+    T.post('statuses/update', params, function(err, data, response) {
+      if (err) {
+        console.log('error:', err);
+      } else {
+        console.log("Tweeted!", data);
+      }
+    });
   }
 };
