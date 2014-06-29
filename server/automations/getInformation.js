@@ -5,7 +5,10 @@ var twitter = require('../twitter/tweet_controllers.js');
 var getInformation = function(tweet, nlp, trackName){
   console.log(nlp.entities.search_query[0].value)
   var query = nlp.entities.search_query[0].value.split(' ').join('+')
-  if(Math.random() < .75){
+  if(tweet.text.toLowerCase() === "what is the answer to life, the universe, and everything?" ||
+     tweet.text.toLowerCase() === "what is the meaning of life?"){
+    link = '42';
+  } else if(Math.random() < .75){
     // 75% chance: first link in google results
     var target = 'http://www.google.com/search?q=' + query;
     console.log('target:', target);
