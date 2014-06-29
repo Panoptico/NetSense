@@ -20,5 +20,8 @@ module.exports = {
       tweet.sentimentScore = sentiment.analyze(tweet.text).score;
       socket.emit('tweet', tweet);
     });
+  },
+  listenForDoorbell: function(socket, message) {
+    socket.emit('ding', {message: message});
   }
 };

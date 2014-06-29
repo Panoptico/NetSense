@@ -1,5 +1,5 @@
 var processor = require('../processing_controllers.js');
-var ringDoorbell = require('./ringDoorbell.js');
+var ringDoorbell = require('./ringDoorbell.js').ringDoorbell;
 var Wit = require('../wit/wit_controllers.js');
 var sendEmail = require('./sendEmail.js');
 var googleCalendar = require('../gCalendar/google_calendar_controllers');
@@ -12,6 +12,7 @@ exports.NLP = function(text, next){
 // Specific use case of NLP on a tweet object with automations router
 exports.automate = function(tweet, trackName){
   exports.NLP(tweet.text, function(nlp){
+    console.log(nlp.intent);
     route(tweet, nlp, trackName);
   });
 };
