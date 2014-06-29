@@ -12,7 +12,9 @@ exports.NLP = function(text, next){
 // Specific use case of NLP on a tweet object with automations router
 exports.automate = function(tweet, trackName){
   exports.NLP(tweet.text, function(nlp){
-    console.log(nlp.intent);
+    if (nlp && nlp.intent && nlp.intent !== 'donothing'){
+      console.log('automating': nlp.intent);      
+    }
     route(tweet, nlp, trackName);
   });
 };
