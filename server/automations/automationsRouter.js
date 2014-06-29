@@ -13,7 +13,7 @@ exports.NLP = function(text, next){
 exports.automate = function(tweet, trackName){
   exports.NLP(tweet.text, function(nlp){
     if (nlp && nlp.intent && nlp.intent !== 'donothing'){
-      console.log('automating': nlp.intent);      
+      console.log('automating: ', nlp.intent);      
     }
     route(tweet, nlp, trackName);
   });
