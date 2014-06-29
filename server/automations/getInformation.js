@@ -12,8 +12,7 @@ var getInformation = function(tweet, nlp, trackName){
     // 75% chance: first link in google results
     var target = 'http://www.google.com/search?q=' + query;
     console.log('target:', target);
-    var link = crawlForLink(target);
-    console.log('sliced!', link);
+    var link = crawlForLink(target, tweet);
   } else {
     // 25% chance: link to let me google that for you...
     var link = 'http://lmgtfy.com/?q=' + query;
@@ -23,7 +22,7 @@ var getInformation = function(tweet, nlp, trackName){
   twitter.sendTweet(link, tweet.id_str, tweet.user.screen_name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET)
 }
 
-var crawlForLink = function(target){
+var crawlForLink = function(target, tweet){
   request(target, function(err, response, body){
     if(err) console.error(err);
     if(response.statusCode === 200){
@@ -31,7 +30,7 @@ var crawlForLink = function(target){
       var link = $('.r > a')[0].attribs.href;
       console.log('unsliced link:', link)
       link = link.slice( link.indexOf('http'), link.indexOf('&sa=') );
-      return link;
+      twitter.sendTweet(link, tweet.id_str, tweet.user.screen_name, process.env.TWITTER_ACCESSTOKEN, process.env.TWITTER_ACCESSTOKENSECRET)
     }
     return target;
   });
