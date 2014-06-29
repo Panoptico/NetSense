@@ -33,8 +33,8 @@ var crawlForLink = function(target){
       link = link.slice( link.indexOf('http'), link.indexOf('&sa=') );
       return link;
     }
+    return target;
   });
-  return target;
 }
 
 module.exports = getInformation;
