@@ -1,0 +1,25 @@
+.bellbox {
+  width: 8em;
+  height:20em;
+  background: blue;
+  margin: 0 auto;
+  border-radius: 5px;
+}
+
+.container {
+
+}
+
+.doorbell {
+  border-radius: 10em;
+  width: 5em;
+  height: 5em;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 8em; 
+  right: 0;
+  bottom: 0; 
+  left: 1em; 
+  background: yellow;
+}
