@@ -21,4 +21,3 @@ socketio.on('connection', function(socket) {
     doorbell.setSocket(socket);
   });
 });
-

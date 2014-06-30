@@ -12,12 +12,11 @@
     <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="./css/jquery-ui.css">
-    <link rel="stylesheet" href="./css/styles.css"></link>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="./css/styles.css">
 
     <!-- Configuration -->
     <script type="text/javascript">
-      // window.__netsense_url = 'http://NetSense.azurewebsites.net';
       window.__netsense_url = 'http://NetSenseDev.azurewebsites.net';
       // window.__netsense_url = 'http://localhost:8080';
     </script>
@@ -102,6 +101,14 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
       <div id="google-map" {{action "renderMap" on="doubleClick"}}></div>
 
+      <div id="input-box" title="Reply">
+        <form>
+          <fieldset>
+            <input type="text" name="reply" id="reply" class="text ui-widget-content ui-corner-all">
+          </fieldset>
+        </form>
+      </div>
+
       <!-- <p>Tweet Map</p> -->
       {{#each tweet in tweets}}
         <!-- {{#if tweet.latitude}}
@@ -111,8 +118,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <div {{action "renderGraph" on="click"}}>Click on a datapoint to respond to the tweet</div>
-      <div id="scatterplot"></div>
+      <div id="scatterplot" {{action "renderGraph" on="doubleClick"}}></div>
 
       <div id="input-box" title="Reply">
         <form>
@@ -146,7 +152,7 @@
     <script src="./js/lib/d3.min.js"></script>
     <script src="./js/lib/d3.tip.v0.6.3.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
-    <script src="./js/lib/jquery-ui.js"></script>
+    <script src="./js/lib/jquery-ui.min.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
     <script src="./js/lib/ember.min.js"></script>
     <script src="./js/lib/ember-data.min.js"></script>
