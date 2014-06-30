@@ -8,13 +8,13 @@ $(function(){
   };
   var audio = document.getElementsByTagName("audio")[0];
 
-  var ringDoorbell = function() {
+  window.ringDoorbell = function() {
     audio.play();
     glow();
   };
 
   var socket = io.connect(window.__netsense_url);
       socket.emit('doorbell', {message: 'listening for the doorbell'});
-  socket.on('ding', function(data) {console.log('ding!!!'); glow();});
+  socket.on('ding', function(data) {console.log('ding!!!'); ringDoorbell();});
 });
 
