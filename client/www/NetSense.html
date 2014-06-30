@@ -13,7 +13,7 @@
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="./css/styles.css"></link>
+    <link rel="stylesheet" href="./css/styles.css">
 
     <!-- Configuration -->
     <script type="text/javascript">
@@ -118,8 +118,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <div {{action "renderGraph" on="click"}}>Click on a datapoint to respond to the tweet</div>
-      <div id="scatterplot"></div>
+      <div id="scatterplot" {{action "renderGraph" on="doubleClick"}}></div>
 
       <div id="input-box" title="Reply">
         <form>

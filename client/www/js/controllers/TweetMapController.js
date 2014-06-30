@@ -1,10 +1,85 @@
 NetSense.TweetMapController = Ember.ObjectController.extend({
   renderMap: function() {
+    // sets custom overlay for google map
+    var customStyle = [
+      {
+        featureType: "landscape",
+        stylers: [
+          {saturation: -100},
+          {lightness: 65},
+          {visibility: "on"}
+        ]
+      },
+      {
+        featureType: "poi",
+        stylers: [
+          {saturation: -100},
+          {lightness: 51},
+          {visibility: "simplified"}
+        ]
+      },
+      {
+        featureType: "road.highway",
+        stylers: [
+          {saturation: -100},
+          {visibility: "simplified"}
+        ]
+      },
+      {
+        featureType: "road.arterial",
+        stylers: [
+          {saturation: -100},
+          {lightness: 30},
+          {visibility: "on"}
+        ]
+      },
+      {
+        featureType: "road.local",
+        stylers: [
+          {saturation: -100},
+          {lightness: 40},
+          {visibility: "on"}
+        ]
+      },
+      {
+        featureType: "transit",
+        stylers: [
+          {saturation: -100},
+          {visibility: "simplified"}
+        ]
+      },
+      {
+        featureType: "administrative.province",
+        stylers: [
+          {visibility: "off"}
+        ]
+      },
+      {
+        featureType: "water",
+        elementType: "labels",
+        stylers: [
+          {visibility: "on"},
+          {lightness: -25},
+          {saturation: -100}
+        ]
+      },
+      {
+        featureType: "water",
+        elementType: "geometry",
+        stylers: [
+          {hue: "#ffff00"},
+          {lightness: -25},
+          {saturation: -97}
+        ]
+      }
+    ];
+
     // creates map
     var map = new google.maps.Map(document.getElementById("google-map"), {
       center: new google.maps.LatLng(37.7749300, -122.4194200),
       zoom: 2,
-      mapTypeId: google.maps.MapTypeId.TERRAIN
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      styles: customStyle
     });
 
     // creates socket connection
