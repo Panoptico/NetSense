@@ -115,4 +115,4 @@ var initStreams = function() {
 };
 
 var twitterStream = {};
-initStreams();
+// initStreams();

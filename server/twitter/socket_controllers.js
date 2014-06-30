@@ -21,6 +21,7 @@ module.exports = {
       socket.emit('tweet', tweet);
     });
   },
+  
   listenForDoorbell: function(socket, message) {
     socket.emit('ding', {message: message});
   }

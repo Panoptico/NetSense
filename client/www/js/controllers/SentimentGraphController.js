@@ -13,8 +13,8 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             type: 'POST',
             data: JSON.stringify({
               text: $('#reply').val(),
-              tweetId: __netsense_currentTweetId,
-              userName: __netsense_currentUserName
+              tweetId: window.__netsense_currentTweetId,
+              userName: window.__netsense_currentUserName
             }),
             contentType: 'application/json',
             success: function (data) {
@@ -98,8 +98,8 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         sentimentScore: -3
       },
       {
-        tweetId: '482561715041603585',
-        user: {name: 'fitrawulandari1'},
+        tweetId: '483682759651905536',
+        user: {name: 'footballwheel'},
         text: 'hi',
         createdAt: 3,
         sentimentScore: 0
@@ -174,7 +174,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         .on('click', function(tweet) {
           window.__netsense_currentTweetId = tweet.tweetId;
           window.__netsense_currentUserName = tweet.user.name;
-          $("#input-box").dialog( "open" );
+          $("#input-box").dialog("open");
         });
   }
 });
