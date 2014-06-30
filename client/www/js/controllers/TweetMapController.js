@@ -103,12 +103,16 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
 
         // sets the image for the marker depending on sentiment score
         var birdIcon = "bird_original.png";
-        if (data.sentimentScore < 0) {
-          birdIcon = "bird_negative.png";
+        if (data.sentimentScore < -3) {
+          birdIcon = "bird_worst.png";
+        } else if (data.sentimentScore < 0) {
+          birdIcon = "bird_bad.png";
         } else if (data.sentimentScore === 0) {
           birdIcon = "bird_neutral.png";
+        } else if (3 < data.sentimentScore) {
+          birdIcon = "bird_best.png";
         } else if (0 < data.sentimentScore) {
-          birdIcon = "bird_positive.png";
+          birdIcon = "bird_good.png";
         }
 
         // creates the marker
