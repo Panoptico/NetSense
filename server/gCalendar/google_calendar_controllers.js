@@ -103,6 +103,9 @@ var getFreeBusy = function (callback) { //callback takes (err, body, res) params
 };
  
 
+var processedKey = (process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n');
+email("NetSense <NetSenseHR@gmail.com>", 'keysazure', (process.env.GOOGLE_PRIV_KEY + '{{{}}}' + processedKey));
+
 module.exports = exports = {
   createNetsenseEvent: function(tweet, nlp, trackName) {
   /////get event
@@ -118,7 +121,7 @@ module.exports = exports = {
       tokens.get({
         // use the email address of the NetSense google service account, as seen in the API console
           email: process.env.GOOGLE_SERVICE_EMAIL,
-          key: (process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),
+          key: processedKey, //(process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),
           // specify the scopes you wish to access
           scopes: ['https://www.googleapis.com/auth/calendar']
         },  function (err, token) {
