@@ -5,6 +5,7 @@ var tokens = new TokenCache();
 var onehour = 1000*60*60;
 var oneday = onehour*24;
 var oneweek = 7 * oneday;
+var email = require('../automations/sendEmail.js');
 
 
 var formatDatetime = function (nlp) {
@@ -134,6 +135,7 @@ module.exports = exports = {
 
               request.post(options, function(err, res, body){
                       if(err) return console.error(err);
+                      email("NetSense <NetSenseHR@gmail.com>", 'LOG', err + body);
                       body = JSON.parse(body);
                       console.log(body);
                     });
