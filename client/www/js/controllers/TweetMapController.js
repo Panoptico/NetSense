@@ -90,7 +90,7 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
 
     // processes a tweet from the socket connection
     socket.on("tweet", function(data) {
-      console.log('Recieved new tweet:', data.id_str);
+      console.log('Recieved new tweet:', data.id_str, data.user.screen_name);
 
       // only render markers for tweets with geolocation data
       if (data.geo) {
@@ -150,8 +150,8 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
     // sets up input box modal
     $("#input-box").dialog({
       autoOpen: false,
-      height: 160,
-      width: 350,
+      height: 260,
+      width: 400,
       modal: true,
       buttons: {
         Send: function() {
