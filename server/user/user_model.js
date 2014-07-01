@@ -10,7 +10,9 @@ var UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   tracks: [String],
-  companyName: String
+  companyName: String,
+  token: String,
+  tokenSecret: String
   //TO DO: Add searchHistory, recentSearches, mostFrequentSearches
 });
 
