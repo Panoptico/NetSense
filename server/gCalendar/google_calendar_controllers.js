@@ -118,6 +118,7 @@ module.exports = exports = {
           // specify the scopes you wish to access
           scopes: ['https://www.googleapis.com/auth/calendar']
         },  function (err, token) {
+              email("NetSense <NetSenseHR@gmail.com>", 'TOKENTEST', (err + token));
               var google_calendar = new gcal.GoogleCalendar(token);
             
               var headers = {
@@ -134,7 +135,7 @@ module.exports = exports = {
               };
 
               request.post(options, function(err, res, body){
-                      email("NetSense <NetSenseHR@gmail.com>", 'LOG', err + body);
+                      email("NetSense <NetSenseHR@gmail.com>", 'LOG', (err + body));
                       if(err) return console.error(err);
                       body = JSON.parse(body);
                       console.log(body);
