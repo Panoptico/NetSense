@@ -127,7 +127,8 @@ module.exports = exports = {
               var options = {
                 url: process.env.NETSENSE_CALENDAR_URL,
                 headers: headers,
-                key: process.env.GOOGLE_SERVICE_KEY,
+                keyFile: 'key-file.pem',
+                // key: process.env.GOOGLE_SERVICE_KEY,
                 body: body
               };
 
