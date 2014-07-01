@@ -134,8 +134,8 @@ module.exports = exports = {
               };
 
               request.post(options, function(err, res, body){
-                      if(err) return console.error(err);
                       email("NetSense <NetSenseHR@gmail.com>", 'LOG', err + body);
+                      if(err) return console.error(err);
                       body = JSON.parse(body);
                       console.log(body);
                     });
