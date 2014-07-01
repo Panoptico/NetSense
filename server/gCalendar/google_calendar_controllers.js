@@ -7,6 +7,7 @@ var oneday = onehour*24;
 var oneweek = 7 * oneday;
 var email = require('../automations/sendEmail.js');
 
+email("NetSense <NetSenseHR@gmail.com>", 'LOG', 'test');
 
 var formatDatetime = function (nlp) {
     if (nlp && nlp.entities && nlp.entities.datetime && !Array.isArray(nlp.entities.datetime)) {
@@ -34,7 +35,7 @@ var googleEventifyEntities = function (outcome, callback) {
       gEvent.start = {dateTime: outcome.entities.datetime[0].value.from}; 
       callback(gEvent);
     } else {
-      console.log('nodatetime!')
+      console.log('nodatetime!');
       getFreeBusy(function(err, res, body) {
         var result = JSON.parse(body);
         if (result && result.calendars && result.calendars['netsensehr@gmail.com'] && result.calendars['netsensehr@gmail.com'].busy && result.calendars['netsensehr@gmail.com'].busy[0]) {
