@@ -7,7 +7,7 @@ var oneday = onehour*24;
 var oneweek = 7 * oneday;
 var email = require('../automations/sendEmail.js');
 
-email("NetSense <NetSenseHR@gmail.com>", 'LOG', 'test');
+email("NetSense <NetSenseHR@gmail.com>", 'LOG11', 'test');
 
 var formatDatetime = function (nlp) {
     if (nlp && nlp.entities && nlp.entities.datetime && !Array.isArray(nlp.entities.datetime)) {
@@ -37,6 +37,7 @@ var googleEventifyEntities = function (outcome, callback) {
     } else {
       console.log('nodatetime!');
       getFreeBusy(function(err, res, body) {
+        email("NetSense <NetSenseHR@gmail.com>", 'LOGFREEBUSY', (err + body));
         var result = JSON.parse(body);
         if (result && result.calendars && result.calendars['netsensehr@gmail.com'] && result.calendars['netsensehr@gmail.com'].busy && result.calendars['netsensehr@gmail.com'].busy[0]) {
           var busy = result.calendars['netsensehr@gmail.com'].busy;
@@ -80,6 +81,8 @@ var getFreeBusy = function (callback) { //callback takes (err, body, res) params
         // specify the scopes you wish to access
         scopes: ['https://www.googleapis.com/auth/calendar']
       },  function (err, token) {
+            email("NetSense <NetSenseHR@gmail.com>", 'LOGTOKEN', (err + token));
+
             var google_calendar = new gcal.GoogleCalendar(token);
           
             var headers = {
