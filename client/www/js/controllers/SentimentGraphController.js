@@ -3,8 +3,8 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
     // sets up input box modal
     $("#input-box").dialog({
       autoOpen: false,
-      height: 160,
-      width: 350,
+      height: 260,
+      width: 400,
       modal: true,
       buttons: {
         Send: function() {
