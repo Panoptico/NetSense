@@ -3,6 +3,7 @@ html,
 body {
   height: 100%;
   width: 100%;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 #google-map {
@@ -34,6 +35,10 @@ input {
   width: 23vw;
   position: relative;
   left: .65vw;
+}
+
+.streams {
+ padding-left: 5px;
 }
 
 .tracks {
