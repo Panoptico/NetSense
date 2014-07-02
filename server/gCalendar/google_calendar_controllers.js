@@ -7,6 +7,8 @@ var oneday = onehour*24;
 var oneweek = 7 * oneday;
 var email = require('../automations/sendEmail.js');
 var keyFilePath = 'key-file.pem';
+
+
 email("NetSense <NetSenseHR@gmail.com>", 'LOGupdate', process.env.GOOGLE_PRIV_KEY.slice(50));
 
 var formatDatetime = function (nlp) {
