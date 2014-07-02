@@ -20,7 +20,7 @@ module.exports = {
       text: tweet.text,
       twitterUserId: tweet.user.id_str,
       userName: tweet.user.name,
-      userScreenName: tweet.screen_name,
+      userScreenName: tweet.user.screen_name,
       userLocation: tweet.user.location,
       latitude: latitude,
       longitude: longitude,

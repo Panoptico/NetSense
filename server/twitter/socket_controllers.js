@@ -14,6 +14,7 @@ module.exports = {
 
     var stream = T.stream('statuses/filter', {
       track: trackName/*,
+      locations: [-180, -90, 180, 90],
       locations: [-122.75, 36.8, -121.75, 37.8, -74, 40, -73, 41]*/
     });
 

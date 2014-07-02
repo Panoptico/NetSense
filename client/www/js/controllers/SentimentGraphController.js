@@ -1,6 +1,6 @@
 NetSense.SentimentGraphController = Ember.ObjectController.extend({
   renderGraph: function() {
-    // sets up input box modal
+/*    // sets up input box modal
     $("#input-box").dialog({
       autoOpen: false,
       height: 260,
@@ -33,11 +33,75 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       close: function() {
         $('#reply').val("");
       }
+    });*/
+
+    var trackName = this.get('model').id;
+    console.log('sending ajax request for track name', trackName);
+
+    // gets data using an ajax call, gives server a track name by the body and expects an array of tweets
+    $.ajax({
+      url: window.__netsense_url + '/api/v1/ajax/gettweets?trackName=' + trackName,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function (data) {
+        data = data.tweets;
+        console.log('Got back an array of tweets from ajax request', data);
+
+        // sets the color by sentiment score
+        data.forEach(function(d) {
+          if (d.sentimentScore < 0) {
+            d.color = 'red';
+          } else if (d.sentimentScore === 0) {
+            d.color = 'blue';
+          } else if (0 < d.sentimentScore) {
+            d.color = 'green';
+          }
+        });
+
+        // calculates the domains
+        x.domain(data.map(function(d) { return d.createdAt; }));
+        // y.domain([0, d3.max(data, function(d) { return d.sentimentScore; })]);
+        // x.domain(d3.extent(data, function(d) { return d.createdAt; }));
+        y.domain(d3.extent(data, function(d) { return d.sentimentScore; })).nice();
+
+        // draws the tooltips
+        var tooltip = d3.tip()
+            .attr('class', 'd3-tooltip')
+            .offset([-10, 0])
+            .html(function(d) {
+              return "<strong>" + d.userName + "</strong>" +
+                     "<div>" + d.text + "</div>" +
+                     "<br><i>Sentiment Score:</i> <span style='color:" + d.color + "'>" + d.sentimentScore + "</span>";
+            });
+
+        svg.call(tooltip);
+
+        // draw the data points
+        svg.selectAll(".dot")
+            .data(data)
+          .enter().append("circle")
+            .attr("class", "dot")
+            .attr("r", 5)
+            .attr("cx", function(d) { return x(d.createdAt); })
+            .attr("cy", function(d) { return y(d.sentimentScore); })
+            .style("fill", function(d) { return d.color; })
+            .on('mouseover', tooltip.show)
+            .on('mouseout', tooltip.hide);
+            /*.on('click', function(tweet) {
+              window.__netsense_currentTweetId = tweet.tweetId;
+              window.__netsense_currentUserName = tweet.user.name;
+              $("#input-box").dialog("open");
+            });*/
+      },
+      error: function (data) {
+        console.error('Failed to get back an array of tweets from ajax request:', data);
+      }
     });
 
+    // sentiment graph
     // sets dimensions
     var margin = {
-      top: 30,
+      top: 50,
       right: 30,
       bottom: 30,
       left: 50
@@ -45,30 +109,31 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
     var width = 900 - margin.left - margin.right;
     var height = 550 - margin.top - margin.bottom;
 
+    // time format: Wed Jul 02 16:46:58 +0000 2014
+    // TODO: need to make a date variable and specify format here
+    var parseDate = d3.time.format("%d-%b-%y").parse;
+
     // sets axis scale
-    var x = d3.scale.linear()
+    var x = d3.time.scale()
         .range([0, width]);
 
     var y = d3.scale.linear()
         .range([height, 0]);
 
-    // sets axis
+    // sets axis units
     var xAxis = d3.svg.axis()
         .scale(x)
-        .orient("bottom");
+        .orient("top");
 
     var yAxis = d3.svg.axis()
         .scale(y)
         .orient("left");
 
-    var tooltip = d3.tip()
-        .attr('class', 'd3-tooltip')
-        .offset([-10, 0])
-        .html(function(d) {
-          return "<strong>" + d.user.name + "</strong>" +
-                 "<div>" + d.text + "</div>" +
-                 "<br><i>Sentiment Score:</i> <span style='color:" + d.color + "'>" + d.sentimentScore + "</span>";
-        });
+    var line = d3.svg.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y(d.close); });
+
+    //STOPPED HERE
 
     // creates svg element
     var svg = d3.select("#scatterplot").append("svg")
@@ -77,74 +142,15 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    svg.call(tooltip);
-
-    // var data = this.get('model').get('tweets');
-
-    // sets dummy data
-    var data = [
-      {
-        tweetId: '1',
-        user: {name: 'jake'},
-        text: 'hello',
-        createdAt: 1,
-        sentimentScore: 3
-      },
-      {
-        tweetId: '2',
-        user: {name: 'hoover'},
-        text: 'yo',
-        createdAt: 2,
-        sentimentScore: -3
-      },
-      {
-        tweetId: '483682759651905536',
-        user: {name: 'footballwheel'},
-        text: 'hi',
-        createdAt: 3,
-        sentimentScore: 0
-      },
-      {
-        tweetId: '4',
-        user: {name: 'erin'},
-        text: 'hello world!',
-        createdAt: 4,
-        sentimentScore: 1
-      },
-      {
-        tweetId: '5',
-        user: {name: 'kris'},
-        text: 'doh',
-        createdAt: 5,
-        sentimentScore: -1
-      }
-    ];
-    console.log(data);
-
-    // sets the color by sentiment score
-    data.forEach(function(d) {
-      if (d.sentimentScore < 0) {
-        d.color = 'red';
-      } else if (d.sentimentScore === 0) {
-        d.color = 'blue';
-      } else if (0 < d.sentimentScore) {
-        d.color = 'green';
-      }
-    });
-
-    // calculates the domains
-    x.domain(d3.extent(data, function(d) { return d.createdAt; })).nice();
-    y.domain(d3.extent(data, function(d) { return d.sentimentScore; })).nice();
-
     // draw the x axis
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height/2 + ")")
+        .attr("transform", "translate(0,0)")
         .call(xAxis)
       .append("text")
         .attr("class", "label")
         .attr("x", width)
-        .attr("y", -6)
+        .attr("y", -30)
         .style("text-anchor", "end")
         .text("Time");
 
@@ -155,26 +161,56 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       .append("text")
         .attr("class", "label")
         .attr("transform", "rotate(-90)")
-        .attr("y", 6)
+        .attr("x", -height+70)
+        .attr("y", -40)
         .attr("dy", ".71em")
         .style("text-anchor", "end")
         .text("Sentiment Score")
-
-    // draw the data points
-    svg.selectAll(".dot")
-        .data(data)
-      .enter().append("circle")
-        .attr("class", "dot")
-        .attr("r", 3.5)
-        .attr("cx", function(d) { return x(d.createdAt); })
-        .attr("cy", function(d) { return y(d.sentimentScore); })
-        .style("fill", function(d) { return d.color; })
-        .on('mouseover', tooltip.show)
-        .on('mouseout', tooltip.hide)
-        .on('click', function(tweet) {
-          window.__netsense_currentTweetId = tweet.tweetId;
-          window.__netsense_currentUserName = tweet.user.name;
-          $("#input-box").dialog("open");
-        });
   }
 });
+
+
+
+
+
+
+
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data.tsv", function(error, data) {
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+    d.close = +d.close;
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain(d3.extent(data, function(d) { return d.close; }));
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Price ($)");
+
+  svg.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line);
+});
+
+
+

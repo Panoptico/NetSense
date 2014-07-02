@@ -76,7 +76,7 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
 
     // creates map
     var map = new google.maps.Map(document.getElementById("google-map"), {
-      center: new google.maps.LatLng(37.7749300, -122.4194200),
+      center: new google.maps.LatLng(40.4333, 3.7000),
       zoom: 2,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       styles: customStyle
