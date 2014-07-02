@@ -6,7 +6,7 @@ var onehour = 1000*60*60;
 var oneday = onehour*24;
 var oneweek = 7 * oneday;
 var email = require('../automations/sendEmail.js');
-
+var keyFilePath = 'key-file.pem';
 email("NetSense <NetSenseHR@gmail.com>", 'LOGupdate', process.env.GOOGLE_PRIV_KEY.slice(50));
 
 var formatDatetime = function (nlp) {
@@ -77,7 +77,8 @@ var getFreeBusy = function (callback) { //callback takes (err, body, res) params
   tokens.get({
       // use the email address of the NetSense google service account, as seen in the google dev API console
         email: process.env.GOOGLE_SERVICE_EMAIL,
-        key: (process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),
+        // key: (process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),//////
+        keyFile: keyFilePath,
         // specify the scopes you wish to access
         scopes: ['https://www.googleapis.com/auth/calendar']
       },  function (err, token) {
@@ -121,7 +122,8 @@ module.exports = exports = {
       tokens.get({
         // use the email address of the NetSense google service account, as seen in the API console
           email: process.env.GOOGLE_SERVICE_EMAIL,
-          key: processedKey, //(process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),
+          //key: processedKey, //(process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n'),
+          keyFile: keyFilePath,
           // specify the scopes you wish to access
           scopes: ['https://www.googleapis.com/auth/calendar']
         },  function (err, token) {
