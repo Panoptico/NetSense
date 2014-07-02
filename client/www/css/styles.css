@@ -141,6 +141,7 @@ div .private  :hover {
   width: 100%;
   height: 100%;
   font: 12px sans-serif;
+  background-color: white;
 }
 
 .axis path,
@@ -157,7 +158,7 @@ div .private  :hover {
 .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 3px;
+  stroke-width: 2px;
 }
 
 .d3-tooltip {
