@@ -22,7 +22,15 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
           // }
 
           var dateObj = new Date(data[j].createdAt);
-          averagedData[j].byHour = '' + dateObj.getHours() + ':' + (dateObj.getMinutes() - (dateObj.getMinutes() % timeInterval));
+          var dateOfMonth = '' + dateObj.getDate();
+          if (Number(dateOfMonth) < 10) {
+            dateOfMonth = '0' + dateOfMonth;
+          }
+          var monthOfYear = '' + (dateObj.getMonth()+1);
+          if (Number(monthOfYear) < 10) {
+            monthOfYear = '0' + monthOfYear;
+          }
+          averagedData[j].byHour = '' + monthOfYear + '/' + dateOfMonth + ' ' + dateObj.getHours() + ':' + (dateObj.getMinutes() - (dateObj.getMinutes() % timeInterval));
         }
 
         // squashes all the sentiment scores together (averaging) by the byHour value
@@ -63,7 +71,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         var height = 550 - margin.top - margin.bottom;
 
         // sets the expected time formatting in the to be graphed data
-        var parseDate = d3.time.format("%H:%M").parse;
+        var parseDate = d3.time.format("%m/%d %H:%M").parse;
 
         // sets axis scale
         var x = d3.time.scale()
@@ -113,7 +121,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .call(xAxis)
           .append("text")
             .attr("class", "label")
-            .attr("x", width)
+            .attr("x", width-5)
             .attr("y", -30)
             .style("text-anchor", "end")
             .text("Time");
@@ -125,7 +133,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
           .append("text")
             .attr("class", "label")
             .attr("transform", "rotate(-90)")
-            .attr("x", -height+70)
+            .attr("x", -height+100)
             .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
