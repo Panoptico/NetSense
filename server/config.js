@@ -22,6 +22,7 @@ module.exports = function(app, express, routers, passport) {
   app.use('/api/v1/user', routers.userRouter);
   app.use('/api/v1/track', routers.trackRouter);
   app.use('/api/v1/tweet', routers.tweetRouter);
+  app.use('/api/v1/ajax', routers.ajaxRouter);
   app.use(middle.logError);
   app.use(middle.handleError);
 };

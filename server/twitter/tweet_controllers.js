@@ -20,13 +20,14 @@ module.exports = {
       text: tweet.text,
       twitterUserId: tweet.user.id_str,
       userName: tweet.user.name,
-      userScreenName: tweet.screen_name,
+      userScreenName: tweet.user.screen_name,
       userLocation: tweet.user.location,
       latitude: latitude,
       longitude: longitude,
       retweetCount: tweet.retweet_count,
       inReplyToUserIdStr: tweet.in_reply_to_user_id_str,
-      mentionedIds: mentionedIds
+      mentionedIds: mentionedIds,
+      sentimentScore: tweet.sentimentScore
     };
   }, 
 

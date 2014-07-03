@@ -15,27 +15,30 @@ var contains = function (arr, target){
 };
 
 var onTweet = function(tweet, trackName){
-  var reformattedTweet = tweetMethods.processTweet(tweet);
-  var analyzedTweet = processor.sentimentAnalysis(reformattedTweet);
+  var analyzedTweet = processor.sentimentAnalysis(tweet);
 
-  // Get all tracks from tweet
-  var trackNames = getTrackNames(tweet);
-  if(contains(trackNames, 'netsensehr')) {
-    console.log('automated');
-    automationsRouter.automate(tweet, trackNames);
-  }
-  dbMethods.saveTweet(analyzedTweet, function(err, data){
-    if(err) {
-      // console.error('Error while saving tweet', analyzedTweet);
+  if (analyzedTweet.sentimentScore !== 0) {
+    analyzedTweet = tweetMethods.processTweet(analyzedTweet);
+
+    // Get all tracks from tweet
+    var trackNames = getTrackNames(tweet);
+    if(contains(trackNames, 'netsensehr')) {
+      console.log('automated');
+      automationsRouter.automate(tweet, trackNames);
     }
-  });
-
-  for(var i = 0; i < trackNames.length; i++){
-    dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
+    dbMethods.saveTweet(analyzedTweet, function(err, data){
       if(err) {
-        // console.error('Error while saving tweet to track', trackNames[i]);
+        // console.error('Error while saving tweet', analyzedTweet);
       }
     });
+
+    for(var i = 0; i < trackNames.length; i++){
+      dbMethods.addTweetToTrack(trackNames[i], tweet.id_str, function(err, data){
+        if(err) {
+          // console.error('Error while saving tweet to track', trackNames[i]);
+        }
+      });
+    }
   }
 };
 
