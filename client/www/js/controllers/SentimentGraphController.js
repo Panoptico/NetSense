@@ -91,7 +91,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .orient("left");
 
         var line = d3.svg.line()
-            .interpolate('bundle')
+            .interpolate('basis')
             .x(function(d) { return x(d.date); })
             .y(function(d) { return y(d.score); });
 
@@ -133,7 +133,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
           .append("text")
             .attr("class", "label")
             .attr("transform", "rotate(-90)")
-            .attr("x", -height+100)
+            .attr("x", -height+130)
             .attr("y", -40)
             .attr("dy", ".71em")
             .style("text-anchor", "end")
@@ -156,6 +156,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
 
         svg.append("text")
             .datum(lastPoint)
+            .attr("class", "label")
             .attr("transform", function(d) { return "translate(" + x(d.date) + "," + y(d.baseline) + ")"; })
             .attr("x", 3)
             .attr("dy", ".35em")
@@ -163,6 +164,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
 
         svg.append("text")
             .datum(lastPoint)
+            .attr("class", "label")
             .attr("transform", function(d) { return "translate(" + x(d.date) + "," + y(d.score) + ")"; })
             .attr("x", 3)
             .attr("dy", ".35em")
