@@ -109,30 +109,18 @@
           </fieldset>
         </form>
       </div>
-
-      <!-- <p>Tweet Map</p> -->
-      {{#each tweet in tweets}}
-        <!-- {{#if tweet.latitude}}
-          <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
-        {{/if}} -->
-      {{/each}}
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
       <div id="scatterplot" {{action "renderGraph" on="doubleClick"}}></div>
 
-      <div id="input-box" title="Reply">
+      <!-- <div id="input-box" title="Reply">
         <form>
           <fieldset>
             <textarea id="reply" class="text ui-widget-content ui-corner-all" rows="6" cols="45"></textarea>
           </fieldset>
         </form>
-      </div>
-
-      <!-- <p>Sentiment Graph</p> -->
-      {{#each tweet in tweets}}
-        <!-- <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li> -->
-      {{/each}}
+      </div> -->
     </script>
 
     <!--  Settings Template -->

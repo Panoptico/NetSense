@@ -47,6 +47,21 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         data = data.tweets;
         console.log('Got back an array of tweets from ajax request', data);
 
+        // filters out tweets with a sentiment score of 0;
+        var filteredData = [];
+        for (var i = 0; i < data.length; i++) {
+          if (data[i].sentimentScore !== 0) {
+            filteredData.push(data[i]);
+          }
+        }
+
+        // averages out the sentiment score with it's neighbors
+        var averagedData = filteredData.slice();
+        for (var j = 2; j < filteredData.length-2; j++) {
+          averagedData[j].sentimentScore = (filteredData[j-2].sentimentScore + filteredData[j-1].sentimentScore + filteredData[j].sentimentScore + filteredData[j+1].sentimentScore + filteredData[j+2].sentimentScore) / 5;
+        }
+        data = averagedData;
+
         // sentiment graph
         // sets dimensions
         var margin = {
@@ -104,7 +119,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         data.forEach(function(d) {
           // sets the date
           var dateObj = new Date(d.createdAt);
-          var byDate = '' + dateObj.getMonth()+1 + '-' + dateObj.getDate();
+          // var byDate = '' + dateObj.getMonth()+1 + '-' + dateObj.getDate();
           var byHour = '' + dateObj.getHours() + ':' + dateObj.getMinutes();
           d.date = parseDate(byHour);
 
