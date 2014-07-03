@@ -44,37 +44,59 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       type: 'GET',
       contentType: 'application/json',
       success: function (data) {
-        data = data.tweets;
         console.log('Got back an array of tweets from ajax request', data);
+        data = data.tweets;
 
-        // filters out tweets with a sentiment score of 0;
-        var filteredData = [];
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].sentimentScore !== 0) {
-            filteredData.push(data[i]);
+        // averages out the sentiment score with it's neighbors
+        var timeInterval = 5;
+        var averagedData = data.slice();
+
+        for (var j = 0; j < data.length; j++) {
+          if (j !== 0 && j !== 1 && j !== data.length-2 && j !== data.length-1) {
+            averagedData[j].sentimentScore = (data[j-2].sentimentScore + data[j-1].sentimentScore + data[j].sentimentScore + data[j+1].sentimentScore + data[j+2].sentimentScore) / 5;
+          }
+
+          var dateObj = new Date(data[j].createdAt);
+          averagedData[j].byHour = '' + dateObj.getHours() + ':' + (dateObj.getMinutes() - (dateObj.getMinutes() % timeInterval));
+        }
+
+        // squashes all the sentiment scores together (averaging) by the byHour value
+        var squashedData = [];
+        var sameDate = {
+          time: averagedData[0].byHour,
+          score: [averagedData[0].sentimentScore]
+        };
+
+        for (var k = 1; k < averagedData.length; k++) {
+          if (averagedData[k].byHour === averagedData[k-1].byHour) {
+            sameDate.score.push(averagedData[k].sentimentScore);
+          } else {
+            squashedData.push(sameDate);
+            sameDate = {
+              time: averagedData[k].byHour,
+              score: [averagedData[k].sentimentScore]
+            };
           }
         }
 
-        // averages out the sentiment score with it's neighbors
-        var averagedData = filteredData.slice();
-        for (var j = 2; j < filteredData.length-2; j++) {
-          averagedData[j].sentimentScore = (filteredData[j-2].sentimentScore + filteredData[j-1].sentimentScore + filteredData[j].sentimentScore + filteredData[j+1].sentimentScore + filteredData[j+2].sentimentScore) / 5;
+        for (var l = 0; l < squashedData.length; l++) {
+          var total = 0;
+          for (var m = 0; m < squashedData[l].score.length; m++) {
+            total += squashedData[l].score[m];
+          }
+          squashedData[l].score = total/(m+1);
         }
-        data = averagedData;
+
+        data = squashedData;
+        console.log('Data to be graphed', data);
 
         // sentiment graph
         // sets dimensions
-        var margin = {
-          top: 50,
-          right: 30,
-          bottom: 30,
-          left: 50
-        };
+        var margin = {top: 50, right: 30, bottom: 30, left: 50};
         var width = 900 - margin.left - margin.right;
         var height = 550 - margin.top - margin.bottom;
 
-        // time format: Wed Jul 02 16:46:58 +0000 2014
-        // TODO: need to make a date variable and specify format here
+        // sets the expected time formatting in the to be graphed data
         var parseDate = d3.time.format("%H:%M").parse;
 
         // sets axis scale
@@ -95,7 +117,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
 
         var line = d3.svg.line()
             .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.sentimentScore); });
+            .y(function(d) { return y(d.score); });
 
         // creates svg element
         var svg = d3.select("#scatterplot").append("svg")
@@ -118,23 +140,11 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
 
         data.forEach(function(d) {
           // sets the date
-          var dateObj = new Date(d.createdAt);
-          // var byDate = '' + dateObj.getMonth()+1 + '-' + dateObj.getDate();
-          var byHour = '' + dateObj.getHours() + ':' + dateObj.getMinutes();
-          d.date = parseDate(byHour);
-
-          // sets the color by sentiment score
-          if (d.sentimentScore < 0) {
-            d.color = 'red';
-          } else if (d.sentimentScore === 0) {
-            d.color = 'blue';
-          } else if (0 < d.sentimentScore) {
-            d.color = 'green';
-          }
+          d.date = parseDate(d.time);
         });
 
         x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain(d3.extent(data, function(d) { return d.sentimentScore; }));
+        y.domain(d3.extent(data, function(d) { return d.score; }));
 
         // draw the x axis
         svg.append("g")
@@ -166,22 +176,6 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .datum(data)
             .attr("class", "line")
             .attr("d", line);
-
-        /*svg.selectAll(".dot")
-            .data(data)
-          .enter().append("circle")
-            .attr("class", "dot")
-            .attr("r", 5)
-            .attr("cx", function(d) { return x(d.createdAt); })
-            .attr("cy", function(d) { return y(d.sentimentScore); })
-            .style("fill", function(d) { return d.color; })
-            .on('mouseover', tooltip.show)
-            .on('mouseout', tooltip.hide);*/
-            /*.on('click', function(tweet) {
-              window.__netsense_currentTweetId = tweet.tweetId;
-              window.__netsense_currentUserName = tweet.user.name;
-              $("#input-box").dialog("open");
-            });*/
       },
       error: function (data) {
         console.error('Failed to get back an array of tweets from ajax request:', data);

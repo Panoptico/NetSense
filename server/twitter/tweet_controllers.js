@@ -26,7 +26,8 @@ module.exports = {
       longitude: longitude,
       retweetCount: tweet.retweet_count,
       inReplyToUserIdStr: tweet.in_reply_to_user_id_str,
-      mentionedIds: mentionedIds
+      mentionedIds: mentionedIds,
+      sentimentScore: tweet.sentimentScore
     };
   }, 
 
