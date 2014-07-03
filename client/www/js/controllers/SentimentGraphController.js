@@ -12,11 +12,11 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         console.log('Got back an array of tweets from ajax request', data);
         data = data.tweets;
 
-        // averages out the sentiment score with it's neighbors
         var timeInterval = 2;
         var averagedData = data.slice();
 
         for (var j = 0; j < data.length; j++) {
+          // averages out the sentiment score with it's 4 closests neighbors
           // if (j !== 0 && j !== 1 && j !== data.length-2 && j !== data.length-1) {
           //   averagedData[j].sentimentScore = (data[j-2].sentimentScore + data[j-1].sentimentScore + data[j].sentimentScore + data[j+1].sentimentScore + data[j+2].sentimentScore) / 5;
           // }
@@ -97,18 +97,6 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        /*// draws the tooltips
-        var tooltip = d3.tip()
-            .attr('class', 'd3-tooltip')
-            .offset([-10, 0])
-            .html(function(d) {
-              return "<strong>" + d.userName + "</strong>" +
-                     "<div>" + d.text + "</div>" +
-                     "<br><i>Sentiment Score:</i> <span style='color:" + d.color + "'>" + d.sentimentScore + "</span>";
-            });
-
-        svg.call(tooltip);*/
 
         data.forEach(function(d) {
           // sets the date
