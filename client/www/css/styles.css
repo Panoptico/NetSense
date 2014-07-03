@@ -151,13 +151,15 @@ div .private  :hover {
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
-  display: none;
-}
-
 .line {
   fill: none;
   stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.baseline {
+  fill: none;
+  stroke: black;
   stroke-width: 2px;
 }
 

@@ -17,9 +17,9 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         var averagedData = data.slice();
 
         for (var j = 0; j < data.length; j++) {
-          if (j !== 0 && j !== 1 && j !== data.length-2 && j !== data.length-1) {
-            averagedData[j].sentimentScore = (data[j-2].sentimentScore + data[j-1].sentimentScore + data[j].sentimentScore + data[j+1].sentimentScore + data[j+2].sentimentScore) / 5;
-          }
+          // if (j !== 0 && j !== 1 && j !== data.length-2 && j !== data.length-1) {
+          //   averagedData[j].sentimentScore = (data[j-2].sentimentScore + data[j-1].sentimentScore + data[j].sentimentScore + data[j+1].sentimentScore + data[j+2].sentimentScore) / 5;
+          // }
 
           var dateObj = new Date(data[j].createdAt);
           averagedData[j].byHour = '' + dateObj.getHours() + ':' + (dateObj.getMinutes() - (dateObj.getMinutes() % timeInterval));
@@ -50,6 +50,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             total += squashedData[l].score[m];
           }
           squashedData[l].score = total/(m+1);
+          squashedData[l].baseline = 0;
         }
 
         data = squashedData;
@@ -57,7 +58,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
 
         // sentiment graph
         // sets dimensions
-        var margin = {top: 50, right: 30, bottom: 30, left: 50};
+        var margin = {top: 50, right: 100, bottom: 30, left: 50};
         var width = 900 - margin.left - margin.right;
         var height = 550 - margin.top - margin.bottom;
 
@@ -82,8 +83,13 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .orient("left");
 
         var line = d3.svg.line()
+            .interpolate('bundle')
             .x(function(d) { return x(d.date); })
             .y(function(d) { return y(d.score); });
+
+        var baseline = d3.svg.line()
+            .x(function(d) { return x(d.date); })
+            .y(function(d) { return y(d.baseline); });
 
         // creates svg element
         var svg = d3.select("#scatterplot").append("svg")
@@ -137,11 +143,34 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .style("text-anchor", "end")
             .text("Sentiment Score");
 
-        // draw the data points
+        // draws the baseline
+        svg.append("path")
+            .datum(data)
+            .attr("class", "baseline")
+            .attr("d", baseline);
+
+        // draws the data points
         svg.append("path")
             .datum(data)
             .attr("class", "line")
             .attr("d", line);
+
+        // draws the labels for each line
+        var lastPoint = data[data.length-1];
+
+        svg.append("text")
+            .datum(lastPoint)
+            .attr("transform", function(d) { return "translate(" + x(d.date) + "," + y(d.baseline) + ")"; })
+            .attr("x", 3)
+            .attr("dy", ".35em")
+            .text("Baseline");
+
+        svg.append("text")
+            .datum(lastPoint)
+            .attr("transform", function(d) { return "translate(" + x(d.date) + "," + y(d.score) + ")"; })
+            .attr("x", 3)
+            .attr("dy", ".35em")
+            .text("Sentiment");
       },
       error: function (data) {
         console.error('Failed to get back an array of tweets from ajax request:', data);
