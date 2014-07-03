@@ -1,40 +1,5 @@
 NetSense.SentimentGraphController = Ember.ObjectController.extend({
   renderGraph: function() {
-/*    // sets up input box modal
-    $("#input-box").dialog({
-      autoOpen: false,
-      height: 260,
-      width: 400,
-      modal: true,
-      buttons: {
-        Send: function() {
-          $.ajax({
-            url: window.__netsense_url + '/api/v1/tweet/',
-            type: 'POST',
-            data: JSON.stringify({
-              text: $('#reply').val(),
-              tweetId: window.__netsense_currentTweetId,
-              userName: window.__netsense_currentUserName
-            }),
-            contentType: 'application/json',
-            success: function (data) {
-              console.log('Replied to tweet!');
-            },
-            error: function (data) {
-              console.error('Failed to reply to tweet:', data);
-            }
-          });
-          $(this).dialog("close");
-        },
-        Cancel: function() {
-          $(this).dialog("close");
-        }
-      },
-      close: function() {
-        $('#reply').val("");
-      }
-    });*/
-
     var trackName = this.get('model').id;
     console.log('sending ajax request for track name', trackName);
 
@@ -48,7 +13,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         data = data.tweets;
 
         // averages out the sentiment score with it's neighbors
-        var timeInterval = 5;
+        var timeInterval = 2;
         var averagedData = data.slice();
 
         for (var j = 0; j < data.length; j++) {
