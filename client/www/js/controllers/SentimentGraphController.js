@@ -69,7 +69,8 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
             .range([0, width]);
 
         var y = d3.scale.linear()
-            .range([height, 0]);
+            .domain([-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5])
+            .range([height, height*9/10, height*8/10, height*7/10, height*6/10, height*5/10, height*4/10, height*3/10, height*2/10, height*1/10, 0]);
 
         // sets axis unit labels
         var xAxis = d3.svg.axis()
@@ -109,7 +110,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         });
 
         x.domain(d3.extent(data, function(d) { return d.date; }));
-        y.domain(d3.extent(data, function(d) { return d.score; }));
+        // y.domain(d3.extent(data, function(d) { return d.score; }));
 
         // draw the x axis
         svg.append("g")
