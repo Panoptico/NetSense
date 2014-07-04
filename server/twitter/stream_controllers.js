@@ -89,7 +89,7 @@ module.exports = exports = {
   saveTrack: function(trackName, token, secret) {
     dbMethods.saveNewTrackByName(trackName, function(err, data) {
       if(err) {
-        console.log('error1 track already exists');
+        console.log('error track already exists');
         return;
       }
       // Stop stream
