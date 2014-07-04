@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
   <head>
+    <!-- Google Maps Settings -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+
     <!-- Bootstrap Core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
@@ -8,7 +12,15 @@
     <link href="./font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="./css/styles.css"></link>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+
+    <!-- Configuration -->
+    <script type="text/javascript">
+      // window.__netsense_url = 'http://NetSenseDev.azurewebsites.net';
+      window.__netsense_url = 'http://localhost:8080';
+    </script>
   </head>
 
   <body>
@@ -49,7 +61,7 @@
           <div class="input">
             {{input class="col-md-11" value=trackName action="onSubmit" placeholder="+ Add new track"}}
           </div>
-          <div class="private tracks"><b>Streams</b>
+          <div class="private tracks"><div class="streams"><b>Streams</b></div>
               {{#each track in tracks}}
                 {{#link-to "track" track.id}}
                   <div class="trackLink">{{track.id}}</div>
@@ -88,19 +100,19 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
-      <p>Tweet Map</p>
-      {{#each tweet in tweets}}
-        {{#if tweet.latitude}}
-          <li>latitude: {{tweet.latitude}}, longitude: {{tweet.longitude}}</li>
-        {{/if}}
-      {{/each}}
+      <div id="google-map" {{action "renderMap" on="doubleClick"}}></div>
+
+      <div id="input-box" title="Reply">
+        <form>
+          <fieldset>
+            <textarea id="reply" class="text ui-widget-content ui-corner-all" rows="6" cols="45"></textarea>
+          </fieldset>
+        </form>
+      </div>
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <p>Sentiment Graph</p>
-      {{#each tweet in tweets}}
-        <li>{{tweet.createdAt}}: {{tweet.sentimentScore}}</li>
-      {{/each}}
+      <div id="scatterplot" {{action "renderGraph" on="doubleClick"}}></div>
     </script>
 
     <!--  Settings Template -->
@@ -119,12 +131,14 @@
     </script>
 
     <script src="./js/lib/d3.min.js"></script>
+    <script src="./js/lib/d3.tip.v0.6.3.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
+    <script src="./js/lib/jquery-ui.min.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
     <script src="./js/lib/ember.min.js"></script>
-    <script src="./js/lib/ember-data.min.js"></script> 
-   <!-- <script src="./lib/ember/ember.js"></script>
-    <script src="./lib/ember-data/ember-data.js"></script> -->
+    <script src="./js/lib/ember-data.min.js"></script>
+    <script src="./js/lib/socket.io.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
     <script src="./js/application.js"></script>
     <script src="./js/router.js"></script>
     <script src="./js/models/user.js"></script>

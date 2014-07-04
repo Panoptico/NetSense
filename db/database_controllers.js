@@ -4,12 +4,11 @@ var Tweets = require('../server/tweet/tweet_model.js');
 
 var handleDatabaseResponse = function(err, data, next) {
   if (err) {
-    console.error(err);
     next(err);
-    return err;
+    // return err;
   } else {
     next(null, data);
-    return data;
+    // return data;
   }
 };
 
@@ -27,24 +26,34 @@ module.exports = exports = {
     });
   },
 
+  findTweetsByIds: function(tweetIds, next) {
+    var query = [];
+    for (var i = 0; i < tweetIds.length; i++) {
+      query.push({tweetId: tweetIds[i]});
+    }
+
+    var tweets = Tweets.find().or(query).exec();
+
+    tweets.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
+    });
+  },
+
   findTweetsContainingUserId: function(userId, next) {
-    var tweets = Tweets.find().or([
+    Tweets.find().or([
       {twitterUserId: userId}, 
       {inReplyToUserIdStr: userId},
       {mentionedUserIds: userId}
-    ]).exec();
-    //TODO: log errors for find
-
-    tweets.then(function(tweetData) {
-      var err = null;
+    ]).exec(function(err, tweetData) {
       handleDatabaseResponse(err, tweetData, next);
     });
   },
 
   deleteTweet: function(tweet, next) {
     Tweets.remove(tweet, function(err) {
-      var data = null;
-      handleDatabaseResponse(err, data, next);
+      handleDatabaseResponse(err, null, next);
     });
   },
 
@@ -61,7 +70,7 @@ module.exports = exports = {
         handleDatabaseResponse(err, numberAffected, next);
       });
     } else {
-      next(null);
+      next("DB: passed in object missing twitterUserId");
     }
   },
 
@@ -79,39 +88,54 @@ module.exports = exports = {
 
   saveNewTrackByName: function(trackName, next) {
     Tracks.create({name: trackName}, function(err, data) {
-      if(err) {console.log('error3 trackName already exists');}
       handleDatabaseResponse(err, data, next);
     });
   },
 
   addTweetToTrack: function(trackName, tweetId, next) {
-    Tracks.findOne({name: trackName},function(err, track){
-      if (err) {console.log('error: ', err);}
-      if (track) {
-        track.tweets.push(tweetId);
-        track.save(function (err, track) {
-          next(err, track);          
+    // findOne returns a sigle document, find returns an array of documents
+    Tracks.findOne({name: trackName}, function(err, data) {
+      if (err) {
+        next(err);
+      } else if (data) {
+        Tracks.update({name: data.name}, {tweets: data.tweets.concat([tweetId])}, function(err, numberAffected, raw) {
+          handleDatabaseResponse(err, numberAffected, next);
         });
       } else {
-        next(err)
+        next('DB: track not in DB');
       }
     });
   },
 
   findTrackByName: function(trackName, next) {
-    Tracks.findOne({name: trackName}, function(err, data){
+    Tracks.findOne({name: trackName}, function(err, data) {
       handleDatabaseResponse(err, data, next);
     });
   },
 
+  findTracksByNames: function(trackNames, next) {
+    var query = [];
+    for (var i = 0; i < trackNames.length; i++) {
+      query.push({name: trackNames[i]});
+    }
+    
+    var tracks = Tracks.find().or(query).exec();
+
+    tracks.then(function(data) {
+      handleDatabaseResponse(null, data, next);
+    }, function(err) {
+      handleDatabaseResponse(err, null, next);
+    });
+  },
+
   findAllTracks: function(next) {
-    Tracks.find(function(err,data){
-      handleDatabaseResponse(err,data,next);
+    Tracks.find(function(err, data) {
+      handleDatabaseResponse(err, data, next);
     });
   },
 
   findAllTweets: function(next) {
-    Tweets.find(function(err, data){
+    Tweets.find(function(err, data) {
       handleDatabaseResponse(err, data, next);
     });
   }

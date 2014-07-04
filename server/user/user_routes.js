@@ -5,8 +5,8 @@ module.exports = function(router) {
   .get(function(req, res) {
     dbMethods.findUserById(req.user, function(err, data) {
       res.send({user: data});
-    })
-  })
+    });
+  });
 
   router.route('/:userId')
   .get(function(req, res) {

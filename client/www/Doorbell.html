@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>DoorBell</title>
+    <link rel="stylesheet" href="./css/styles.css"></link>
+    <link rel="stylesheet" href="./css/doorbell.css"></link>
+
+</head>
+<body>
+<audio>
+  <source src="audio/bounce.ogg"></source>
+  Your browser isn't invited for super fun audio time.
+</audio>
+
+<div class='container'>
+<div class='infobox'>
+  Hello, world! I'm a doorbell. ^_^    
+</div>
+  <div class='bellbox'>
+    <div class='doorbell'>
+    </div>
+  </div>
+  <div class='infobox'>
+    Listening for #NetSenseHR door requests...      
+  </div>
+</div>
+
+<!-- Libraries -->
+<script src="./js/lib/jquery.min.js"></script>
+<script src="./js/lib/socket.io.js"></script>
+<!-- Controllers -->
+<script src="./js/controllers/DoorbellController.js"></script>
+
+</body>
+</html>

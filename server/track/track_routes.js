@@ -1,7 +1,6 @@
 var dbMethods = require('../../db/database_controllers.js');
 var streamControllers = require('../twitter/stream_controllers');
 
-
 module.exports = function(router) {
   router.route('/')
   .post(function(req, res) {
@@ -30,9 +29,15 @@ module.exports = function(router) {
     }
   })
   .get(function(req, res) {
-   dbMethods.findAllTracks(function(err, data) {
-     res.send({tracks: data});
-   });
+    if (req.query.ids) {
+      dbMethods.findTracksByNames(req.query.ids, function(err, data) {
+        res.send({tracks: data});
+      });
+    } else {
+      dbMethods.findAllTracks(function(err, data) {
+        res.send({tracks: data});
+      });
+    }
  });
 
   router.route('/:trackName')

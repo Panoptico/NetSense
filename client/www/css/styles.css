@@ -1,3 +1,16 @@
+/*google maps*/
+html,
+body {
+  height: 100%;
+  width: 100%;
+  font-family: 'Open Sans Condensed', sans-serif;
+}
+
+#google-map {
+  height: 100%;
+  width: 100%;
+}
+
 .navigator {
   height: 5vh;
   width: 100%;
@@ -22,6 +35,10 @@ input {
   width: 23vw;
   position: relative;
   left: .65vw;
+}
+
+.streams {
+ padding-left: 5px;
 }
 
 .tracks {
@@ -117,4 +134,39 @@ div .private  :hover {
 #logout :hover {
   color: red;
   background-color: black;
+}
+
+/*scatterplot*/
+#scatterplot {
+  width: 100%;
+  height: 100%;
+  font: 14px sans-serif;
+  background-color: white;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.label {
+  font-size: 16px;
+}
+
+.baseline {
+  fill: none;
+  stroke: black;
+  stroke-width: 2px;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+#input-box {
+  font-size: 14px;
 }
