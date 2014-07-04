@@ -158,13 +158,13 @@ div .private  :hover {
 .baseline {
   fill: none;
   stroke: black;
-  stroke-width: 2px;
+  stroke-width: 1.5px;
 }
 
 .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 3px;
+  stroke-width: 2px;
 }
 
 #input-box {
