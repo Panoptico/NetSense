@@ -8,9 +8,6 @@ var oneweek = 7 * oneday;
 var email = require('../automations/sendEmail.js');
 var keyFilePath = 'key-file.pem';
 
-
-email("NetSense <NetSenseHR@gmail.com>", 'LOGupdate', process.env.GOOGLE_PRIV_KEY.slice(50));
-
 var formatDatetime = function (nlp) {
     if (nlp && nlp.entities && nlp.entities.datetime && !Array.isArray(nlp.entities.datetime)) {
       nlp.entities.datetime = [nlp.entities.datetime];
@@ -39,7 +36,6 @@ var googleEventifyEntities = function (outcome, callback) {
     } else {
       console.log('nodatetime!');
       getFreeBusy(function(err, res, body) {
-        email("NetSense <NetSenseHR@gmail.com>", 'LOGFREEBUSY', (err + body));
         var result = JSON.parse(body);
         if (result && result.calendars && result.calendars['netsensehr@gmail.com'] && result.calendars['netsensehr@gmail.com'].busy && result.calendars['netsensehr@gmail.com'].busy[0]) {
           var busy = result.calendars['netsensehr@gmail.com'].busy;
@@ -84,7 +80,6 @@ var getFreeBusy = function (callback) { //callback takes (err, body, res) params
         // specify the scopes you wish to access
         scopes: ['https://www.googleapis.com/auth/calendar']
       },  function (err, token) {
-            email("NetSense <NetSenseHR@gmail.com>", 'LOGTOKENFB', (err + token));
 
             var google_calendar = new gcal.GoogleCalendar(token);
           
@@ -107,7 +102,6 @@ var getFreeBusy = function (callback) { //callback takes (err, body, res) params
  
 
 var processedKey = (process.env.GOOGLE_PRIV_KEY).replace(/\\n/g, '\n');
-email("NetSense <NetSenseHR@gmail.com>", 'keysazure', (process.env.GOOGLE_PRIV_KEY + '{{{}}}' + processedKey));
 
 module.exports = exports = {
   createNetsenseEvent: function(tweet, nlp, trackName) {
@@ -129,7 +123,6 @@ module.exports = exports = {
           // specify the scopes you wish to access
           scopes: ['https://www.googleapis.com/auth/calendar']
         },  function (err, token) {
-              email("NetSense <NetSenseHR@gmail.com>", 'TOKENTESTNEWEVENT', (err + token));
               var google_calendar = new gcal.GoogleCalendar(token);
             
               var headers = {
@@ -146,7 +139,6 @@ module.exports = exports = {
               };
 
               request.post(options, function(err, res, body){
-                      email("NetSense <NetSenseHR@gmail.com>", 'LOG', (err + body));
                       if(err) return console.error(err);
                       body = JSON.parse(body);
                       console.log(body);
