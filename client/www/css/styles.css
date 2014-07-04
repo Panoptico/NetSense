@@ -38,7 +38,10 @@ input {
 }
 
 .streams {
- padding-left: 5px;
+  font-size: 4vh;
+  padding-top: 5px;
+  padding-left: 10px;
+  margin: 0px 0px 5px;
 }
 
 .tracks {
@@ -56,7 +59,7 @@ ul {
 }
 
 .private {
-  background-color: #7CC1E9;
+  background-color: lightsteelblue;
   height: 90vh;
   overflow: hidden;
 }
@@ -83,30 +86,26 @@ ul {
   height: 90vh;
 }
 
-.col-md-3 {
+.col-md-2 {
   padding-right: 0;
   height: 95vh;
+  background-color: lightsteelblue;
 }
 
-.col-md-9 {
+.col-md-10 {
   padding-left: 0;
   height: 95vh;
 }
 
 .trackLink {
   padding: 10px;
-  margin: 15px 0px;
+  padding-left: 20px;
   color: black;
 }
 
 div .private  :hover {
-  background-color: #4988AC;
+  background-color: lightslategrey;
   text-decoration: none;
-}
-
-.logout {
-  float: left;
-  padding-left: 0;
 }
 
 .dashboard  {
@@ -124,7 +123,15 @@ div .private  :hover {
 
 .navigator .visualLink :hover {
   color: currentColor;
-  background-color: #A6CDE4;
+  background-color: white;
+}
+
+.visual-pos {
+  float: left;
+}
+
+.dashboardView {
+  background-color: white;
 }
 
 #logout .navLink {

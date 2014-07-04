@@ -26,25 +26,25 @@
   <body>
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
-        <div class="navLink">
+        <!-- <div class="navLink">
           {{#link-to "NetSense.settings"}}
             <div class="settings navLink">
               User settings
             </div>
           {{/link-to}}
+        </div> -->
+        <div class="navLink">
+          <a href="/api/v1/login/twitter" class="settings navLink visual-pos">Login</a>
         </div>
         <div class="navLink">
           {{#link-to "dashboard"}}
-            <div class="settings navLink">
+            <div class="settings navLink visual-pos">
               Dashboard
             </div>
           {{/link-to}}
         </div>
-        <div class="navLink">
-          <a href="/api/v1/login/twitter" class="settings navLink">Login</a>
-        </div>
         <div class="navLink" id="logout">
-            <div class="settings logout navLink" {{action warn}}>
+            <div class="settings logout navLink visual-pos" {{action warn}}>
               Logout
   <!--          TODO: Implement logout...     -->
             </div>
@@ -57,11 +57,12 @@
     <!--  Dashboard Template  -->
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard">
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
           <div class="input">
             {{input class="col-md-11" value=trackName action="onSubmit" placeholder="+ Add new track"}}
           </div>
-          <div class="private tracks"><div class="streams"><b>Streams</b></div>
+          <div class="streams"><b>Streams</b></div>
+          <div class="private tracks">
               {{#each track in tracks}}
                 {{#link-to "track" track.id}}
                   <div class="trackLink">{{track.id}}</div>
@@ -70,7 +71,7 @@
           </div>
         </div>
 
-        <div class="col-md-9">
+        <div class="col-md-10">
           {{outlet}}
         </div>
 
@@ -80,16 +81,16 @@
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track">
       <div class="dashboard navigator">
         <div class="visualLink button">
-          {{#link-to "tweetMap"}}
-            <div class="settings">
-              Tweet Map
+          {{#link-to "sentimentGraph"}}
+            <div class="settings visual-pos">
+              Sentiment Graph
             </div>
           {{/link-to}}
         </div>
         <div class="visualLink button">
-          {{#link-to "sentimentGraph"}}
-            <div class="settings">
-              Sentiment Graph
+          {{#link-to "tweetMap"}}
+            <div class="settings visual-pos">
+              Tweet Map
             </div>
           {{/link-to}}
         </div>
