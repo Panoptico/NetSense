@@ -26,13 +26,6 @@
   <body>
     <script type="text/x-handlebars" data-template-name="NetSense">
       <div class="navigator">
-        <!-- <div class="navLink">
-          {{#link-to "NetSense.settings"}}
-            <div class="settings navLink">
-              User settings
-            </div>
-          {{/link-to}}
-        </div> -->
         <div class="navLink">
           <a href="/api/v1/login/twitter" class="settings navLink visual-pos">Login</a>
         </div>
@@ -43,8 +36,15 @@
             </div>
           {{/link-to}}
         </div>
+        <div class="navLink">
+          <!-- {{#link-to "NetSense.settings"}} -->
+            <div class="settings navLink visual-pos">
+              User Settings
+            </div>
+          <!-- {{/link-to}} -->
+        </div>
         <div class="navLink" id="logout">
-            <div class="settings logout navLink visual-pos" {{action warn}}>
+            <div class="settings logout navLink" {{action warn}}>
               Logout
   <!--          TODO: Implement logout...     -->
             </div>
@@ -132,7 +132,6 @@
     </script>
 
     <script src="./js/lib/d3.min.js"></script>
-    <script src="./js/lib/d3.tip.v0.6.3.js"></script>
     <script src="./js/lib/jquery.min.js"></script>
     <script src="./js/lib/jquery-ui.min.js"></script>
     <script src="./js/lib/handlebars.min.js"></script>
