@@ -137,9 +137,14 @@ div .private  :hover {
 
 .graph-title {
   position: relative;
-  margin: 10px 0px 0px 20px;
+  margin: 10px 0px 10px 50px;
   font-size: 22px;
   font-weight: bolder;
+  /*border: 1px solid black;*/
+  border-radius: 5px;
+  background-color: lightsteelblue;
+  width: 400px;
+  text-align: center;
 }
 
 .dashboardView {

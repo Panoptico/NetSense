@@ -67,7 +67,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
         // sentiment graph
         // sets dimensions
         var margin = {top: 50, right: 100, bottom: 30, left: 50};
-        var width = 900 - margin.left - margin.right;
+        var width = 1050 - margin.left - margin.right;
         var height = 550 - margin.top - margin.bottom;
 
         // sets the expected time formatting in the to be graphed data
