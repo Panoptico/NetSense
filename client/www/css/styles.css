@@ -135,16 +135,31 @@ div .private  :hover {
   float: left;
 }
 
-.graph-title {
+.graph-header {
   position: relative;
-  margin: 10px 0px 10px 50px;
+  width: 1050px;
+  height: 50px;
+}
+
+.graph-title {
+  float: left;
+  margin: 10px 400px 10px 50px;
   font-size: 22px;
   font-weight: bolder;
-  /*border: 1px solid black;*/
   border-radius: 5px;
   background-color: lightsteelblue;
   width: 400px;
   text-align: center;
+}
+
+.graph-timeInterval select {
+  float: left;
+  margin-top: 15px;
+  background: lightsteelblue;
+  width: 145px;
+  height: 25px;
+  font-size: 16px;
+  border-radius: 5px;
 }
 
 .dashboardView {
@@ -161,7 +176,6 @@ div .private  :hover {
   background-color: black;
 }
 
-/*scatterplot*/
 #scatterplot {
   position: relative;
   width: 100%;

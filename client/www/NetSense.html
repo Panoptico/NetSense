@@ -113,8 +113,20 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/sentimentGraph">
-      <div class="graph-title"><span>Sentiment Score of Tweets Over Time</span></div>
-      <div id="scatterplot" {{action "renderGraph" on="doubleClick"}}></div>
+      <div class="graph-header">
+        <span class="graph-title">Sentiment Score of Tweets Over Time</span>
+        <span class="graph-timeInterval">
+          <select name="timeInterval" onchange="window.renderGraph(window.__netsense_sentiment_graph_data, this.value)"> 
+            <option value=30>Select a Time Interval</option>
+            <option value=5>5 Minutes</option>
+            <option value=15>15 Minutes</option>
+            <option value=30>Half Hour</option>
+            <option value=60>Hour</option>
+          </select>
+        </span>
+      </div>
+
+      <div id="scatterplot" {{action "getData" on="doubleClick"}}></div>
     </script>
 
     <!--  Settings Template -->
