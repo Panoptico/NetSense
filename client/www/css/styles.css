@@ -28,7 +28,12 @@ body {
 
 .input {
   height: 5vh;
-  background-color: currentColor;
+  background-color: lightsteelblue;
+}
+
+.col-md-11 {
+  border: solid black 1px;
+  margin-top: 10px;
 }
 
 input {
@@ -39,7 +44,7 @@ input {
 
 .streams {
   font-size: 4vh;
-  padding-top: 5px;
+  padding-top: 8px;
   padding-left: 10px;
   margin: 0px 0px 5px;
 }
@@ -98,7 +103,7 @@ ul {
 }
 
 .trackLink {
-  padding: 10px;
+  padding: 5px;
   padding-left: 20px;
   color: black;
 }
