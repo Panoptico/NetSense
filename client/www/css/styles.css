@@ -135,6 +135,13 @@ div .private  :hover {
   float: left;
 }
 
+.graph-title {
+  position: relative;
+  margin: 10px 0px 0px 20px;
+  font-size: 22px;
+  font-weight: bolder;
+}
+
 .dashboardView {
   background-color: white;
 }
@@ -151,6 +158,7 @@ div .private  :hover {
 
 /*scatterplot*/
 #scatterplot {
+  position: relative;
   width: 100%;
   height: 100%;
   font: 14px sans-serif;
