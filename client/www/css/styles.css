@@ -162,6 +162,15 @@ div .private  :hover {
   border-radius: 5px;
 }
 
+.loading {
+  padding-top: 100px;
+  text-align: center;
+}
+
+.loading-hide {
+  display: none;
+}
+
 .dashboardView {
   background-color: white;
 }

@@ -11,6 +11,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
       success: function (data) {
         console.log('Got back an array of tweets from ajax request', data);
 
+        $("#loading").removeClass(".loading").addClass(".loading-hide");
         window.__netsense_sentiment_graph_data = data.tweets;
         window.renderGraph = function(data, timeInterval) {
           $("#scatterplot").html("");
@@ -172,7 +173,7 @@ NetSense.SentimentGraphController = Ember.ObjectController.extend({
               .text("Sentiment");
         };
 
-        window.renderGraph(window.__netsense_sentiment_graph_data, 30);
+        window.renderGraph(window.__netsense_sentiment_graph_data, 15);
       },
       error: function (data) {
         console.error('Failed to get back an array of tweets from ajax request:', data);
