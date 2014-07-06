@@ -29,6 +29,7 @@
     "passport-twitter": "^1.0.2",
     "q": "^1.0.1",
     "request": "^2.36.0",
+    "sentiment": "^1.0.1",
     "socket.io": "^1.0.4",
     "twit": "^1.1.15",
     "underscore": "^1.6.0"

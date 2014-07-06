@@ -30,7 +30,6 @@ NetSense.NetSenseRoute = Ember.Route.extend({
 // must give the userId with model  ============================================================
 NetSense.DashboardRoute = Ember.Route.extend({
   model: function() {
-    console.log(arguments)
     return this.store.find('user').then(function(result){
       return result.get('firstObject');
     });
