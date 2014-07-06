@@ -98,7 +98,7 @@ NetSense.TweetMapController = Ember.ObjectController.extend({
 
         // creates tooltip
         var infoWindow = new google.maps.InfoWindow({
-          content: "<strong>" + data.user.name + "</strong><div>" + data.text + "</div>"
+          content: "<strong>" + data.user.name + "</strong><div>" + data.text + "</div><div><i><b>Sentiment Score: " + data.sentimentScore + "</b></i></div>"
         });
 
         // sets the image for the marker depending on sentiment score
