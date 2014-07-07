@@ -6,7 +6,7 @@ body {
   font-family: 'Open Sans Condensed', sans-serif;
 }
 
-#google-map {
+.google-map {
   height: 100%;
   width: 100%;
 }
@@ -218,4 +218,8 @@ div .private  :hover {
 
 #input-box {
   font-size: 14px;
+}
+
+.ui-widget-overlay {
+  opacity: 0;
 }
