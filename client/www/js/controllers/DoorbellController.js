@@ -1,4 +1,5 @@
-window.__netsense_url = 'http://localhost:8080';
+// window.__netsense_url = 'http://localhost:8080';
+window.__netsense_url = 'http://netsensedev.azurewebsites.net';
 
 $(function(){
   var glow = function() {
