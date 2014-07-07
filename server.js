@@ -11,9 +11,16 @@ console.log('Listening on ' + app.get('base url') + ':' + port);
 
 socketio.on('connection', function(socket) {
   console.log('Established new socket connection');
+  
+  // instantiates variable to store the twitter stream object
+  var __netsense_twit_stream;
 
   socket.on('track', function(data) {
-    socketMethods.sendTrackStream(socket, data);
+    // if there is an existing stream, first stop it
+    if (__netsense_twit_stream) __netsense_twit_stream.stop();
+    console.log('Stopping existing stream');
+
+    __netsense_twit_stream = socketMethods.sendTrackStream(socket, data);
   });
 
   socket.on('doorbell', function(data) {

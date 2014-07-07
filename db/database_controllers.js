@@ -27,6 +27,18 @@ module.exports = exports = {
   },
 
   findTweetsByIds: function(tweetIds, next) {
+    /*var results = [];
+
+    for (var i = 0; i < tweetIds.length; i++) {
+      Tweets.find({tweetId: tweetIds[i]}, function(err, data) {
+        if(data) {
+          results.concat(data);
+        }
+      });
+    }
+
+    handleDatabaseResponse(null, results, next);*/
+
     var query = [];
     for (var i = 0; i < tweetIds.length; i++) {
       query.push({tweetId: tweetIds[i]});
