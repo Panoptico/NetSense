@@ -24,6 +24,8 @@ module.exports = {
       tweet.sentimentScore = sentiment.analyze(tweet.text).score;
       socket.emit('tweet', tweet);
     });
+
+    return stream;
   },
   
   listenForDoorbell: function(socket, message) {
