@@ -18,8 +18,8 @@
 
     <!-- Configuration -->
     <script type="text/javascript">
-      window.__netsense_url = 'http://NetSenseDev.azurewebsites.net';
-      // window.__netsense_url = 'http://localhost:8080';
+      // window.__netsense_url = 'http://NetSenseDev.azurewebsites.net';
+      window.__netsense_url = 'http://localhost:8080';
     </script>
   </head>
 
@@ -101,7 +101,7 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="NetSense/dashboard/track/tweetMap">
-      <div id="google-map" {{action "renderMap" on="doubleClick"}}></div>
+      {{tweet-map track=id}}
 
       <div id="input-box" title="Reply">
         <form>
@@ -164,7 +164,7 @@
     <script src="./js/models/fixtures.js"></script>
     <script src="./js/controllers/NetSenseController.js"></script>
     <script src="./js/controllers/DashboardController.js"></script>
-    <script src="./js/controllers/TweetMapController.js"></script>
+    <script src="./js/components/TweetMapComponent.js"></script>
     <script src="./js/controllers/SentimentGraphController.js"></script>
   </body>
 </html>

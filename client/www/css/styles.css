@@ -6,7 +6,7 @@ body {
   font-family: 'Open Sans Condensed', sans-serif;
 }
 
-#google-map {
+.google-map {
   height: 100%;
   width: 100%;
 }
