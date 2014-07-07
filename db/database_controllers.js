@@ -27,24 +27,7 @@ module.exports = exports = {
   },
 
   findTweetsByIds: function(tweetIds, next) {
-    /*var results = [];
-
-    for (var i = 0; i < tweetIds.length; i++) {
-      Tweets.find({tweetId: tweetIds[i]}, function(err, data) {
-        if(data) {
-          results.concat(data);
-        }
-      });
-    }
-
-    handleDatabaseResponse(null, results, next);*/
-
-    var query = [];
-    for (var i = 0; i < tweetIds.length; i++) {
-      query.push({tweetId: tweetIds[i]});
-    }
-
-    var tweets = Tweets.find().or(query).exec();
+    var tweets = Tweets.find({tweetId: {$in: tweetIds}}).exec();
 
     tweets.then(function(data) {
       handleDatabaseResponse(null, data, next);
@@ -125,13 +108,8 @@ module.exports = exports = {
     });
   },
 
-  findTracksByNames: function(trackNames, next) {
-    var query = [];
-    for (var i = 0; i < trackNames.length; i++) {
-      query.push({name: trackNames[i]});
-    }
-    
-    var tracks = Tracks.find().or(query).exec();
+  findTracksByNames: function(trackNames, next) {    
+    var tracks = Tracks.find({name: {$in: trackNames}}).exec();
 
     tracks.then(function(data) {
       handleDatabaseResponse(null, data, next);
